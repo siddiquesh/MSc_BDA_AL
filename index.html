@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MSc BDA - Advanced Learning Practicals (Exact PDF Code)</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #182234;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --code-bg: #0b1120;
+      --border: #334155;
+      --success: #10b981;
+      --mega-copy: #8b5cf6;
+      --mega-copy-hover: #7c3aed;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: 280px;
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .sidebar-header {
+      padding: 18px 16px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+    }
+
+    .sidebar-header h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-header p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .nav-list {
+      list-style: none;
+      overflow-y: auto;
+      flex-grow: 1;
+      padding: 10px 8px;
+    }
+
+    .nav-item {
+      padding: 11px 12px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .nav-item:hover {
+      background-color: #334155;
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .nav-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 9999px;
+      background: #0f172a;
+      color: var(--text-muted);
+    }
+
+    .nav-item.active .nav-badge {
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: bold;
+    }
+
+    /* Main Content Area */
+    .main-wrapper {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 24px 35px;
+      max-width: 1250px;
+    }
+
+    /* Sticky Quick-Copy Header Banner */
+    .sticky-copy-hub {
+      position: sticky;
+      top: 15px;
+      z-index: 100;
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #475569;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .sticky-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .copy-buttons-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .hub-btn {
+      background-color: #334155;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      padding: 7px 13px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .hub-btn:hover {
+      background-color: #475569;
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .hub-btn.mega {
+      background: linear-gradient(135deg, #7c3aed, #2563eb);
+      border-color: #a855f7;
+      color: #ffffff;
+      font-size: 0.88rem;
+      padding: 8px 18px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+    }
+
+    .hub-btn.mega:hover {
+      background: linear-gradient(135deg, #6d28d9, #1d4ed8);
+      transform: translateY(-1px);
+    }
+
+    /* Practical Panels */
+    .prac-panel {
+      display: none;
+    }
+
+    .prac-panel.active {
+      display: block;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .prac-meta h2 {
+      font-size: 1.5rem;
+      color: #ffffff;
+      margin-bottom: 3px;
+    }
+
+    .prac-meta span {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .copy-all-btn {
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .copy-all-btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Cell Block */
+    .cell-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    .cell-header {
+      background-color: #1e293b;
+      padding: 9px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cell-title {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #38bdf8;
+    }
+
+    .cell-copy-btn {
+      background: #334155;
+      color: #f1f5f9;
+      border: 1px solid #475569;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .cell-copy-btn:hover {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* Code View */
+    pre {
+      background-color: var(--code-bg);
+      padding: 14px;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+
+    .output-section {
+      border-top: 1px dashed var(--border);
+      background-color: #080d19;
+    }
+
+    .output-label {
+      padding: 5px 14px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      background-color: #0d1527;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .output-section pre {
+      color: #a5f3fc;
+      background-color: #080d19;
+      padding: 12px 14px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 9999;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Copied to Clipboard! ✓</div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>MSc BDA (AL) Lab Code</h1>
+      <p>Exact Code from Lab PDFs</p>
+    </div>
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="switchTab(0)">
+        <span>Practical 1: Matrix Ops</span>
+        <span class="nav-badge">P1</span>
+      </li>
+      <li class="nav-item" onclick="switchTab(1)">
+        <span>Practical 2A: Gauss Elimination</span>
+        <span class="nav-badge">P2A</span>
+      </li>
+      <li class="nav-item" onclick="switchTab(2)">
+        <span>Practical 2B: LU Factorization</span>
+        <span class="nav-badge">P2B</span>
+      </li>
+      <li class="nav-item" onclick="switchTab(3)">
+        <span>Practical 3: Linear Regression</span>
+        <span class="nav-badge">P3</span>
+      </li>
+      <li class="nav-item" onclick="switchTab(4)">
+        <span>Practical 4: PCA from Scratch</span>
+        <span class="nav-badge">P4</span>
+      </li>
+      <li class="nav-item" onclick="switchTab(5)">
+        <span>Practical 5: SVD Image Comp.</span>
+        <span class="nav-badge">P5</span>
+      </li>
+      <li class="nav-item" onclick="switchTab(6)">
+        <span>Practical 6: K-Means Clustering</span>
+        <span class="nav-badge">P6</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+
+    <!-- Sticky Clipboard Copy Hub -->
+    <div class="sticky-copy-hub">
+      <div class="sticky-title">
+        <span>⚡ Quick Copy To Clipboard Center</span>
+        <span style="color:#94a3b8; font-weight:normal; text-transform:none;">1-Click Instant Clipboard Copy</span>
+      </div>
+      <div class="copy-buttons-grid">
+        <button class="hub-btn mega" onclick="copyAllPracticals(this)">
+          🔥 COPY ALL PRACTICALS (1 to 6) IN 1-CLICK
+        </button>
+        <button class="hub-btn" onclick="copyFileText('practical_1', this)">📋 Copy Prac 1</button>
+        <button class="hub-btn" onclick="copyFileText('practical_2a', this)">📋 Copy Prac 2A</button>
+        <button class="hub-btn" onclick="copyFileText('practical_2b', this)">📋 Copy Prac 2B</button>
+        <button class="hub-btn" onclick="copyFileText('practical_3', this)">📋 Copy Prac 3</button>
+        <button class="hub-btn" onclick="copyFileText('practical_4', this)">📋 Copy Prac 4</button>
+        <button class="hub-btn" onclick="copyFileText('practical_5', this)">📋 Copy Prac 5</button>
+        <button class="hub-btn" onclick="copyFileText('practical_6', this)">📋 Copy Prac 6</button>
+      </div>
+    </div>
+
+    <!-- ==================== PRACTICAL 1 ==================== -->
+    <div class="prac-panel active" id="panel-0">
+      <div class="top-bar">
+        <div class="prac-meta">
+          <h2>Practical 1: Matrix Operations & Image Processing</h2>
+          <span>Source: prac1_darpan - Jupyter Notebook.pdf</span>
+        </div>
+        <button class="copy-all-btn" onclick="copyFileText('practical_1', this)">
+          📋 Copy Entire Practical 1
+        </button>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [1]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [3]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#create a 1-D array and dimension
+v1=np.array([5,4,7,8])
+print(v1)
+print(v1.ndim)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>[5 4 7 8]
+1</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [6]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#create a 2-D array
+v2=np.array([[1,5,3],[4,7,9],[4,9,4]])
+print(v2)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>[[1 5 3]
+ [4 7 9]
+ [4 9 4]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [7]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#create a matrix of 2 rows 3 column
+v3=np.array([[1,5],[4,7],[4,9]])
+print(v3)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>[[1 5]
+ [4 7]
+ [4 9]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [13]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#matrix addition
+v4=np.array([[6,3,8],[2,5,2],[8,1,3]])
+print(v4)
+print('addition of v2 and v4 is \n',v2+v4)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>[[6 3 8]
+ [2 5 2]
+ [8 1 3]]
+addition of v2 and v4 is 
+[[ 7  8 11]
+ [ 6 12 11]
+ [12 10  7]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [9]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#matrix subtraction
+print('subtraction of v2 and v4 is \n',v2-v4)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>subtraction of v2 and v4 is 
+[[-5  2 -5]
+ [ 2  2  7]
+ [-4  8  1]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [10]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code># scalar matrix
+print('scalar matrix of v4 is \n',2*v4)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>scalar matrix of v4 is 
+[[12  6 16]
+ [ 4 10  4]
+ [16  2  6]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [12]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code># multiplication matrix
+print(np.dot(v2,v4))
+#element wise multiplication just use '*' for multiply.</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>[[ 40  31  27]
+ [110  56  73]
+ [ 74  61  62]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [14]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#transpose of the matrix
+print('transpose of matrix v2 is \n',v2.T)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>transpose of matrix v2 is 
+[[1 4 4]
+ [5 7 9]
+ [3 9 4]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [24]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#matrix determinant
+a=np.array([[1,2,3],[1,1,5],[2,4,7]])
+print('Matrix a= \n',a)
+print('determinant of the a is',np.linalg.det(a))</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>Matrix a= 
+[[1 2 3]
+ [1 1 5]
+ [2 4 7]]
+determinant of the a is -1.0</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [22]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#inverse of the matrix
+print('inverse of the a is \n',np.linalg.inv(a))</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>inverse of the a is 
+[[13.  2. -7.]
+ [-3. -1.  2.]
+ [-2. -0.  1.]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [25]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>b= np.array([[1,2,3],
+             [1,1,5],
+             [2,4,6]])
+
+if np.linalg.det(b) != 0:
+    print('inverse of a is \n',np.linalg.inv(b))
+else:
+    print('inverse does not exist for matrix having deteminant zero ')</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>inverse does not exist for matrix having deteminant zero </code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [26]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code># identity matrix 
+print('identity matrix \n',np.eye(3)) #parameter is used to define the dimension of matrix</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>identity matrix 
+[[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Image Processing - In [27]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import matplotlib.pyplot as plt
+from skimage import color,io
+from skimage.transform import resize</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [41]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>image=io.imread('C:/Users/USER-11/Downloads/images.jpg')
+#print(image)
+gray_image=color.rgb2gray(image)
+gray_image=resize(gray_image,(256,256))</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [35]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#brighting the image
+bright_image=gray_image*2.0
+bright_image=np.clip(bright_image,0,1)</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [66]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#noisy or distortion will be present in the image
+noisy_image=gray_image+0.3
+noisy_image=np.clip(noisy_image,0,1)</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [37]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#darkening the image
+dark_image=gray_image-0.2
+dark_image=np.clip(dark_image,0,1)</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [39]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#fliping the image
+transpose_image=gray_image.T</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [40]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#inversing the image
+inverse_image=np.linalg.inv(gray_image)
+inverse_image=np.clip(inverse_image,0,1)</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [50]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#plotting the original image
+plt.imshow(image, cmap='gray')
+plt.title('original image')
+plt.show()</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [55], [61], [67], [58], [59], [60]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>plt.figure(figsize=(12,12))
+plt.subplot(2,3,1)
+plt.imshow(gray_image,cmap='gray')
+plt.title('Original Gray Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,2)
+plt.imshow(bright_image,cmap='gray')
+plt.title('Bright Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,3)
+plt.imshow(noisy_image,cmap='gray')
+plt.title('noisy Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,4)
+plt.imshow(dark_image,cmap='gray')
+plt.title('dark Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,5)
+plt.imshow(transpose_image,cmap='gray')
+plt.title('transpose Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,6)
+plt.imshow(inverse_image,cmap='gray')
+plt.title('inverse Image')</code></pre>
+      </div>
+    </div>
+
+
+    <!-- ==================== PRACTICAL 2A ==================== -->
+    <div class="prac-panel" id="panel-1">
+      <div class="top-bar">
+        <div class="prac-meta">
+          <h2>Practical 2A: Gaussian Elimination</h2>
+          <span>Source: (prac2_A)darpan - Jupyter Notebook.pdf</span>
+        </div>
+        <button class="copy-all-btn" onclick="copyFileText('practical_2a', this)">
+          📋 Copy Entire Practical 2A
+        </button>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [2]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+'''
+system of equation
+2x+y-z=8
+-3x-y+2z=-11
+-2x+y+2z=-3
+'''</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [5] & In [7]</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>A=np.array([[2,1,-1],[-3,-1,2],[-2,1,2]],dtype=float)
+B=np.array([8.0,-11.0,-3.0])
+
+print('co-efficient matrix A:\n',A)
+print('Right hand side matrix B:\n',B)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>co-efficient matrix A:
+[[ 2.  1. -1.]
+ [-3. -1.  2.]
+ [-2.  1.  2.]]
+Right hand side matrix B:
+[  8. -11.  -3.]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [12] - Function</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>def gaussian_elimination(A,B):
+    n=len(B)
+    # forward elimination
+    for i in range(n):
+        for j in range(i+1,n):
+            ratio =A[j][i]/A[i][i]
+            A[j,i:]=A[j,i:]-ratio*A[i,i:]
+            B[j]=B[j]-ratio*B[i]
+    x=np.zeros(n)
+    for i in range(n-1,-1,-1):
+        x[i]=(B[i]-np.dot(A[i,i+1:],x[i+1:]))/A[i][i]
+    return x</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [14] - Run on (A, B)</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>gauss=gaussian_elimination(A,B)
+print(A)
+print('Solution by gaussian elimination :\n',gauss)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>[[ 2.   1.  -1. ]
+ [ 0.   0.5  0.5]
+ [ 0.   0.  -1. ]]
+Solution by gaussian elimination :
+[ 2.  3. -1.]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [19] & In [20] - System (C, D)</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>C=np.array([[1,1,2],[2,3,6],[3,6,10]],dtype=float)
+D=np.array([4.0,10.0,17.0])
+
+def gaussian_eliminate(C,D):
+    n=len(B)
+    # forward elimination
+    for i in range(n):
+        for j in range(i+1,n):
+            ratio =C[j][i]/C[i][i]
+            C[j,i:]=C[j,i:]-ratio*C[i,i:]
+            D[j]=D[j]-ratio*D[i]
+    x=np.zeros(n)
+    for i in range(n-1,-1,-1):
+        x[i]=(D[i]-np.dot(C[i,i+1:],x[i+1:]))/C[i][i]
+    return x</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [22] - Run on (C, D)</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>gaus=gaussian_eliminate(C,D)
+print(C)
+print('Solution by gaussian elimination :\n',gaus)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>[[ 1.  1.  2.]
+ [ 0.  1.  2.]
+ [ 0.  0. -2.]]
+Solution by gaussian elimination :
+[2.  1.  0.5]</code></pre>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== PRACTICAL 2B ==================== -->
+    <div class="prac-panel" id="panel-2">
+      <div class="top-bar">
+        <div class="prac-meta">
+          <h2>Practical 2B: LU Factorization</h2>
+          <span>Source: darpan(AL_prac2B).ipynb - Colab.pdf</span>
+        </div>
+        <button class="copy-all-btn" onclick="copyFileText('practical_2b', this)">
+          📋 Copy Entire Practical 2B
+        </button>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Cell 1: 3x3 System</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+from scipy.linalg import lu,lu_factor, lu_solve
+A=np.array(([3,-1,2],[-3,-2,10],[9,-5,6]), dtype=float)
+b=np.array([10,20,30],dtype=float)
+P,L,U=lu(A)
+print("Matrix A: \n",A)
+print("Matrix Permutation: \n",P)
+print("Matrix Lower: \n",L)
+print("Matrix Upper: \n",U)
+lu_factorization = lu_factor(A)
+print("LU Factorization: \n",lu_factorization)
+x=lu_solve(lu_factorization,b)
+print("Solution: \n",x)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>Matrix A: 
+ [[ 3. -1.  2.]
+ [-3. -2. 10.]
+ [ 9. -5.  6.]]
+Matrix Permutation: 
+ [[0. 0. 1.]
+ [0. 1. 0.]
+ [1. 0. 0.]]
+Matrix Lower: 
+ [[ 1.          0.          0.        ]
+ [-0.33333333  1.          0.        ]
+ [ 0.33333333 -0.18181818  1.        ]]
+Matrix Upper: 
+ [[ 9.         -5.          6.        ]
+ [ 0.         -3.66666667 12.        ]
+ [ 0.          0.          2.18181818]]
+LU Factorization: 
+ (array([[ 9.        , -5.        ,  6.        ],
+       [-0.33333333, -3.66666667, 12.        ],
+       [ 0.33333333, -0.18181818,  2.18181818]]), array([2, 1, 2], dtype=int32))
+Solution: 
+ [ 1.66666667 -0.          2.5       ]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Cell 2: 2x2 System</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#
+import numpy as np
+from scipy.linalg import lu,lu_factor, lu_solve
+A=np.array(([3,-1],[4,1]), dtype=float)
+b=np.array([1,6],dtype=float)
+P,L,U=lu(A)
+print("Matrix A: \n",A)
+print("Matrix Permutation: \n",P)
+print("Matrix Lower: \n",L)
+print("Matrix Upper: \n",U)
+lu_factorization = lu_factor(A)
+print("LU Factorization: \n",lu_factorization)
+x=lu_solve(lu_factorization,b)
+print("Solution: \n",x)</code></pre>
+        <div class="output-section">
+          <div class="output-label">Output</div>
+          <pre><code>Matrix A: 
+ [[ 3. -1.]
+ [ 4.  1.]]
+Matrix Permutation: 
+ [[0. 1.]
+ [1. 0.]]
+Matrix Lower: 
+ [[1.   0.  ]
+ [0.75 1.  ]]
+Matrix Upper: 
+ [[ 4.    1.  ]
+ [ 0.   -1.75]]
+LU Factorization: 
+ (array([[ 4.  ,  1.  ],
+       [ 0.75, -1.75]]), array([1, 1], dtype=int32))
+Solution: 
+ [1. 2.]</code></pre>
+        </div>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Cell 3: User Input</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#user input equation
+a1,b1,c1,d1=map(float,input("Enter the equation 1 (a1,b1,c1,d1):").split())
+a2,b2,c2,d2=map(float,input("Enter the equation 2 (a2,b2,c2,d2):").split())
+a3,b3,c3,d3=map(float,input("Enter the equation 3 (a3,b3,c3,d3):").split())
+A=np.array(([a1,b1,c1],[a2,b2,c2],[a3,b3,c3]), dtype=float)
+b=np.array([d1,d2,d3],dtype=float)
+P,L,U=lu(A)
+print("Matrix A: \n",A)
+print("Matrix Permutation: \n",P)
+print("Matrix Lower: \n",L)
+print("Matrix Upper: \n",U)
+lu_factorization = lu_factor(A)
+print("LU Factorization: \n",lu_factorization)
+x=lu_solve(lu_factorization,b)
+print("Solution: \n",x)</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Cell 4: CSV Data (book_sale.csv)</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import pandas as pd
+# Load the file from Colab's default storage path
+df= pd.read_csv('/content/book_sale.csv')
+# View the first 5 rows
+print(df.head())
+A=df.iloc[:,0:3].to_numpy()
+b=df.iloc[:,3].to_numpy()
+print('matrix A\n',A)
+print('vector b\n',b)</code></pre>
+      </div>
+    </div>
+
+
+    <!-- ==================== PRACTICAL 3 ==================== -->
+    <div class="prac-panel" id="panel-3">
+      <div class="top-bar">
+        <div class="prac-meta">
+          <h2>Practical 3: Simple Linear Regression</h2>
+          <span>Source: Darpan_prac3(AL) - Jupyter Notebook.pdf</span>
+        </div>
+        <button class="copy-all-btn" onclick="copyFileText('practical_3', this)">
+          📋 Copy Entire Practical 3
+        </button>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [5]: Formula</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code># linear regression using formula
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.array([1,2,3,4,5])
+y=np.array([2,4,5,4,5])
+
+X_mean = np.mean(x)
+Y_mean = np.mean(y)
+
+numerator= np.sum((x - X_mean)* (y - Y_mean))
+denominator = np.sum((x - X_mean) ** 2)
+slope = numerator / denominator
+intercept = Y_mean - slope * X_mean
+
+print("Slope: ", slope)
+print("Intercept: ", intercept)
+
+y_pred = slope * x + intercept
+print(y_pred)
+
+plt.scatter(x,y, color="black", label="Actual Data")
+plt.plot(x,y_pred, color='red', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [10]: Scikit-Learn</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code># Linear Regression using pre build function
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+#-1 (Rows): Tells NumPy to automatically calculate the number of rows. 
+# Since there are 5 elements total, NumPy computes (5 / 1 = 5) rows.
+x=np.array([1,2,3,4,5]).reshape(-1,1) 
+y=np.array([2,4,5,4,5])
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [12] & [14]: Housing (area)</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import *
+import pandas as pd
+
+housing = pd.read_csv('Housing.csv')
+
+#Select feature and Target
+x= housing[["area"]]
+y = housing['price']
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+print("R2 Score: ",r2_score(y,model.predict(x)))
+print("MSE: ",mean_squared_error(y,model.predict(x)))
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [16]: Housing (bedrooms)</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>#Select feature and Target on bedroom
+x= housing[["bedrooms"]]
+y = housing['price']
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+print("R2 Score: ",r2_score(y,model.predict(x)))
+print("MSE: ",mean_squared_error(y,model.predict(x)))
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [23]: Model Evaluation</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import *
+
+x=np.array([1,2,3,4,5]).reshape(-1,1)
+y=np.array([2,4,6,8,9])
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+print("R2 Score: ",r2_score(y,model.predict(x)))
+print("MSE: ",mean_squared_error(y,model.predict(x)))
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()</code></pre>
+      </div>
+    </div>
+
+
+    <!-- ==================== PRACTICAL 4 ==================== -->
+    <div class="prac-panel" id="panel-4">
+      <div class="top-bar">
+        <div class="prac-meta">
+          <h2>Practical 4: Principal Component Analysis (PCA)</h2>
+          <span>Source: Darpan_AL_prac4.ipynb - Colab.pdf</span>
+        </div>
+        <button class="copy-all-btn" onclick="copyFileText('practical_4', this)">
+          📋 Copy Entire Practical 4
+        </button>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Cells 1 & 2: 2D Synthetic Data PCA</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+np.random.seed(42)
+x=np.random.rand(100,2) @ np.array([[2,1],[1,3]]) # @ sign is used for multiplication
+print(x)
+
+# step 2 : Standardize
+x_mean = x - np.mean(x,axis=0)
+
+# step 3 : Covariance matrix
+cov_matrix = np.cov(x_mean, rowvar=False)
+print("Covariance matrix: ",cov_matrix)
+
+# STEP 4 : Eigenvalues and Eigenvectors
+eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
+print("Eigenvalues: ",eigenvalues)
+print("Eigenvectors: ",eigenvectors)
+
+#STEP 5 : sort eigenvectors by eigenvalues (descending)
+sorted_idx = np.argsort(eigenvalues)[::-1]
+
+eigenvalues = eigenvalues[sorted_idx]
+eigenvectors = eigenvectors[:,sorted_idx]
+print("Eigenvalues: ",eigenvalues)
+print("Eigenvectors: ",eigenvectors)
+
+#step 6 : project data onto first principal component (reduce to 1D)
+pc1=eigenvectors[:,0]
+print("pc1 \n",pc1)
+
+x_pca=x_mean @pc1
+print("x pca\n",x_pca) #projected on pc1</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Cell 3: Iris Dataset PCA (4D -> 2D)</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+from sklearn.datasets import load_iris
+iris = load_iris()
+x = iris.data
+
+# step 2 : Standardize
+x_mean = x - np.mean(x,axis=0)
+
+# step 3 : Covariance matrix
+cov_matrix = np.cov(x_mean, rowvar=False)
+
+# STEP 4 : Eigenvalues and Eigenvectors
+eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
+
+#STEP 5 : sort eigenvectors by eigenvalues (descending)
+sorted_idx = np.argsort(eigenvalues)[::-1]
+
+eigenvalues = eigenvalues[sorted_idx]
+eigenvectors = eigenvectors[:,sorted_idx]
+
+#step 6 : project data onto first principal component (reduce to 1D)
+pc1=eigenvectors[:,:2]
+
+x_pca=x_mean @pc1
+
+print("Eigenvalues: ",eigenvalues)
+print("Principal components: ",eigenvectors)
+print("x pca\n",x_pca) #projected on pc1</code></pre>
+      </div>
+    </div>
+
+
+    <!-- ==================== PRACTICAL 5 ==================== -->
+    <div class="prac-panel" id="panel-5">
+      <div class="top-bar">
+        <div class="prac-meta">
+          <h2>Practical 5: SVD Image Compression</h2>
+          <span>Source: darpan_AL_prac_5.ipynb - Colab.pdf</span>
+        </div>
+        <button class="copy-all-btn" onclick="copyFileText('practical_5', this)">
+          📋 Copy Entire Practical 5
+        </button>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">Full Script: SVD & MSE Comparison</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from skimage import io, color
+from skimage.metrics import mean_squared_error
+
+#step 1: Load image and convert to grayscale
+img = io.imread('images.jpg')
+gray = color.rgb2gray(img) # values between 0-1
+
+plt.imshow(gray, cmap='gray')
+plt.title("Original GrayScale Image")
+plt.axis('off')
+plt.show()
+
+# step 2: Apply SVD
+U, S , Vt = np.linalg.svd(gray, full_matrices=False)
+# returns U and Vt with shapes (m,k) and (k,n) instead of full sq sizes(m,m) and
+
+#step 3 : Function to reconstruct with top r values
+def reconstruct(U, S, Vt, r):
+    return U[:, :r] @ np.diag(S[:r]) @ Vt[:r, :]
+
+#step 4: Choose r values
+r1,r2,r3,r4,r5,r6,r7,r8,r9 = 5,20,50,100,150,200,500,800,1100
+
+#Step 5 : Reconstruct images
+img_r1 = reconstruct(U, S, Vt, r1)
+img_r2 = reconstruct(U, S, Vt, r2)
+img_r3 = reconstruct(U, S, Vt, r3)
+img_r4 = reconstruct(U, S, Vt, r4)
+img_r5 = reconstruct(U, S, Vt, r5)
+img_r6 = reconstruct(U, S, Vt, r6)
+img_r7 = reconstruct(U, S, Vt, r7)
+img_r8 = reconstruct(U, S, Vt, r8)
+img_r9 = reconstruct(U, S, Vt, r9)
+
+plt.close('all')
+plt.figure(figsize=(18, 12))
+
+plt.subplot(3, 3, 1)
+plt.imshow(img_r1, cmap='gray')
+plt.title(f"r={r1}")
+plt.axis('off')
+
+plt.subplot(3, 3, 2)
+plt.imshow(img_r2, cmap='gray')
+plt.title(f"r={r2}")
+plt.axis('off')
+
+plt.subplot(3, 3, 3)
+plt.imshow(img_r3, cmap='gray')
+plt.title(f"r={r3}")
+plt.axis('off')
+
+plt.subplot(3, 3, 4)
+plt.imshow(img_r4, cmap='gray')
+plt.title(f"r={r4}")
+plt.axis('off')
+
+plt.subplot(3, 3, 5)
+plt.imshow(img_r5, cmap='gray')
+plt.title(f"r={r5}")
+plt.axis('off')
+
+plt.subplot(3, 3, 6)
+plt.imshow(img_r6, cmap='gray')
+plt.title(f"r={r6}")
+plt.axis('off')
+
+plt.subplot(3, 3, 7)
+plt.imshow(img_r7, cmap='gray')
+plt.title(f"r={r7}")
+plt.axis('off')
+
+plt.subplot(3, 3, 8)
+plt.imshow(img_r8, cmap='gray')
+plt.title(f"r={r8}")
+plt.axis('off')
+
+plt.subplot(3, 3, 9)
+plt.imshow(img_r9, cmap='gray')
+plt.title(f"r={r9}")
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+
+#Step 6: Compute mse
+mse_r1 = mean_squared_error(gray, img_r1)
+mse_r2 = mean_squared_error(gray, img_r2)
+mse_r3 = mean_squared_error(gray, img_r3)
+mse_r4 = mean_squared_error(gray, img_r4)
+mse_r5 = mean_squared_error(gray, img_r5)
+mse_r6 = mean_squared_error(gray, img_r6)
+mse_r7 = mean_squared_error(gray, img_r7)
+mse_r8 = mean_squared_error(gray, img_r8)
+mse_r9 = mean_squared_error(gray, img_r9)
+
+print(mse_r1)
+print(mse_r2)
+print(mse_r3)
+print(mse_r4)
+print(mse_r5)
+print(mse_r6)
+print(mse_r7)
+print(mse_r8)
+print(mse_r9)</code></pre>
+      </div>
+    </div>
+
+
+    <!-- ==================== PRACTICAL 6 ==================== -->
+    <div class="prac-panel" id="panel-6">
+      <div class="top-bar">
+        <div class="prac-meta">
+          <h2>Practical 6: K-Means with Distance Metrics</h2>
+          <span>Source: Practical6_chirag.bhudeka - Jupyter Notebook.pdf</span>
+        </div>
+        <button class="copy-all-btn" onclick="copyFileText('practical_6', this)">
+          📋 Copy Entire Practical 6
+        </button>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [26], [27], [28]: Distance Functions</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import numpy as np
+
+#Euclidean Distance
+def euclidean_distance(a,b):
+    return np.sqrt(np.sum((a-b)**2))
+
+#Manhattan Distance
+def manhattan_distance(a,b):
+    return np.sum(np.abs(a-b))</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [29]: kmeans_custom Function</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>def kmeans_custom(X, max_iters=10):
+    centroids = np.array([[1,0,0],[0,1,1]]) #2 centroids
+    for i in range (max_iters):
+        clusters = [[] for i in range(2)]
+        
+        #Assign points to clusters
+        for point in X:
+            distances = []
+            for centroid in centroids:
+                distances.append(manhattan_distance(point, centroid))
+            
+            cluster_index = np.argmin(distances)
+            clusters[cluster_index].append(point)
+        
+        # Update Centroid
+        new_centroids = []
+        for cluster in clusters:
+            new_centroids.append(np.mean(cluster, axis=0))
+        
+        new_centroids = np.array(new_centroids)
+        if np.allclose(centroids, new_centroids):
+            break
+        centroids = new_centroids
+    return np.array(centroids), clusters</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [30]: Data X</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>x = np.array([[1,2,3,],[0,1,2],[3,0,5],[4,1,3],[5,0,1]])
+print(x)</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [31] & In [32]: Execution & Output</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>centroids_x, clusters_x = kmeans_custom(x)
+print("Centroids of X: \n", centroids_x)
+print("Clusters of X: \n", clusters_x)</code></pre>
+      </div>
+
+      <div class="cell-card">
+        <div class="cell-header">
+          <span class="cell-title">In [33], [34], [35]: 2D Plotting</span>
+          <button class="cell-copy-btn" onclick="copySnippet(this)">Copy Cell</button>
+        </div>
+        <pre><code>import matplotlib.pyplot as plt
+def plot_clusters_2D(x,clusters,centroid):
+    colors=['r','g']
+    plt.figure(figsize=(10,6))
+    for i, cluster in enumerate(clusters):
+        cluster = np.array(cluster)
+        plt.scatter(cluster[:,0], cluster[:,1], color = colors[i])
+    plt.scatter(centroid[:,0],centroid[:,1], c="black", marker="x", s = 300)
+    plt.title("Manhattan Distance")
+    plt.xlabel("Feature 1")
+    plt.ylabel("Feature 2")
+    plt.show()
+
+centroids_x, clusters_x = kmeans_custom(x) #Function call
+plot_clusters_2D(x, clusters_x, centroids_x)</code></pre>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Embedded Code Dictionary for Instant 100% Guaranteed Clipboard Copy
+    const codeFiles = {
+      practical_1: `import numpy as np
+
+#create a 1-D array and dimension
+v1=np.array([5,4,7,8])
+print(v1)
+print(v1.ndim)
+
+#create a 2-D array
+v2=np.array([[1,5,3],[4,7,9],[4,9,4]])
+print(v2)
+
+#create a matrix of 2 rows 3 column
+v3=np.array([[1,5],[4,7],[4,9]])
+print(v3)
+
+#matrix addition
+v4=np.array([[6,3,8],[2,5,2],[8,1,3]])
+print(v4)
+print('addition of v2 and v4 is \\n',v2+v4)
+
+#matrix subtraction
+print('subtraction of v2 and v4 is \\n',v2-v4)
+
+# scalar matrix
+print('scalar matrix of v4 is \\n',2*v4)
+
+# multiplication matrix
+print(np.dot(v2,v4))
+#element wise multiplication just use '*' for multiply.
+
+#transpose of the matrix
+print('transpose of matrix v2 is \\n',v2.T)
+
+#matrix determinant
+a=np.array([[1,2,3],[1,1,5],[2,4,7]])
+print('Matrix a= \\n',a)
+print('determinant of the a is',np.linalg.det(a))
+
+#inverse of the matrix
+print('inverse of the a is \\n',np.linalg.inv(a))
+
+b= np.array([[1,2,3],
+             [1,1,5],
+             [2,4,6]])
+
+if np.linalg.det(b) != 0:
+    print('inverse of a is \\n',np.linalg.inv(b))
+else:
+    print('inverse does not exist for matrix having deteminant zero ')
+
+# identity matrix 
+print('identity matrix \\n',np.eye(3)) #parameter is used to define the dimension of matrix
+
+import matplotlib.pyplot as plt
+from skimage import color,io
+from skimage.transform import resize
+
+image=io.imread('C:/Users/USER-11/Downloads/images.jpg')
+#print(image)
+gray_image=color.rgb2gray(image)
+gray_image=resize(gray_image,(256,256))
+
+#brighting the image
+bright_image=gray_image*2.0
+bright_image=np.clip(bright_image,0,1)
+
+#noisy or distortion will be present in the image
+noisy_image=gray_image+0.3
+noisy_image=np.clip(noisy_image,0,1)
+
+#darkening the image
+dark_image=gray_image-0.2
+dark_image=np.clip(dark_image,0,1)
+
+#fliping the image
+transpose_image=gray_image.T
+
+#inversing the image
+inverse_image=np.linalg.inv(gray_image)
+inverse_image=np.clip(inverse_image,0,1)
+
+#plotting the original image
+plt.imshow(image, cmap='gray')
+plt.title('original image')
+plt.show()
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,1)
+plt.imshow(gray_image,cmap='gray')
+plt.title('Original Gray Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,2)
+plt.imshow(bright_image,cmap='gray')
+plt.title('Bright Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,3)
+plt.imshow(noisy_image,cmap='gray')
+plt.title('noisy Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,4)
+plt.imshow(dark_image,cmap='gray')
+plt.title('dark Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,5)
+plt.imshow(transpose_image,cmap='gray')
+plt.title('transpose Image')
+
+plt.figure(figsize=(12,12))
+plt.subplot(2,3,6)
+plt.imshow(inverse_image,cmap='gray')
+plt.title('inverse Image')`,
+
+      practical_2a: `import numpy as np
+'''
+system of equation
+2x+y-z=8
+-3x-y+2z=-11
+-2x+y+2z=-3
+'''
+A=np.array([[2,1,-1],[-3,-1,2],[-2,1,2]],dtype=float)
+B=np.array([8.0,-11.0,-3.0])
+
+print('co-efficient matrix A:\\n',A)
+print('Right hand side matrix B:\\n',B)
+
+def gaussian_elimination(A,B):
+    n=len(B)
+    # forward elimination
+    for i in range(n):
+        for j in range(i+1,n):
+            ratio =A[j][i]/A[i][i]
+            A[j,i:]=A[j,i:]-ratio*A[i,i:]
+            B[j]=B[j]-ratio*B[i]
+    x=np.zeros(n)
+    for i in range(n-1,-1,-1):
+        x[i]=(B[i]-np.dot(A[i,i+1:],x[i+1:]))/A[i][i]
+    return x
+
+gauss=gaussian_elimination(A,B)
+print(A)
+print('Solution by gaussian elimination :\\n',gauss)
+
+C=np.array([[1,1,2],[2,3,6],[3,6,10]],dtype=float)
+D=np.array([4.0,10.0,17.0])
+
+def gaussian_eliminate(C,D):
+    n=len(B)
+    # forward elimination
+    for i in range(n):
+        for j in range(i+1,n):
+            ratio =C[j][i]/C[i][i]
+            C[j,i:]=C[j,i:]-ratio*C[i,i:]
+            D[j]=D[j]-ratio*D[i]
+    x=np.zeros(n)
+    for i in range(n-1,-1,-1):
+        x[i]=(D[i]-np.dot(C[i,i+1:],x[i+1:]))/C[i][i]
+    return x
+
+gaus=gaussian_eliminate(C,D)
+print(C)
+print('Solution by gaussian elimination :\\n',gaus)`,
+
+      practical_2b: `import numpy as np
+from scipy.linalg import lu,lu_factor, lu_solve
+A=np.array(([3,-1,2],[-3,-2,10],[9,-5,6]), dtype=float)
+b=np.array([10,20,30],dtype=float)
+P,L,U=lu(A)
+print("Matrix A: \\n",A)
+print("Matrix Permutation: \\n",P)
+print("Matrix Lower: \\n",L)
+print("Matrix Upper: \\n",U)
+lu_factorization = lu_factor(A)
+print("LU Factorization: \\n",lu_factorization)
+x=lu_solve(lu_factorization,b)
+print("Solution: \\n",x)
+
+#
+import numpy as np
+from scipy.linalg import lu,lu_factor, lu_solve
+A=np.array(([3,-1],[4,1]), dtype=float)
+b=np.array([1,6],dtype=float)
+P,L,U=lu(A)
+print("Matrix A: \\n",A)
+print("Matrix Permutation: \\n",P)
+print("Matrix Lower: \\n",L)
+print("Matrix Upper: \\n",U)
+lu_factorization = lu_factor(A)
+print("LU Factorization: \\n",lu_factorization)
+x=lu_solve(lu_factorization,b)
+print("Solution: \\n",x)
+
+#user input equation
+a1,b1,c1,d1=map(float,input("Enter the equation 1 (a1,b1,c1,d1):").split())
+a2,b2,c2,d2=map(float,input("Enter the equation 2 (a2,b2,c2,d2):").split())
+a3,b3,c3,d3=map(float,input("Enter the equation 3 (a3,b3,c3,d3):").split())
+A=np.array(([a1,b1,c1],[a2,b2,c2],[a3,b3,c3]), dtype=float)
+b=np.array([d1,d2,d3],dtype=float)
+P,L,U=lu(A)
+print("Matrix A: \\n",A)
+print("Matrix Permutation: \\n",P)
+print("Matrix Lower: \\n",L)
+print("Matrix Upper: \\n",U)
+lu_factorization = lu_factor(A)
+print("LU Factorization: \\n",lu_factorization)
+x=lu_solve(lu_factorization,b)
+print("Solution: \\n",x)
+
+import pandas as pd
+# Load the file from Colab's default storage path
+df= pd.read_csv('/content/book_sale.csv')
+# View the first 5 rows
+print(df.head())
+A=df.iloc[:,0:3].to_numpy()
+b=df.iloc[:,3].to_numpy()
+print('matrix A\\n',A)
+print('vector b\\n',b)`,
+
+      practical_3: `# linear regression using formula
+import numpy as np
+import matplotlib.pyplot as plt
+
+x=np.array([1,2,3,4,5])
+y=np.array([2,4,5,4,5])
+
+X_mean = np.mean(x)
+Y_mean = np.mean(y)
+
+numerator= np.sum((x - X_mean)* (y - Y_mean))
+denominator = np.sum((x - X_mean) ** 2)
+slope = numerator / denominator
+intercept = Y_mean - slope * X_mean
+
+print("Slope: ", slope)
+print("Intercept: ", intercept)
+
+y_pred = slope * x + intercept
+print(y_pred)
+
+plt.scatter(x,y, color="black", label="Actual Data")
+plt.plot(x,y_pred, color='red', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()
+
+# Linear Regression using pre build function
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+#-1 (Rows): Tells NumPy to automatically calculate the number of rows. 
+# Since there are 5 elements total, NumPy computes (5 / 1 = 5) rows.
+x=np.array([1,2,3,4,5]).reshape(-1,1) 
+y=np.array([2,4,5,4,5])
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import *
+import pandas as pd
+
+housing = pd.read_csv('Housing.csv')
+
+#Select feature and Target
+x= housing[["area"]]
+y = housing['price']
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+print("R2 Score: ",r2_score(y,model.predict(x)))
+print("MSE: ",mean_squared_error(y,model.predict(x)))
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()
+
+#Select feature and Target on bedroom
+x= housing[["bedrooms"]]
+y = housing['price']
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+print("R2 Score: ",r2_score(y,model.predict(x)))
+print("MSE: ",mean_squared_error(y,model.predict(x)))
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import *
+
+x=np.array([1,2,3,4,5]).reshape(-1,1)
+y=np.array([2,4,6,8,9])
+
+model=LinearRegression()
+model.fit(x,y)
+
+print("Slope: ", model.coef_[0])
+print("Intercept: ", model.intercept_)
+
+y_pred=model.predict(x)
+
+print("R2 Score: ",r2_score(y,model.predict(x)))
+print("MSE: ",mean_squared_error(y,model.predict(x)))
+
+plt.scatter(x,y, color="blue", label="Actual Data")
+plt.plot(x,y_pred, color='green', label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.legend()
+plt.show()`,
+
+      practical_4: `import numpy as np
+np.random.seed(42)
+x=np.random.rand(100,2) @ np.array([[2,1],[1,3]]) # @ sign is used for multiplication
+print(x)
+
+# step 2 : Standardize
+x_mean = x - np.mean(x,axis=0)
+
+# step 3 : Covariance matrix
+cov_matrix = np.cov(x_mean, rowvar=False)
+print("Covariance matrix: ",cov_matrix)
+
+# STEP 4 : Eigenvalues and Eigenvectors
+eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
+print("Eigenvalues: ",eigenvalues)
+print("Eigenvectors: ",eigenvectors)
+
+#STEP 5 : sort eigenvectors by eigenvalues (descending)
+sorted_idx = np.argsort(eigenvalues)[::-1]
+
+eigenvalues = eigenvalues[sorted_idx]
+eigenvectors = eigenvectors[:,sorted_idx]
+print("Eigenvalues: ",eigenvalues)
+print("Eigenvectors: ",eigenvectors)
+
+#step 6 : project data onto first principal component (reduce to 1D)
+pc1=eigenvectors[:,0]
+print("pc1 \\n",pc1)
+
+x_pca=x_mean @pc1
+print("x pca\\n",x_pca) #projected on pc1
+
+import numpy as np
+from sklearn.datasets import load_iris
+iris = load_iris()
+x = iris.data
+
+# step 2 : Standardize
+x_mean = x - np.mean(x,axis=0)
+
+# step 3 : Covariance matrix
+cov_matrix = np.cov(x_mean, rowvar=False)
+
+# STEP 4 : Eigenvalues and Eigenvectors
+eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
+
+#STEP 5 : sort eigenvectors by eigenvalues (descending)
+sorted_idx = np.argsort(eigenvalues)[::-1]
+
+eigenvalues = eigenvalues[sorted_idx]
+eigenvectors = eigenvectors[:,sorted_idx]
+
+#step 6 : project data onto first principal component (reduce to 1D)
+pc1=eigenvectors[:,:2]
+
+x_pca=x_mean @pc1
+
+print("Eigenvalues: ",eigenvalues)
+print("Principal components: ",eigenvectors)
+print("x pca\\n",x_pca) #projected on pc1`,
+
+      practical_5: `import numpy as np
+import matplotlib.pyplot as plt
+from skimage import io, color
+from skimage.metrics import mean_squared_error
+
+#step 1: Load image and convert to grayscale
+img = io.imread('images.jpg')
+gray = color.rgb2gray(img) # values between 0-1
+
+plt.imshow(gray, cmap='gray')
+plt.title("Original GrayScale Image")
+plt.axis('off')
+plt.show()
+
+# step 2: Apply SVD
+U, S , Vt = np.linalg.svd(gray, full_matrices=False)
+# returns U and Vt with shapes (m,k) and (k,n) instead of full sq sizes(m,m) and
+
+#step 3 : Function to reconstruct with top r values
+def reconstruct(U, S, Vt, r):
+    return U[:, :r] @ np.diag(S[:r]) @ Vt[:r, :]
+
+#step 4: Choose r values
+r1,r2,r3,r4,r5,r6,r7,r8,r9 = 5,20,50,100,150,200,500,800,1100
+
+#Step 5 : Reconstruct images
+img_r1 = reconstruct(U, S, Vt, r1)
+img_r2 = reconstruct(U, S, Vt, r2)
+img_r3 = reconstruct(U, S, Vt, r3)
+img_r4 = reconstruct(U, S, Vt, r4)
+img_r5 = reconstruct(U, S, Vt, r5)
+img_r6 = reconstruct(U, S, Vt, r6)
+img_r7 = reconstruct(U, S, Vt, r7)
+img_r8 = reconstruct(U, S, Vt, r8)
+img_r9 = reconstruct(U, S, Vt, r9)
+
+plt.close('all')
+plt.figure(figsize=(18, 12))
+
+plt.subplot(3, 3, 1)
+plt.imshow(img_r1, cmap='gray')
+plt.title(f"r={r1}")
+plt.axis('off')
+
+plt.subplot(3, 3, 2)
+plt.imshow(img_r2, cmap='gray')
+plt.title(f"r={r2}")
+plt.axis('off')
+
+plt.subplot(3, 3, 3)
+plt.imshow(img_r3, cmap='gray')
+plt.title(f"r={r3}")
+plt.axis('off')
+
+plt.subplot(3, 3, 4)
+plt.imshow(img_r4, cmap='gray')
+plt.title(f"r={r4}")
+plt.axis('off')
+
+plt.subplot(3, 3, 5)
+plt.imshow(img_r5, cmap='gray')
+plt.title(f"r={r5}")
+plt.axis('off')
+
+plt.subplot(3, 3, 6)
+plt.imshow(img_r6, cmap='gray')
+plt.title(f"r={r6}")
+plt.axis('off')
+
+plt.subplot(3, 3, 7)
+plt.imshow(img_r7, cmap='gray')
+plt.title(f"r={r7}")
+plt.axis('off')
+
+plt.subplot(3, 3, 8)
+plt.imshow(img_r8, cmap='gray')
+plt.title(f"r={r8}")
+plt.axis('off')
+
+plt.subplot(3, 3, 9)
+plt.imshow(img_r9, cmap='gray')
+plt.title(f"r={r9}")
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+
+#Step 6: Compute mse
+mse_r1 = mean_squared_error(gray, img_r1)
+mse_r2 = mean_squared_error(gray, img_r2)
+mse_r3 = mean_squared_error(gray, img_r3)
+mse_r4 = mean_squared_error(gray, img_r4)
+mse_r5 = mean_squared_error(gray, img_r5)
+mse_r6 = mean_squared_error(gray, img_r6)
+mse_r7 = mean_squared_error(gray, img_r7)
+mse_r8 = mean_squared_error(gray, img_r8)
+mse_r9 = mean_squared_error(gray, img_r9)
+
+print(mse_r1)
+print(mse_r2)
+print(mse_r3)
+print(mse_r4)
+print(mse_r5)
+print(mse_r6)
+print(mse_r7)
+print(mse_r8)
+print(mse_r9)`,
+
+      practical_6: `import numpy as np
+
+#Euclidean Distance
+def euclidean_distance(a,b):
+    return np.sqrt(np.sum((a-b)**2))
+
+#Manhattan Distance
+def manhattan_distance(a,b):
+    return np.sum(np.abs(a-b))
+
+def kmeans_custom(X, max_iters=10):
+    centroids = np.array([[1,0,0],[0,1,1]]) #2 centroids
+    for i in range (max_iters):
+        clusters = [[] for i in range(2)]
+        
+        #Assign points to clusters
+        for point in X:
+            distances = []
+            for centroid in centroids:
+                distances.append(manhattan_distance(point, centroid))
+            
+            cluster_index = np.argmin(distances)
+            clusters[cluster_index].append(point)
+        
+        # Update Centroid
+        new_centroids = []
+        for cluster in clusters:
+            new_centroids.append(np.mean(cluster, axis=0))
+        
+        new_centroids = np.array(new_centroids)
+        if np.allclose(centroids, new_centroids):
+            break
+        centroids = new_centroids
+    return np.array(centroids), clusters
+
+x = np.array([[1,2,3,],[0,1,2],[3,0,5],[4,1,3],[5,0,1]])
+print(x)
+
+centroids_x, clusters_x = kmeans_custom(x)
+print("Centroids of X: \\n", centroids_x)
+print("Clusters of X: \\n", clusters_x)
+
+import matplotlib.pyplot as plt
+def plot_clusters_2D(x,clusters,centroid):
+    colors=['r','g']
+    plt.figure(figsize=(10,6))
+    for i, cluster in enumerate(clusters):
+        cluster = np.array(cluster)
+        plt.scatter(cluster[:,0], cluster[:,1], color = colors[i])
+    plt.scatter(centroid[:,0],centroid[:,1], c="black", marker="x", s = 300)
+    plt.title("Manhattan Distance")
+    plt.xlabel("Feature 1")
+    plt.ylabel("Feature 2")
+    plt.show()
+
+centroids_x, clusters_x = kmeans_custom(x) #Function call
+plot_clusters_2D(x, clusters_x, centroids_x)`
+    };
+
+    // Universal Bulletproof Clipboard Copy (Dual method: navigator.clipboard + execCommand fallback)
+    function copyToClipboard(text, successMsg) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg);
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg);
+      } catch (err) {
+        alert("Please select and copy manually: " + err);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2500);
+    }
+
+    function copySnippet(btn) {
+      const card = btn.closest('.cell-card');
+      const code = card.querySelector('pre code').innerText;
+      copyToClipboard(code, "Cell Code Copied to Clipboard! ✓");
+      btn.innerText = "Copied! ✓";
+      btn.style.background = "#10b981";
+      setTimeout(() => {
+        btn.innerText = "Copy Cell";
+        btn.style.background = "";
+      }, 1800);
+    }
+
+    function copyFileText(key, btn) {
+      const code = codeFiles[key];
+      copyToClipboard(code, "Full " + key.toUpperCase().replace('_', ' ') + " Copied! ✓");
+      if (btn) {
+        const orig = btn.innerText;
+        btn.innerText = "Copied! ✓";
+        btn.style.background = "#10b981";
+        setTimeout(() => {
+          btn.innerText = orig;
+          btn.style.background = "";
+        }, 1800);
+      }
+    }
+
+    function copyAllPracticals(btn) {
+      let combined = "";
+      for (const [key, code] of Object.entries(codeFiles)) {
+        combined += "# =====================================================================\\n";
+        combined += "# " + key.toUpperCase().replace('_', ' ') + "\\n";
+        combined += "# =====================================================================\\n";
+        combined += code + "\\n\\n\\n";
+      }
+      copyToClipboard(combined.trim(), "🔥 ALL PRACTICALS 1 TO 6 COPIED TO CLIPBOARD! ✓");
+      if (btn) {
+        const orig = btn.innerText;
+        btn.innerText = "✓ ALL 1 TO 6 COPIED TO CLIPBOARD!";
+        btn.style.background = "#10b981";
+        setTimeout(() => {
+          btn.innerText = orig;
+          btn.style.background = "";
+        }, 2500);
+      }
+    }
+
+    function switchTab(index) {
+      const navItems = document.querySelectorAll('.nav-item');
+      const panels = document.querySelectorAll('.prac-panel');
+
+      navItems.forEach((item, i) => {
+        if (i === index) item.classList.add('active');
+        else item.classList.remove('active');
+      });
+
+      panels.forEach((panel, i) => {
+        if (i === index) panel.classList.add('active');
+        else panel.classList.remove('active');
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
