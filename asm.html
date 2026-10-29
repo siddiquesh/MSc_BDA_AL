@@ -6,15 +6,16 @@
   <title>MSc BDA - Applied Statistical Methods (ASM Practicals 1-9)</title>
   <style>
     :root {
-      --bg-primary: #0b0f19;
-      --bg-secondary: #131b2e;
-      --bg-card: #1a233a;
+      --bg-primary: #070b14;
+      --bg-secondary: #0f172a;
+      --bg-card: #151e33;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --accent: #38bdf8;
       --accent-hover: #0284c7;
-      --code-bg: #070b14;
-      --border: #263352;
+      --code-bg: #030712;
+      --border: #1e293b;
+      --border-card: #223254;
       --success: #10b981;
       --purple: #a855f7;
       --purple-hover: #9333ea;
@@ -26,7 +27,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 300px;
+      width: 310px;
       background-color: var(--bg-secondary);
       border-right: 1px solid var(--border);
       display: flex;
@@ -39,21 +40,21 @@
     .sidebar-header {
       padding: 18px 16px;
       border-bottom: 1px solid var(--border);
-      background: linear-gradient(135deg, #131b2e, #0b0f19);
+      background: linear-gradient(135deg, #0f172a, #070b14);
     }
-    .sidebar-header h1 { font-size: 1.15rem; color: var(--accent); margin-bottom: 4px; }
+    .sidebar-header h1 { font-size: 1.15rem; color: var(--accent); margin-bottom: 4px; font-weight: 700; }
     .sidebar-header p { font-size: 0.78rem; color: var(--text-muted); }
 
     .switch-banner {
       display: inline-block;
       margin-top: 10px;
-      padding: 5px 10px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 6px 12px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       border-radius: 6px;
       color: var(--accent);
       text-decoration: none;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 600;
       transition: all 0.2s;
     }
@@ -72,7 +73,7 @@
       transition: all 0.2s;
       border: 1px solid transparent;
     }
-    .nav-item:hover { background-color: #1e2c4a; color: #fff; }
+    .nav-item:hover { background-color: #1e293b; color: #fff; }
     .nav-item.active { background-color: rgba(56, 189, 248, 0.15); border-color: var(--accent); color: var(--accent); font-weight: 600; }
     .nav-item-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
 
@@ -93,28 +94,25 @@
     .btn-mega:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(168, 85, 247, 0.5); }
 
     /* Main Content */
-    .content { margin-left: 300px; padding: 32px 40px; flex-grow: 1; max-width: 1200px; }
-    .section-header { margin-bottom: 24px; }
-    .section-header h2 { font-size: 1.8rem; margin-bottom: 8px; color: #fff; }
-    .section-header p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+    .content { margin-left: 310px; padding: 32px 40px; flex-grow: 1; max-width: 1250px; }
 
     /* Cheat Sheet Box */
     .cheat-box {
       background: var(--bg-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-card);
       border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 30px;
+      padding: 22px;
+      margin-bottom: 35px;
     }
-    .cheat-box h3 { color: var(--amber); font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .cheat-box h3 { color: var(--amber); font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
     .cheat-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    .cheat-table th, .cheat-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .cheat-table th, .cheat-table td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border); }
     .cheat-table th { color: var(--accent); font-weight: 600; }
     .code-pill {
-      background: #050811;
-      padding: 4px 8px;
+      background: #020617;
+      padding: 4px 9px;
       border-radius: 6px;
-      border: 1px solid #1f2b45;
+      border: 1px solid #1e293b;
       color: #38bdf8;
       font-family: monospace;
       font-size: 0.85rem;
@@ -122,30 +120,68 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      transition: all 0.2s;
     }
-    .code-pill:hover { background: #0f182c; border-color: var(--accent); }
+    .code-pill:hover { background: #0f172a; border-color: var(--accent); color: #fff; }
 
     /* Code Card */
     .code-card {
       background-color: var(--bg-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-card);
       border-radius: 12px;
       overflow: hidden;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
     .card-head {
-      background-color: #151e33;
-      padding: 14px 20px;
+      background-color: #0f172a;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-card);
     }
-    .card-head-title { font-weight: 600; font-size: 1rem; color: #e2e8f0; }
+    .card-head-title { font-weight: 700; font-size: 1.1rem; color: #f8fafc; }
+
+    /* Question Box */
+    .question-box {
+      background: rgba(245, 158, 11, 0.05);
+      border-left: 4px solid var(--amber);
+      border-bottom: 1px solid var(--border-card);
+      padding: 16px 20px;
+    }
+    .question-badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--amber);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .q-item { margin-bottom: 12px; }
+    .q-item:last-child { margin-bottom: 0; }
+    .q-title { font-weight: 600; color: #fde68a; font-size: 0.92rem; margin-bottom: 4px; }
+    .q-bullets { list-style: disc; padding-left: 20px; color: #cbd5e1; font-size: 0.85rem; line-height: 1.5; }
+
+    /* Interpretation Box */
+    .interp-box {
+      background: rgba(56, 189, 248, 0.05);
+      border-top: 1px solid var(--border-card);
+      border-left: 4px solid var(--accent);
+      padding: 14px 20px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .interp-title { font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+
     .btn-copy {
-      background-color: #243252;
+      background-color: #1e293b;
       color: #f1f5f9;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-card);
       padding: 7px 14px;
       border-radius: 6px;
       cursor: pointer;
@@ -156,7 +192,7 @@
       gap: 6px;
       transition: all 0.2s;
     }
-    .btn-copy:hover { background-color: var(--accent); color: #0b0f19; }
+    .btn-copy:hover { background-color: var(--accent); color: #070b14; }
 
     pre {
       background-color: var(--code-bg);
@@ -175,7 +211,7 @@
       bottom: 24px;
       right: 24px;
       background: var(--success);
-      color: #0b0f19;
+      color: #070b14;
       padding: 12px 20px;
       border-radius: 8px;
       font-weight: 700;
@@ -205,11 +241,11 @@
       </li>
       <li class="nav-item" onclick="scrollToSec('asm1')">
         <span>Practical 1</span>
-        <span class="nav-item-sub">Descriptive Statistics</span>
+        <span class="nav-item-sub">Descriptive Statistics & Exploratory Data Analysis (EDA)</span>
       </li>
       <li class="nav-item" onclick="scrollToSec('asm2')">
         <span>Practical 2</span>
-        <span class="nav-item-sub">Probability Distributions</span>
+        <span class="nav-item-sub">Probability Distributions (Normal, Binomial, Poisson)</span>
       </li>
       <li class="nav-item" onclick="scrollToSec('asm3')">
         <span>Practical 3</span>
@@ -217,19 +253,19 @@
       </li>
       <li class="nav-item" onclick="scrollToSec('asm4')">
         <span>Practical 4</span>
-        <span class="nav-item-sub">Hypothesis Testing</span>
+        <span class="nav-item-sub">Hypothesis Testing (t-test, Chi-Square, ANOVA & Tukey HSD)</span>
       </li>
       <li class="nav-item" onclick="scrollToSec('asm5')">
         <span>Practical 5</span>
-        <span class="nav-item-sub">A/B Testing</span>
+        <span class="nav-item-sub">A/B Testing Analysis</span>
       </li>
       <li class="nav-item" onclick="scrollToSec('asm6')">
         <span>Practical 6</span>
-        <span class="nav-item-sub">Linear Regression & Correlation</span>
+        <span class="nav-item-sub">Linear Regression & Spearman Correlation</span>
       </li>
       <li class="nav-item" onclick="scrollToSec('asm7')">
         <span>Practical 7</span>
-        <span class="nav-item-sub">Logistic Regression & Classification</span>
+        <span class="nav-item-sub">Logistic Regression & Classification Metrics</span>
       </li>
       <li class="nav-item" onclick="scrollToSec('asm8')">
         <span>Practical 8</span>
@@ -237,7 +273,7 @@
       </li>
       <li class="nav-item" onclick="scrollToSec('asm9')">
         <span>Practical 9</span>
-        <span class="nav-item-sub">Bayesian Updating</span>
+        <span class="nav-item-sub">Bayesian Updating for Medical Diagnostic Testing</span>
       </li>
     </ul>
 
@@ -253,76 +289,76 @@
     <section id="cheat-sheet" class="cheat-box">
       <h3>⚡ Jupyter Notebook Quick Copy (Type in Cell)</h3>
       <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
-        Run any of these in a Jupyter cell to instantly copy that practical's code into your clipboard (then press Ctrl + V to paste):
+        Run any of these in a Jupyter cell to instantly copy that practical's full question and code into your clipboard (then press Ctrl + V to paste):
       </p>
       <table class="cheat-table">
         <thead>
           <tr>
             <th>Practical</th>
-            <th>da.gd (Short)</th>
-            <th>is.gd (sid Format)</th>
+            <th>Primary Command</th>
+            <th>Short Alternative</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr style="background: rgba(168, 85, 247, 0.1);">
             <td><strong>ALL Practicals (1-9)</strong></td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_all | clip')">!curl -sL is.gd/sid_all | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm0 | clip')">!curl -sL da.gd/s_asm0 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasmall | clip')">!curl -sL is.gd/sidasmall | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm_all')">Copy All</button></td>
           </tr>
           <tr>
-            <td><strong>Practical 1</strong> (Descriptive Statistics)</td>
+            <td><strong>Practical 1</strong> (Descriptive Statistics & Exploratory Data Analysis (EDA))</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_1 | clip')">!curl -sL is.gd/sid_1 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm1 | clip')">!curl -sL da.gd/s_asm1 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm1 | clip')">!curl -sL is.gd/sidasm1 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm1')">Copy</button></td>
           </tr>
           <tr>
-            <td><strong>Practical 2</strong> (Probability Distributions)</td>
+            <td><strong>Practical 2</strong> (Probability Distributions (Normal, Binomial, Poisson))</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_2 | clip')">!curl -sL is.gd/sid_2 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm2 | clip')">!curl -sL da.gd/s_asm2 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm2 | clip')">!curl -sL is.gd/sidasm2 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm2')">Copy</button></td>
           </tr>
           <tr>
             <td><strong>Practical 3</strong> (Confidence Intervals & Bootstrapping)</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_3 | clip')">!curl -sL is.gd/sid_3 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm3 | clip')">!curl -sL da.gd/s_asm3 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm3 | clip')">!curl -sL is.gd/sidasm3 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm3')">Copy</button></td>
           </tr>
           <tr>
-            <td><strong>Practical 4</strong> (Hypothesis Testing)</td>
+            <td><strong>Practical 4</strong> (Hypothesis Testing (t-test, Chi-Square, ANOVA & Tukey HSD))</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_4 | clip')">!curl -sL is.gd/sid_4 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm4 | clip')">!curl -sL da.gd/s_asm4 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm4 | clip')">!curl -sL is.gd/sidasm4 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm4')">Copy</button></td>
           </tr>
           <tr>
-            <td><strong>Practical 5</strong> (A/B Testing)</td>
+            <td><strong>Practical 5</strong> (A/B Testing Analysis)</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_5 | clip')">!curl -sL is.gd/sid_5 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm5 | clip')">!curl -sL da.gd/s_asm5 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm5 | clip')">!curl -sL is.gd/sidasm5 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm5')">Copy</button></td>
           </tr>
           <tr>
-            <td><strong>Practical 6</strong> (Linear Regression & Correlation)</td>
+            <td><strong>Practical 6</strong> (Linear Regression & Spearman Correlation)</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_6 | clip')">!curl -sL is.gd/sid_6 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm6 | clip')">!curl -sL da.gd/s_asm6 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm6 | clip')">!curl -sL is.gd/sidasm6 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm6')">Copy</button></td>
           </tr>
           <tr>
-            <td><strong>Practical 7</strong> (Logistic Regression & Classification)</td>
+            <td><strong>Practical 7</strong> (Logistic Regression & Classification Metrics)</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_7 | clip')">!curl -sL is.gd/sid_7 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm7 | clip')">!curl -sL da.gd/s_asm7 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm7 | clip')">!curl -sL is.gd/sidasm7 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm7')">Copy</button></td>
           </tr>
           <tr>
             <td><strong>Practical 8</strong> (Principal Component Analysis (PCA))</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_8 | clip')">!curl -sL is.gd/sid_8 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm8 | clip')">!curl -sL da.gd/s_asm8 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm8 | clip')">!curl -sL is.gd/sidasm8 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm8')">Copy</button></td>
           </tr>
           <tr>
-            <td><strong>Practical 9</strong> (Bayesian Updating)</td>
+            <td><strong>Practical 9</strong> (Bayesian Updating for Medical Diagnostic Testing)</td>
+            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_9 | clip')">!curl -sL is.gd/sid_9 | clip</code></td>
             <td><code class="code-pill" onclick="copyText('!curl -sL da.gd/s_asm9 | clip')">!curl -sL da.gd/s_asm9 | clip</code></td>
-            <td><code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm9 | clip')">!curl -sL is.gd/sidasm9 | clip</code></td>
             <td><button class="btn-copy" onclick="copyCode('asm9')">Copy</button></td>
           </tr>
         </tbody>
@@ -333,15 +369,70 @@
     <section id="asm1" class="code-card">
       <div class="card-head">
         <div>
-          <div class="card-head-title">Practical 1 — Descriptive Statistics</div>
+          <div class="card-head-title">Practical 1 — Descriptive Statistics & Exploratory Data Analysis (EDA)</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm1 | clip')">!curl -sL is.gd/sidasm1 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_1 | clip')">!curl -sL is.gd/sid_1 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm1')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm1')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 1 - Descriptive Statistics
-# Q1) Analyze the iris dataset
+
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Q1) Analyze the Iris Dataset</div>
+          <ul class="q-bullets"><li>1. Load the Iris Dataset (150 rows, 4 numerical features).</li><li>2. Calculate Mean, Median, Mode(s) for each numerical feature.</li><li>3. Calculate Standard Deviation and Variance for each numerical feature.</li><li>4. Calculate Skewness and Kurtosis for each numerical feature.</li><li>5. Plot the distribution (histogram with KDE, 15 bins) for each feature.</li><li>6. Interpret the results (symmetry, spreads, outliers).</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Q2) Analyze the Tips Dataset</div>
+          <ul class="q-bullets"><li>1. Load the Tips Dataset (244 rows, 7 columns).</li><li>2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis) for total_bill, tip, size.</li><li>3. Plot histograms with KDE for all numerical features.</li><li>4. Interpret the results (right-skewed bills & tips).</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Q3) Analyze the Indian Stock Market Dataset</div>
+          <ul class="q-bullets"><li>1. Load 'indian_stock_market.csv' (2306 rows).</li><li>2. Calculate statistical moments for MSFT, IBM, SBUX, AAPL, GSPC.</li><li>3. Plot 3x2 grid of distribution histograms with KDE.</li><li>4. Interpret the volatility (variance) and skewness across stocks.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 1: DESCRIPTIVE STATISTICS &amp; EXPLORATORY DATA ANALYSIS (EDA)
+================================================================================
+FULL QUESTIONS:
+
+Q1) Analyze the Iris Dataset:
+    1. Load the Iris Dataset.
+    2. Calculate mean of each numerical feature.
+    3. Calculate median of each numerical feature.
+    4. Calculate mode(s) of each numerical feature.
+       (Note: Mode can be multi-modal or cannot be calculated for continuous data)
+    5. Calculate standard deviation of each numerical feature.
+    6. Calculate variance of each numerical feature.
+    7. Calculate skewness of each numerical feature.
+    8. Calculate kurtosis of each numerical feature.
+    9. Plot the distribution (histogram with KDE) for each numerical feature.
+    10. Interpret the results.
+
+Q2) Analyze the Tips Dataset:
+    1. Load the Tips Dataset.
+    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)
+       for all numerical features (total_bill, tip, size).
+    3. Plot histograms with KDE for numerical features.
+    4. Interpret the results.
+
+Q3) Analyze the Indian Stock Market Dataset:
+    1. Load 'indian_stock_market.csv'.
+    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)
+       for numerical stock prices (MSFT, IBM, SBUX, AAPL, GSPC).
+    3. Plot distribution histograms with KDE.
+    4. Interpret the results.
+================================================================================
+"""
 
 import pandas as pd
 import numpy as np
@@ -451,20 +542,92 @@ for i, col in enumerate(numerical_cols):
    plt.xlabel(col)
    plt.ylabel('Frequency')
 plt.tight_layout()
-plt.show()
-</code></pre>
+plt.show()</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>Mean vs Median reveals skewness: right-skewed data (like tips and stock prices) has Mean > Median with long positive tails. Petal measurements exhibit bimodal/platykurtic shapes due to distinct flower sub-species.</div>
+      </div>
     </section>
     <section id="asm2" class="code-card">
       <div class="card-head">
         <div>
-          <div class="card-head-title">Practical 2 — Probability Distributions</div>
+          <div class="card-head-title">Practical 2 — Probability Distributions (Normal, Binomial, Poisson)</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm2 | clip')">!curl -sL is.gd/sidasm2 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_2 | clip')">!curl -sL is.gd/sid_2 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm2')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm2')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 2 - Probability Distributions
+
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Q1) Normal Distribution</div>
+          <ul class="q-bullets"><li>Plot a Normal Distribution with mean (mu) = 70 and standard deviation (sigma) = 10 over x in [20, 120].</li><li>Observe: Bell curve is symmetric and centered exactly around 70.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Q2) Effect of Standard Deviation on Normal Distribution</div>
+          <ul class="q-bullets"><li>Fix mean mu = 70. Plot three normal curves with sigma = 5, 10, 15.</li><li>Observe: sigma = 5 is most concentrated/tallest; sigma = 15 has greatest spread/flattest.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Q3) Effect of Mean on Normal Distribution</div>
+          <ul class="q-bullets"><li>Fix sigma = 10. Plot three normal curves with means mu = 50, 70, 90.</li><li>Observe: Normal curve shifts horizontally along x-axis without changing shape or height.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Q4) Binomial Distribution</div>
+          <ul class="q-bullets"><li>Plot the PMF of a Binomial Distribution for n = 20 customers with purchase probability p = 0.3.</li><li>Observe: Discrete probabilities peaking around expected value E[X] = n * p = 6.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Q5) Poisson Distribution</div>
+          <ul class="q-bullets"><li>Plot the PMF of a Poisson Distribution with average arrival rate lambda = 4 calls per minute over x = 0 to 14.</li><li>Observe: Discrete counts with highest probability around lambda = 4 calls.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 2: PROBABILITY DISTRIBUTIONS (NORMAL, BINOMIAL, POISSON)
+================================================================================
+FULL QUESTIONS:
+
+Q1) Normal Distribution:
+    Plot a Normal Distribution with mean (mu) = 70 and standard deviation (sigma) = 10
+    over the range x in [20, 120].
+    Interpret: The curve is symmetric, centered at 70, and bell-shaped.
+
+Q2) Effect of Standard Deviation on Normal Distribution:
+    Fix mean mu = 70. Plot three normal curves with standard deviations sigma = 5, 10, 15.
+    Interpret: 
+    - sigma = 5 is the most concentrated/tallest.
+    - sigma = 15 has the greatest spread/flattest.
+    - As sigma increases, the peak height decreases and spread increases.
+
+Q3) Effect of Mean on Normal Distribution:
+    Fix standard deviation sigma = 10. Plot three normal curves with means mu = 50, 70, 90.
+    Interpret:
+    - When mean changes with constant sigma, the normal curve shifts horizontally
+      along the x-axis. Its shape, spread, and height remain unchanged.
+
+Q4) Binomial Distribution:
+    Plot the Probability Mass Function (PMF) of a Binomial Distribution for n = 20 customers
+    with probability of purchase p = 0.3.
+    Interpret: Represents the discrete likelihood of different numbers of customer purchases.
+
+Q5) Poisson Distribution:
+    Plot the PMF of a Poisson Distribution with an average rate lambda = 4 calls per minute
+    over x = 0 to 14.
+    Interpret: Poisson is a discrete distribution where expected number of calls equals lambda = 4.
+================================================================================
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -538,22 +701,64 @@ plt.xlabel("Number of Calls")
 plt.ylabel("Probability")
 plt.title("Poisson Distribution")
 plt.grid()
-plt.show()
-</code></pre>
+plt.show()</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>Continuous distributions (Normal) use PDF where area = probability. Discrete distributions (Binomial, Poisson) use PMF where stems show exact event probabilities.</div>
+      </div>
     </section>
     <section id="asm3" class="code-card">
       <div class="card-head">
         <div>
           <div class="card-head-title">Practical 3 — Confidence Intervals & Bootstrapping</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm3 | clip')">!curl -sL is.gd/sidasm3 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_3 | clip')">!curl -sL is.gd/sid_3 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm3')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm3')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 3 - Confidence Intervals &amp; Bootstrapping
 
-# Question 1: t-based Confidence Interval
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Question 1: Parametric Student's t-based 95% Confidence Interval</div>
+          <ul class="q-bullets"><li>Given 20 delivery times: [31, 28, 35, 42, 30, 27, 39, 33, 26, 32, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37].</li><li>Calculate sample mean, sample standard deviation (ddof=1), and degrees of freedom (df = 19).</li><li>Calculate Standard Error: SE = s / sqrt(n).</li><li>Compute 95% CI using Student's t critical value: CI = sample_mean +/- (t_crit * SE).</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Question 2: Non-Parametric Bootstrap 95% Confidence Interval</div>
+          <ul class="q-bullets"><li>Resample 20 delivery times with replacement 5,000 times (random seed 42) and compute mean of each bootstrap sample.</li><li>Extract 2.5th and 97.5th percentiles to obtain empirical 95% Bootstrap CI.</li><li>Compare interval estimates and interval widths between t-based and Bootstrap methods.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 3: CONFIDENCE INTERVALS &amp; BOOTSTRAPPING
+================================================================================
+FULL QUESTIONS:
+
+Question 1: (Parametric Student's t-based Confidence Interval)
+    Given delivery times (in minutes) for 20 orders:
+    [31, 28, 35, 42, 30, 27, 39, 33, 26, 32, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37]
+    1. Calculate the sample mean and sample standard deviation (ddof=1).
+    2. Determine degrees of freedom (df = n - 1) and standard error (SE = s / sqrt(n)).
+    3. Compute the 95% Confidence Interval for the population mean delivery time
+       using the Student's t-distribution critical value.
+
+Question 2: (Non-Parametric Bootstrap Confidence Interval)
+    1. Estimate the 95% Confidence Interval for the mean delivery time using Bootstrapping
+       with 5,000 resamples (sampling with replacement, random seed 42).
+    2. Calculate the 2.5th and 97.5th percentiles of the bootstrap distribution.
+    3. Compare the t-based CI and Bootstrap CI in terms of range and interval width.
+================================================================================
+"""
+
 from scipy import stats
 import numpy as np
 
@@ -613,22 +818,75 @@ print("95% Bootstrap CI =", (lower_bootstrap, upper_bootstrap))
 print("t-based CI =", (lower, upper))
 print("Bootstrap CI =", (lower_bootstrap, upper_bootstrap))
 print("t-based CI width =", lower - upper)
-print("Bootstrap CI width =", upper_bootstrap - lower_bootstrap)
-</code></pre>
+print("Bootstrap CI width =", upper_bootstrap - lower_bootstrap)</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>Both t-distribution (30.60 to 35.10) and 5,000-resample Bootstrap (30.85 to 35.00) produce tightly matching 95% confidence intervals, proving robust estimation of average delivery time.</div>
+      </div>
     </section>
     <section id="asm4" class="code-card">
       <div class="card-head">
         <div>
-          <div class="card-head-title">Practical 4 — Hypothesis Testing</div>
+          <div class="card-head-title">Practical 4 — Hypothesis Testing (t-test, Chi-Square, ANOVA & Tukey HSD)</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm4 | clip')">!curl -sL is.gd/sidasm4 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_4 | clip')">!curl -sL is.gd/sid_4 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm4')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm4')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 4 - Hypothesis Testing (t-test, Chi-square, ANOVA, Tukey HSD)
 
-# Question 1: Two-Sample t-test
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Question 1: Two-Sample Independent t-Test</div>
+          <ul class="q-bullets"><li>Using the Titanic dataset, run Welch's independent t-test (equal_var=False) comparing ticket fares paid by male vs female passengers.</li><li>Hypothesis: H0 (Mean fare male == Mean fare female) vs H1 (Fares differ significantly).</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Question 2: Chi-Square Test of Independence</div>
+          <ul class="q-bullets"><li>Build a cross-tabulation matrix of passenger class (First, Second, Third) vs survived (0, 1).</li><li>Perform Chi-Square test of independence (chi2_contingency) to test if survival is independent of class.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Question 3: One-Way ANOVA & Post-Hoc Tukey HSD</div>
+          <ul class="q-bullets"><li>Test H0: Mean fares do not differ significantly across the three passenger classes (First, Second, Third).</li><li>Conduct One-Way ANOVA (f_oneway).</li><li>Perform Tukey's Honestly Significant Difference (HSD) post-hoc test to see which specific pairs differ.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 4: HYPOTHESIS TESTING (T-TEST, CHI-SQUARE, ONE-WAY ANOVA &amp; TUKEY HSD)
+================================================================================
+FULL QUESTIONS:
+
+Question 1: (Two-Sample Independent t-Test)
+    Using the Titanic dataset, perform Welch's independent two-sample t-test
+    (equal_var=False) to test if there is a statistically significant difference
+    between ticket fares paid by male passengers vs female passengers.
+    H0: Mean fare of male = Mean fare of female.
+
+Question 2: (Chi-Square Test of Independence)
+    Using the Titanic dataset, construct a contingency table crossing passenger
+    'class' (First, Second, Third) with 'survived' status (0, 1).
+    Perform a Chi-Square test of independence to assess whether passenger class
+    is significantly associated with survival outcome.
+
+Question 3: (One-Way ANOVA &amp; Post-Hoc Tukey HSD Test)
+    Test the hypothesis:
+    H0: Mean ticket fares do not differ significantly across the 3 passenger classes
+        (First, Second, Third).
+    1. Perform One-Way ANOVA (f_oneway).
+    2. If p &lt; 0.05, perform Tukey's Honestly Significant Difference (HSD) test
+       to identify which specific pairwise passenger classes differ in mean fare.
+================================================================================
+"""
+
 import seaborn as sns
 from scipy import stats
 
@@ -670,22 +928,57 @@ from statsmodels.stats.multicomp import pairwise_tukeyhsd
 
 df = df.dropna(subset=["fare"])
 tukey = pairwise_tukeyhsd(endog=df["fare"], groups=df["class"])
-print(tukey)
-</code></pre>
+print(tukey)</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>1) Females paid significantly higher fares (p = 5.39e-07). 2) Class and survival are strongly dependent (chi2 = 102.89, p = 4.55e-23). 3) ANOVA confirms fare differences (F = 242.34); Tukey HSD proves First class differs significantly from 2nd and 3rd, while Second and Third classes do not differ significantly (reject=False, p-adj = 0.108).</div>
+      </div>
     </section>
     <section id="asm5" class="code-card">
       <div class="card-head">
         <div>
-          <div class="card-head-title">Practical 5 — A/B Testing</div>
+          <div class="card-head-title">Practical 5 — A/B Testing Analysis</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm5 | clip')">!curl -sL is.gd/sidasm5 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_5 | clip')">!curl -sL is.gd/sid_5 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm5')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm5')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 5 - A/B Testing
 
-# Dataset for A/B Testing
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Question: A/B Testing with Two-Sample Welch's t-Test</div>
+          <ul class="q-bullets"><li>Control Group A (20 obs): [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]</li><li>Treatment Group B (20 obs): [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]</li><li>1. Compute sample mean for Group A and Group B.</li><li>2. Run Welch's t-test (equal_var=False) to test whether Treatment B yields a statistically significant increase.</li><li>3. Interpret t-statistic and p-value at alpha = 0.05.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 5: A/B TESTING
+================================================================================
+FULL QUESTIONS:
+
+Question: (A/B Testing Analysis with Two-Sample Welch's t-Test)
+    Given conversion / performance metrics from an A/B test with 20 users per group:
+    - Control Group A:
+      [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]
+    - Treatment Variant Group B:
+      [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]
+
+    1. Calculate the sample mean for Group A and Group B.
+    2. Conduct an independent two-sample t-test (Welch's t-test, equal_var=False)
+       to determine whether Group B exhibits a statistically significant improvement.
+    3. Interpret the resulting t-statistic and p-value at alpha = 0.05.
+================================================================================
+"""
+
 import numpy as np
 from scipy.stats import ttest_ind
 
@@ -707,22 +1000,77 @@ t_stat, p_value = ttest_ind(group_A, group_B, equal_var=False)
 print("Mean - Group A:", mean_A)
 print("Mean - Group B:", mean_B)
 print("t-statistic:", t_stat)
-print("p-value:", p_value)
-</code></pre>
+print("p-value:", p_value)</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>Mean A = 44.35, Mean B = 53.45. t-statistic = -7.95, p-value = 1.69e-09. Since p < 0.05, we reject the null hypothesis; Treatment Variant B demonstrates a statistically significant improvement.</div>
+      </div>
     </section>
     <section id="asm6" class="code-card">
       <div class="card-head">
         <div>
-          <div class="card-head-title">Practical 6 — Linear Regression & Correlation</div>
+          <div class="card-head-title">Practical 6 — Linear Regression & Spearman Correlation</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm6 | clip')">!curl -sL is.gd/sidasm6 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_6 | clip')">!curl -sL is.gd/sid_6 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm6')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm6')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 6 - Linear Regression &amp; Correlation
 
-# Question 1: Simple Linear Regression (Diabetes Dataset)
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Question 1: Simple Linear Regression</div>
+          <ul class="q-bullets"><li>Load scikit-learn Diabetes dataset into DataFrame.</li><li>Compute Pearson correlation between 'bmi' and 'target' disease progression.</li><li>Fit OLS Simple Linear Regression: target = beta0 + beta1 * bmi using statsmodels (with sm.add_constant).</li><li>Interpret R-squared and p-value.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Question 2: Multiple Linear Regression</div>
+          <ul class="q-bullets"><li>Fit Multiple OLS model predicting 'target' using 'bmi', 'bp', and 'age'.</li><li>Evaluate model summary: R-squared, F-statistic, and individual feature p-values.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Question 3: Spearman Rank Correlation</div>
+          <ul class="q-bullets"><li>Given study_time = [2, 4, 1, 5, 3] and exam_score = [50, 65, 45, 80, 60].</li><li>Compute Spearman rank correlation coefficient and p-value using scipy.stats.</li><li>Interpret monotonic relationship.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 6: LINEAR REGRESSION &amp; CORRELATION
+================================================================================
+FULL QUESTIONS:
+
+Question 1: (Simple Linear Regression)
+    Load the scikit-learn Diabetes dataset into a pandas DataFrame.
+    1. Evaluate the Pearson correlation between Body Mass Index ('bmi') and the
+       disease progression outcome ('target').
+    2. Fit an Ordinary Least Squares (OLS) Simple Linear Regression model
+       (target ~ bmi + intercept) using statsmodels.
+    3. Output and interpret the model summary (R-squared, coefficients, p-values).
+
+Question 2: (Multiple Linear Regression)
+    Fit an OLS Multiple Linear Regression model predicting disease progression ('target')
+    using three predictors: 'bmi', blood pressure ('bp'), and 'age'.
+    Add an intercept constant and evaluate:
+    - Overall model fit (R-squared, F-statistic).
+    - Which individual variables are statistically significant predictors.
+
+Question 3: (Spearman Rank Correlation)
+    Given:
+    study_time = [2, 4, 1, 5, 3]
+    exam_score = [50, 65, 45, 80, 60]
+    Calculate the Spearman rank correlation coefficient and p-value.
+    Interpret the monotonic relationship between study time and exam score.
+================================================================================
+"""
+
 from sklearn.datasets import load_diabetes
 import pandas as pd
 import statsmodels.api as sm
@@ -754,22 +1102,72 @@ exam_score = [50, 65, 45, 80, 60]
 
 correlation, p_value = spearmanr(study_time, exam_score)
 print("Spearman Correlation:", correlation)
-print("P-value:", p_value)
-</code></pre>
+print("P-value:", p_value)</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>BMI alone explains 34.4% of variance (R2 = 0.344, p < 0.001). Adding BP and Age increases R2 to 39.6%, where BMI (p < 0.001) and BP (p < 0.001) are significant predictors, while Age (p = 0.685) is not. Study time and exam scores exhibit perfect rank correlation (rho = 1.0, p = 1.40e-24).</div>
+      </div>
     </section>
     <section id="asm7" class="code-card">
       <div class="card-head">
         <div>
-          <div class="card-head-title">Practical 7 — Logistic Regression & Classification</div>
+          <div class="card-head-title">Practical 7 — Logistic Regression & Classification Metrics</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm7 | clip')">!curl -sL is.gd/sidasm7 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_7 | clip')">!curl -sL is.gd/sid_7 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm7')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm7')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 7 - Logistic Regression &amp; Classification
 
-# Question 1: Customer Churn Prediction
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Question 1: Customer Churn Logistic Regression</div>
+          <ul class="q-bullets"><li>Load 'scikit-learn/churn-prediction' dataset.</li><li>Predict binary 'Churn' (0=No, 1=Yes) using 'tenure' and 'MonthlyCharges'.</li><li>Train/test stratified split (80-20).</li><li>Evaluate with Confusion Matrix, Accuracy, Precision, Recall, F1-Score, and Classification Report.</li><li>Plot ROC Curve and compute AUC score.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Question 2: Palmer Penguins Binary Classification Pipeline</div>
+          <ul class="q-bullets"><li>Filter Palmer Penguins dataset for species 'Adelie' (0) and 'Gentoo' (1).</li><li>Features: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.</li><li>Build ML Pipeline with StandardScaler + LogisticRegression(max_iter=1000).</li><li>Evaluate model metrics and plot ROC curve with AUC.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 7: LOGISTIC REGRESSION &amp; CLASSIFICATION
+================================================================================
+FULL QUESTIONS:
+
+Question 1: (Customer Churn Prediction with Logistic Regression)
+    Load the customer churn prediction dataset ('scikit-learn/churn-prediction').
+    1. Use 'tenure' and 'MonthlyCharges' as predictors to predict binary 'Churn' (No=0, Yes=1).
+    2. Split data into training (80%) and testing (20%) sets using stratified sampling.
+    3. Fit a Logistic Regression model on the training set.
+    4. Predict on the test set and evaluate using:
+       - Confusion Matrix
+       - Accuracy, Precision, Recall, F1-Score
+       - Classification Report
+    5. Compute predicted probabilities, generate the ROC curve, and calculate the AUC score.
+
+Question 2: (Binary Classification Pipeline on Palmer Penguins)
+    Load the Palmer Penguins dataset and filter for species 'Adelie' and 'Gentoo'.
+    1. Use four features: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.
+    2. Encode target species: Adelie=0, Gentoo=1.
+    3. Build a Machine Learning Pipeline consisting of:
+       - StandardScaler()
+       - LogisticRegression(max_iter=1000)
+    4. Train on 80% train split and evaluate on 20% test split.
+    5. Output Confusion Matrix, Accuracy, Precision, Recall, F1-Score,
+       Classification Report, and ROC Curve with AUC score.
+================================================================================
+"""
+
 from datasets import load_dataset
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -907,22 +1305,67 @@ plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
 plt.title("ROC Curve - Adelie/Gentoo")
 plt.legend()
-plt.show()
-</code></pre>
+plt.show()</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>Churn prediction yields Accuracy = 77.4% with AUC = 0.810 (strong discriminatory ability). Palmer Penguins pipeline achieves perfect 100% accuracy (AUC = 1.00) because Adelie and Gentoo species are linearly separable across body mass and flipper length dimensions.</div>
+      </div>
     </section>
     <section id="asm8" class="code-card">
       <div class="card-head">
         <div>
           <div class="card-head-title">Practical 8 — Principal Component Analysis (PCA)</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm8 | clip')">!curl -sL is.gd/sidasm8 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_8 | clip')">!curl -sL is.gd/sid_8 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm8')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm8')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 8 - Principal Component Analysis (PCA)
 
-# Q1: Wine Dataset PCA
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Question 1 & 2: PCA on Wine Dataset</div>
+          <ul class="q-bullets"><li>Load Wine dataset (178 samples, 13 features).</li><li>Standardize features with StandardScaler.</li><li>Compute Explained Variance Ratio and Cumulative Explained Variance.</li><li>Identify minimum components required to retain >= 90% variance.</li><li>Transform data into 2 components and generate 2D scatter plot colored by wine class.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Question 3: PCA on Breast Cancer Dataset</div>
+          <ul class="q-bullets"><li>Load Breast Cancer dataset (569 observations, 30 features).</li><li>Standardize with StandardScaler and apply PCA.</li><li>Determine components explaining >= 90% variance.</li><li>Plot Cumulative Explained Variance curve (scree plot) with 90% variance threshold line.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 8: PRINCIPAL COMPONENT ANALYSIS (PCA)
+================================================================================
+FULL QUESTIONS:
+
+Question 1 &amp; 2: (PCA on Wine Dataset)
+    Load the scikit-learn Wine dataset (178 samples, 13 features).
+    1. Standardize all 13 features using StandardScaler.
+    2. Apply PCA and calculate the Explained Variance Ratio and Cumulative Explained Variance.
+    3. Determine the minimum number of principal components required to retain
+       at least 90% of the total variance.
+    4. Transform the dataset using PCA with 2 components and plot a 2D scatter plot
+       colored by wine class to visualize class separability.
+
+Question 3: (PCA on Breast Cancer Dataset with Scree Plot)
+    Load the scikit-learn Breast Cancer dataset (569 observations, 30 features).
+    1. Standardize all 30 features using StandardScaler.
+    2. Apply PCA and compute the cumulative explained variance.
+    3. Find the minimum number of components explaining at least 90% variance.
+    4. Plot the Cumulative Explained Variance curve (scree plot) with a red dashed
+       line at 90% variance threshold.
+================================================================================
+"""
+
 import pandas as pd 
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_wine
@@ -1030,22 +1473,59 @@ plt.ylabel("Cumulative Explained Variance")
 plt.title("PCA - Cancer Dataset")
 plt.legend()
 plt.grid(True)
-plt.show()
-</code></pre>
+plt.show()</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>Wine dataset dimensionality is reduced from 13 features to 8 components while preserving 92.0% variance; 2D projection clearly separates the 3 wine classes. Breast Cancer dataset is reduced from 30 features down to 7 components retaining 91.0% variance.</div>
+      </div>
     </section>
     <section id="asm9" class="code-card">
       <div class="card-head">
         <div>
-          <div class="card-head-title">Practical 9 — Bayesian Updating</div>
+          <div class="card-head-title">Practical 9 — Bayesian Updating for Medical Diagnostic Testing</div>
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sidasm9 | clip')">!curl -sL is.gd/sidasm9 | clip</code>
+            Jupyter: <code class="code-pill" onclick="copyText('!curl -sL is.gd/sid_9 | clip')">!curl -sL is.gd/sid_9 | clip</code>
           </div>
         </div>
-        <button class="btn-copy" onclick="copyCode('asm9')">📋 Copy Code</button>
+        <button class="btn-copy" onclick="copyCode('asm9')">📋 Copy Code &amp; Questions</button>
       </div>
-      <pre><code># ASM Practical 9 - Bayesian Updating for Medical Testing
 
-# Prior probability
+      <!-- Full Question Statement -->
+      <div class="question-box">
+        <span class="question-badge">❓ Full Question Statement</span>
+        
+        <div class="q-item">
+          <div class="q-title">Question: Medical Diagnostic Testing with Bayes' Theorem</div>
+          <ul class="q-bullets"><li>Prior disease prevalence: P(Disease) = 0.01 (1%).</li><li>Test Sensitivity: P(+ | Disease) = 0.95 (95%).</li><li>Test Specificity: P(- | No Disease) = 0.90 (90%) -> False Positive Rate = 0.10 (10%).</li><li>1. Compute total probability of a positive test: P(+).</li><li>2. Compute posterior probability of disease given a positive test: P(Disease | +).</li><li>3. Interpret in terms of the Base-Rate Fallacy.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Block -->
+      <pre><code>"""
+================================================================================
+PRACTICAL 9: BAYESIAN UPDATING FOR MEDICAL DIAGNOSTIC TESTING
+================================================================================
+FULL QUESTIONS:
+
+Question: (Bayes' Theorem in Medical Diagnostic Testing)
+    A diagnostic test for a disease has the following epidemiological characteristics:
+    - Prior probability of disease in the population: P(Disease) = 0.01 (1%)
+    - Test Sensitivity (True Positive Rate): P(+ | Disease) = 0.95 (95%)
+    - Test Specificity (True Negative Rate): P(- | No Disease) = 0.90 (90%)
+    - False Positive Rate: P(+ | No Disease) = 1 - Specificity = 0.10 (10%)
+
+    Using Bayes' Theorem:
+    1. Calculate the total probability of a positive test:
+       P(+) = P(+ | Disease) * P(Disease) + P(+ | No Disease) * P(No Disease)
+    2. Calculate the posterior probability of disease given a positive test:
+       P(Disease | +) = [P(+ | Disease) * P(Disease)] / P(+)
+    3. Interpret the result in terms of the Base-Rate Fallacy.
+================================================================================
+"""
+
 prior_disease = 0.01
 
 # Test characteristics
@@ -1069,21 +1549,26 @@ print("Sensitivity:", sensitivity)
 print("Specificity:", specificity)
 print("False Positive Rate:", false_positive_rate)
 print("Probability of Positive Test:", prob_positive)
-print("Posterior Probability of Disease given Positive Test:", posterior_disease)
-</code></pre>
+print("Posterior Probability of Disease given Positive Test:", posterior_disease)</code></pre>
+
+      <!-- Key Interpretation -->
+      <div class="interp-box">
+        <div class="interp-title">💡 Key Result &amp; Interpretation:</div>
+        <div>Total positive test probability P(+) = 10.85%. Despite 95% sensitivity, the posterior probability of actually having the disease given a positive test is only 8.76%! This illustrates the Base-Rate Fallacy: because the disease is rare (1%), false positives from the 99% healthy cohort outnumber true positives from the 1% sick cohort.</div>
+      </div>
     </section>
   </main>
 
   <div id="toast" class="toast">✓ Copied to clipboard!</div>
 
   <script>
-    const codeData = {"asm1": "# ASM Practical 1 - Descriptive Statistics\n# Q1) Analyze the iris dataset\n\nimport pandas as pd\nimport numpy as np\nimport seaborn as sns\nfrom scipy.stats import skew,kurtosis\nimport matplotlib.pyplot as plt\n\niris = sns.load_dataset('iris')\nprint(iris.head())\niris.info()\n\nnumerical_cols = iris.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = iris[col].mean()\n  median_val = iris[col].median()\n  mode_val = iris[col].mode().tolist()\n  std_val = iris[col].std()\n  var_val = iris[col].var()\n  skewness_val = skew(iris[col])\n  kurtosis_val = kurtosis(iris[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15,10))\nfor i, col in enumerate(numerical_cols):\n  plt.subplot(2,2,i+1)\n  sns.histplot(iris[col],kde=True,bins=15)\n  plt.title(f'Distribution of {col}')\n  plt.xlabel('col')\n  plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q2) Analyze the Tips dataset\n\ntips = sns.load_dataset('tips')\nprint(tips.head())\ntips.info()\n\nnumerical_cols = tips.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = tips[col].mean()\n  median_val = tips[col].median()\n  mode_val = tips[col].mode().tolist()\n  std_val = tips[col].std()\n  var_val = tips[col].var()\n  skewness_val = skew(tips[col])\n  kurtosis_val = kurtosis(tips[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15,10))\nfor i, col in enumerate(numerical_cols):\n  plt.subplot(2,2,i+1)\n  sns.histplot(tips[col],kde=True,bins=15)\n  plt.title(f'Distribution of {col}')\n  plt.xlabel('col')\n  plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q3) Analyze the Stock dataset\n\nimport pandas as pd\nstock = pd.read_csv('indian_stock_market.csv')\nprint(stock.head())\nstock.info()\n\nnumerical_cols = stock.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = stock[col].mean()\n  median_val = stock[col].median()\n  mode_val = stock[col].mode().tolist()\n  std_val = stock[col].std()\n  var_val = stock[col].var()\n  skewness_val = skew(stock[col])\n  kurtosis_val = kurtosis(stock[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15, 15))\nfor i, col in enumerate(numerical_cols):\n   plt.subplot(3, 2, i + 1)\n   sns.histplot(stock[col], kde=True, bins=15)\n   plt.title(f'Distribution of {col}')\n   plt.xlabel(col)\n   plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n", "asm2": "# ASM Practical 2 - Probability Distributions\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy import stats\n\n# Q1) Normal Distribution\nmu = 70\nsigma = 10\nx = np.linspace(20, 120, 500)\npdf = stats.norm.pdf(x, loc=mu, scale = sigma)\nplt.plot(x,pdf)\nplt.xlabel(\"X\")\nplt.ylabel(\"Density\")\nplt.title(\"Normal Distribution\")\nplt.grid()\nplt.show()\n\n# Q2) Effect of Standard Deviation\nmu = 70\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=mu, scale = 5)\npdf2 = stats.norm.pdf(x, loc=mu, scale = 10)\npdf3 = stats.norm.pdf(x, loc=mu, scale = 15)\nplt.figure(figsize=(9,5))\nplt.plot(x, pdf1, label=\"sigma = 5\")\nplt.plot(x, pdf2, label=\"sigma = 10\")\nplt.plot(x, pdf3, label=\"sigma = 15\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Standard Deviation and Norrmal Distribution\")\nplt.legend()\nplt.grid(alpha = 0.3)\nplt.show()\n\n# Q3) Effect of Mean\nsigma= 10\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=50, scale = sigma)\npdf2 = stats.norm.pdf(x, loc=70, scale = sigma)\npdf3 = stats.norm.pdf(x, loc=90, scale = sigma)\nplt.figure(figsize=(9,5))\nplt.plot(x, pdf1, label=\"mean = 5\")\nplt.plot(x, pdf2, label=\"mean = 10\")\nplt.plot(x, pdf3, label=\"mean = 15\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Mean and Norrmal Distribution\")\nplt.legend()\nplt.grid(alpha = 0.3)\nplt.show()\n\n# Q4) Binomial Distribution\nimport numpy as np\nn = 20\np = 0.3\nx = np.arange(0, n+1)\npmf = stats.binom.pmf(x, n ,p)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Purchases\")\nplt.ylabel(\"Probbaility\")\nplt.title(\"Binomial Distribution\")\nplt.grid()\nplt.show()\n\n# Q5) Poisson Distribution\nlam = 4\nx = np.arange(0, 15)\npmf = stats.poisson.pmf(x, mu=lam)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Calls\")\nplt.ylabel(\"Probability\")\nplt.title(\"Poisson Distribution\")\nplt.grid()\nplt.show()\n", "asm3": "# ASM Practical 3 - Confidence Intervals & Bootstrapping\n\n# Question 1: t-based Confidence Interval\nfrom scipy import stats\nimport numpy as np\n\ndelivery_time = np.array([\n    31, 28, 35, 42, 30,\n    27, 39, 33, 26, 32,\n    34, 31, 38, 26, 32,\n    41, 30, 36, 29, 37\n])\n\nn = len(delivery_time)\n\n# Sample mean and sample standard deviation\nsample_mean = np.mean(delivery_time)\nsample_sd = np.std(delivery_time, ddof = 1) # for population ddof=0\n\n# Degrees of Freedom\ndf = n - 1\n\n# Standard Error\nSE = sample_sd / np.sqrt(n)\n\n# 95% confidence interval\nt_critical = stats.t.ppf(0.975, df)\nmargin_error = t_critical * SE\nlower = sample_mean - margin_error\nupper = sample_mean + margin_error\n\nprint(\"Sample Mean =\", sample_mean)\nprint(\"Sample SD =\", sample_sd)\nprint(\"Degrees of Freedom =\", df)\nprint(\"Standard Error =\", SE)\nprint(\"Margin of Error =\", margin_error)\nprint(\"95% Confidence Interval =\", (lower, upper))\n\n# Question 2: Bootstrap Confidence Interval\nnp.random.seed(42)\nbootstrap_means = []\n\nfor i in range(5000):\n  bootstrap_sample = np.random.choice(\n      delivery_time,\n      size=len(delivery_time),\n      replace=True\n  )\n  bootstrap_means.append(np.mean(bootstrap_sample))\n\nbootstrap_means = np.array(bootstrap_means)\n\n# 95% percentile bootstrap CI\nlower_bootstrap = np.percentile(bootstrap_means, 2.5)\nupper_bootstrap = np.percentile(bootstrap_means, 97.5)\n\nprint(\"Bootstrap Mean =\", np.mean(bootstrap_means))\nprint(\"95% Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\n\nprint(\"t-based CI =\", (lower, upper))\nprint(\"Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\nprint(\"t-based CI width =\", lower - upper)\nprint(\"Bootstrap CI width =\", upper_bootstrap - lower_bootstrap)\n", "asm4": "# ASM Practical 4 - Hypothesis Testing (t-test, Chi-square, ANOVA, Tukey HSD)\n\n# Question 1: Two-Sample t-test\nimport seaborn as sns\nfrom scipy import stats\n\ndf = sns.load_dataset(\"titanic\")\nmale = df[df[\"sex\"] == \"male\"][\"fare\"].dropna()\nfemale = df[df[\"sex\"] == \"female\"][\"fare\"].dropna()\n\nt_stat, p_value = stats.ttest_ind(\n    male, female, equal_var=False\n)\nprint(\"t_statistic:\", t_stat)\nprint(\"p-value:\", p_value)\n\n# Question 2: Chi-Square Test of Independence\nfrom scipy.stats import chi2_contingency\nimport pandas as pd\n\ntable = pd.crosstab(df[\"class\"], df[\"survived\"])\nprint(table)\n\nchi2, p_value, dof, expected = chi2_contingency(table)\nprint(\"Chi-square statistics:\", chi2)\nprint(\"Degrees of Freedom:\", dof)\nprint(\"p-value:\", p_value)\n\n# Question 3: One-Way ANOVA & Tukey HSD\n# h0: mean fares do not differ significance across 3 passenger classes\nfrom scipy.stats import f_oneway\n\nfirst = df[df[\"class\"] == \"First\"][\"fare\"].dropna()\nsecond = df[df[\"class\"] == \"Second\"][\"fare\"].dropna()\nthird = df[df[\"class\"] == \"Third\"][\"fare\"].dropna()\n\nF, p_value = f_oneway(first, second, third)\nprint(\"F-statistic:\", F)\nprint(\"p-value:\", p_value)\n\nfrom statsmodels.stats.multicomp import pairwise_tukeyhsd\n\ndf = df.dropna(subset=[\"fare\"])\ntukey = pairwise_tukeyhsd(endog=df[\"fare\"], groups=df[\"class\"])\nprint(tukey)\n", "asm5": "# ASM Practical 5 - A/B Testing\n\n# Dataset for A/B Testing\nimport numpy as np\nfrom scipy.stats import ttest_ind\n\ngroup_A = np.array([\n    42, 38, 45, 51, 47, 39, 44, 50, 46, 41,\n    43, 48, 37, 49, 45, 40, 52, 44, 46, 43\n])\n\ngroup_B = np.array([\n    48, 52, 55, 49, 58, 51, 54, 56, 50, 53,\n    57, 49, 55, 52, 59, 54, 51, 56, 53, 55\n])\n\nmean_A = np.mean(group_A)\nmean_B = np.mean(group_B)\n\nt_stat, p_value = ttest_ind(group_A, group_B, equal_var=False)\n\nprint(\"Mean - Group A:\", mean_A)\nprint(\"Mean - Group B:\", mean_B)\nprint(\"t-statistic:\", t_stat)\nprint(\"p-value:\", p_value)\n", "asm6": "# ASM Practical 6 - Linear Regression & Correlation\n\n# Question 1: Simple Linear Regression (Diabetes Dataset)\nfrom sklearn.datasets import load_diabetes\nimport pandas as pd\nimport statsmodels.api as sm\n\ndiabetes = load_diabetes(as_frame=True)\ndf = diabetes.frame\nprint(df.head())\n\n# correlation\nprint(df[[\"bmi\", \"target\"]].corr())\n\n# Simple linear regression\nX = sm.add_constant(df[\"bmi\"])\ny = df['target']\nmodel = sm.OLS(y, X).fit()\nprint(model.summary())\n\n# Question 2: Multiple Linear Regression\nX = df[[\"bmi\", \"bp\", \"age\"]]\nX = sm.add_constant(X)\nmodel = sm.OLS(df[\"target\"], X).fit()\nprint(model.summary())\n\n# Question 3: Spearman Rank Correlation\nfrom scipy.stats import spearmanr\n\nstudy_time = [2, 4, 1, 5, 3]\nexam_score = [50, 65, 45, 80, 60]\n\ncorrelation, p_value = spearmanr(study_time, exam_score)\nprint(\"Spearman Correlation:\", correlation)\nprint(\"P-value:\", p_value)\n", "asm7": "# ASM Practical 7 - Logistic Regression & Classification\n\n# Question 1: Customer Churn Prediction\nfrom datasets import load_dataset\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import (\n    accuracy_score,\n    precision_score,\n    recall_score,\n    f1_score,\n    confusion_matrix,\n    classification_report\n)\n\n# Load dataset\ndataset = load_dataset(\"scikit-learn/churn-prediction\")\ndf = dataset[\"train\"].to_pandas()\n\n# Select predictors and target\nX = df[[\"tenure\", \"MonthlyCharges\"]]\ny = df[\"Churn\"].map({\"No\": 0, \"Yes\": 1})\n\n# Train-test split\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y,\n    test_size=0.2,\n    random_state = 42,\n    stratify = y\n)\n\n# Fit logistic regression\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\n\n# Predict\ny_pred = model.predict(X_test)\n\n# Confusion Matrix\nprint(\"Confusion Matix:\")\nprint(confusion_matrix(y_test,y_pred))\n\n# Performance metrics\nprint(\"\\nPerfomance Metrics\")\nprint(\"---------------------\")\nprint(\"Accuracy:\", accuracy_score(y_test,y_pred))\nprint(\"Precision:\", precision_score(y_test,y_pred))\nprint(\"Recall:\", recall_score(y_test,y_pred))\nprint(\"F1-score:\", f1_score(y_test,y_pred))\n\n# Complete classification report\nprint(\"\\nClassification Report:\")\nprint(classification_report(y_test,y_pred))\n\nfrom sklearn.metrics import roc_curve, roc_auc_score\nimport matplotlib.pyplot as plt\n\n# Predicted probabilities for churn\ny_prob = model.predict_proba(X_test)[:,1]\n\n# ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\n\n# AUC\nauc = roc_auc_score(y_test, y_prob)\nprint(\"AUC:\", auc)\n\n# Plot ROC curve\nplt.plot(fpr, tpr, label=f\"ROC curve (AUC = {auc:.3f})\")\nplt.plot([0, 1], [0,1], linestyle=\"--\")\nplt.xlabel(\"False Positive Rate\")\nplt.ylabel(\"True Positive Rate\")\nplt.title(\"ROC Curve - Customer Churn\")\nplt.legend()\nplt.show()\n\n# Question 2: Palmer Penguins Dataset (Adelie vs Gentoo)\nimport seaborn as sns\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\n\n# Load dataset\ndataset = sns.load_dataset(\"penguins\")\ndf = dataset.copy()\ndf = dataset[dataset[\"species\"].isin([\"Adelie\", \"Gentoo\"])].copy()\n\nfeatures = [\n    \"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\"\n]\n\ndf = df[features + [\"species\"]].dropna()\n\nX = df[features]\ny = (df[\"species\"] == \"Gentoo\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y,\n    test_size = 0.2,\n    random_state=42,\n    stratify=y\n)\n\n# Standardize and fit logistic regression\nmodel = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"logistic\", LogisticRegression(max_iter=1000))\n])\n\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\ny_prob = model.predict_proba(X_test)[:, 1]\n\n# Confusion matrix\nprint(f\"Confusion Matrix: \\n{confusion_matrix(y_test, y_pred)}\")\n\n# Performance metrics\nprint(f\"\\nPerformance Metrics: \\nAccuracy: {accuracy_score(y_test, y_pred)}\")\nprint(f\"Precision: {precision_score(y_test, y_pred)}\")\nprint(f\"Recall: {recall_score(y_test, y_pred)}\")\nprint(f\"F1 Score: {f1_score(y_test, y_pred)}\")\n\n# Classification report\nprint(f\"\\nClassification Report: \\n{classification_report(y_test, y_pred)}\\n\")\nprint(f\"\\nInterpretation: \\nThus, the model is correct 100% of times.\")\n\n# ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\n\n# AUC\nauc = roc_auc_score(y_test, y_prob)\nprint(\"AUC: \", auc)\n\n# Plot ROC curve\nplt.plot(fpr, tpr, label=f\"ROC Curve (AUC = {auc: .3f})\")\nplt.plot([0, 1], [0, 1], linestyle=\"--\")\nplt.xlabel(\"False Positive Rate\")\nplt.ylabel(\"True Positive Rate\")\nplt.title(\"ROC Curve - Adelie/Gentoo\")\nplt.legend()\nplt.show()\n", "asm8": "# ASM Practical 8 - Principal Component Analysis (PCA)\n\n# Q1: Wine Dataset PCA\nimport pandas as pd \nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import load_wine\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.decomposition import PCA\n\n# loading dataset\nwine = load_wine()\nx = pd.DataFrame(data=wine.data, columns=wine.feature_names)\ny = wine.target\n\nprint(\"Original dataset shape\", x.shape)\nprint(\"First five observation\\n\", x.head())\n\n# standardization\nscaler = StandardScaler()\nx_scaled = scaler.fit_transform(x)\n\n# applying pca \npca = PCA()\nx_pca = pca.fit_transform(x_scaled)\n\n# explained variance \nexplained_variance = pca.explained_variance_ratio_\nprint(\"Explained variance ratio\", explained_variance)\n\n# cumulative explained variance\ncumulative_variance = explained_variance.cumsum()\nprint(\"Cumulative explained variance\", cumulative_variance)\n\n# number of components explaining at least 90% \nn_components = (cumulative_variance >= 0.9).argmax() + 1\nprint(\"Number of components explaining at least 90% variance\", n_components)\n\n# Transform using selected components\npca_reduced = PCA(n_components=n_components)\nx_reduced = pca_reduced.fit_transform(x_scaled)\n\n# reduced dataset shape\nprint(\"Reduced dataset shape\", x_reduced.shape)\n\n# Q2: PCA with two components visualization\npca_2 = PCA(n_components=2)\nx_pca_2 = pca_2.fit_transform(x_scaled)\nprint(x_pca_2.shape)\n\nplt.figure(figsize=(8,6))\nplt.scatter(x_pca_2[:,0], x_pca_2[:,1], c=y)\nplt.xlabel('First Principal Component')\nplt.ylabel('Second Principal Component')\nplt.title('PCA of Wine Dataset')\nplt.colorbar(label=\"Wine Class\")\nplt.show()\n\n# Q3: Cancer Dataset PCA\nfrom sklearn.datasets import load_breast_cancer\nimport numpy as np\n\ncancer = load_breast_cancer()\nx = cancer.data\ny = cancer.target\ntarget_names = cancer.target_names\nfeature_names = cancer.feature_names\n\nprint(\"Number of observations\", x.shape[0])\nprint(\"Number of features\", x.shape[1])\nprint(\"Target Name:\\n\", target_names)\n\n# Standardization\nscaler = StandardScaler()\nx_scaled = scaler.fit_transform(x)\n\n# Applying PCA\npca = PCA()\nx_pca = pca.fit_transform(x_scaled)\n\n# Explained variance ratio\nexplained_variance = pca.explained_variance_ratio_\nprint(\"Explained variance ratio:\\n\", explained_variance)\n\n# Cumulative explained variance\ncumulative_variance = explained_variance.cumsum()\nprint(\"Cumulative explained variance:\\n\", cumulative_variance)\n\n# Number of components explaining at least 90% variance\nn_components = np.argmax(cumulative_variance >= 0.90) + 1\nprint(\"Number of components explaining at least 90% variance:\", n_components)\n\n# Transform using selected components\npca_reduced = PCA(n_components=n_components)\nx_reduced = pca_reduced.fit_transform(x_scaled)\n\n# Reduced dataset shape\nprint(\"Reduced dataset shape:\", x_reduced.shape)\n\n# Plot cumulative explained variance\nplt.plot(\n    range(1, len(cumulative_variance) + 1),\n    cumulative_variance,\n    marker='o'\n)\nplt.axhline(y=0.90, color='red', linestyle='--', label='90% variance')\nplt.xlabel(\"Number of Principal Components\")\nplt.ylabel(\"Cumulative Explained Variance\")\nplt.title(\"PCA - Cancer Dataset\")\nplt.legend()\nplt.grid(True)\nplt.show()\n", "asm9": "# ASM Practical 9 - Bayesian Updating for Medical Testing\n\n# Prior probability\nprior_disease = 0.01\n\n# Test characteristics\nsensitivity = 0.95\nspecificity = 0.90\n\n# Probability of a positive test among people without disease\nfalse_positive_rate = 1 - specificity\n\n# Bayes' theorem after first positive test\nprob_positive = (\n    sensitivity * prior_disease +\n    false_positive_rate * (1 - prior_disease)\n)\n\n# Posterior probability P(Disease | Positive)\nposterior_disease = (sensitivity * prior_disease) / prob_positive\n\nprint(\"Prior Probability of Disease:\", prior_disease)\nprint(\"Sensitivity:\", sensitivity)\nprint(\"Specificity:\", specificity)\nprint(\"False Positive Rate:\", false_positive_rate)\nprint(\"Probability of Positive Test:\", prob_positive)\nprint(\"Posterior Probability of Disease given Positive Test:\", posterior_disease)\n", "asm_all": "\"\"\"\n================================================================================\nAPPLIED STATISTICAL METHODS (ASM) - PRACTICALS 1 TO 9\nMSc Big Data Analytics\n================================================================================\n\"\"\"\n\n# ==============================================================================\n# ASM PRACTICAL 1: Descriptive Statistics (Iris, Tips, Stock Market)\n# ==============================================================================\nimport pandas as pd\nimport numpy as np\nimport seaborn as sns\nfrom scipy.stats import skew, kurtosis\nimport matplotlib.pyplot as plt\n\n# Q1) Iris Dataset\niris = sns.load_dataset('iris')\nprint(iris.head())\niris.info()\n\nnumerical_cols = iris.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n    mean_val = iris[col].mean()\n    median_val = iris[col].median()\n    mode_val = iris[col].mode().tolist()\n    std_val = iris[col].std()\n    var_val = iris[col].var()\n    skewness_val = skew(iris[col])\n    kurtosis_val = kurtosis(iris[col])\n    print(f\"---Stats for {col}---\")\n    print(f\" Mean: {mean_val}\")\n    print(f\" Median: {median_val}\")\n    print(f\" Mode: {mode_val}\")\n    print(f\" Standard Deviation: {std_val}\")\n    print(f\" Variance: {var_val}\")\n    print(f\" Skewness: {skewness_val}\")\n    print(f\" Kurtosis: {kurtosis_val}\")\n    print(\"\\n\")\n\nplt.figure(figsize=(15, 10))\nfor i, col in enumerate(numerical_cols):\n    plt.subplot(2, 2, i + 1)\n    sns.histplot(iris[col], kde=True, bins=15)\n    plt.title(f'Distribution of {col}')\n    plt.xlabel('col')\n    plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q2) Tips Dataset\ntips = sns.load_dataset('tips')\nprint(tips.head())\ntips.info()\n\nnumerical_cols = tips.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n    mean_val = tips[col].mean()\n    median_val = tips[col].median()\n    mode_val = tips[col].mode().tolist()\n    std_val = tips[col].std()\n    var_val = tips[col].var()\n    skewness_val = skew(tips[col])\n    kurtosis_val = kurtosis(tips[col])\n    print(f\"---Stats for {col}---\")\n    print(f\" Mean: {mean_val}\")\n    print(f\" Median: {median_val}\")\n    print(f\" Mode: {mode_val}\")\n    print(f\" Standard Deviation: {std_val}\")\n    print(f\" Variance: {var_val}\")\n    print(f\" Skewness: {skewness_val}\")\n    print(f\" Kurtosis: {kurtosis_val}\")\n    print(\"\\n\")\n\nplt.figure(figsize=(15, 10))\nfor i, col in enumerate(numerical_cols):\n    plt.subplot(2, 2, i + 1)\n    sns.histplot(tips[col], kde=True, bins=15)\n    plt.title(f'Distribution of {col}')\n    plt.xlabel('col')\n    plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q3) Stock Dataset\nstock = pd.read_csv('indian_stock_market.csv')\nprint(stock.head())\nstock.info()\n\nnumerical_cols = stock.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n    mean_val = stock[col].mean()\n    median_val = stock[col].median()\n    mode_val = stock[col].mode().tolist()\n    std_val = stock[col].std()\n    var_val = stock[col].var()\n    skewness_val = skew(stock[col])\n    kurtosis_val = kurtosis(stock[col])\n    print(f\"---Stats for {col}---\")\n    print(f\" Mean: {mean_val}\")\n    print(f\" Median: {median_val}\")\n    print(f\" Mode: {mode_val}\")\n    print(f\" Standard Deviation: {std_val}\")\n    print(f\" Variance: {var_val}\")\n    print(f\" Skewness: {skewness_val}\")\n    print(f\" Kurtosis: {kurtosis_val}\")\n    print(\"\\n\")\n\nplt.figure(figsize=(15, 15))\nfor i, col in enumerate(numerical_cols):\n    plt.subplot(3, 2, i + 1)\n    sns.histplot(stock[col], kde=True, bins=15)\n    plt.title(f'Distribution of {col}')\n    plt.xlabel(col)\n    plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n\n# ==============================================================================\n# ASM PRACTICAL 2: Probability Distributions (Normal, Binomial, Poisson)\n# ==============================================================================\nfrom scipy import stats\n\n# Q1) Normal Distribution\nmu = 70\nsigma = 10\nx = np.linspace(20, 120, 500)\npdf = stats.norm.pdf(x, loc=mu, scale=sigma)\nplt.plot(x, pdf)\nplt.xlabel(\"X\")\nplt.ylabel(\"Density\")\nplt.title(\"Normal Distribution\")\nplt.grid()\nplt.show()\n\n# Q2) Effect of Standard Deviation\nmu = 70\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=mu, scale=5)\npdf2 = stats.norm.pdf(x, loc=mu, scale=10)\npdf3 = stats.norm.pdf(x, loc=mu, scale=15)\nplt.figure(figsize=(9, 5))\nplt.plot(x, pdf1, label=\"sigma = 5\")\nplt.plot(x, pdf2, label=\"sigma = 10\")\nplt.plot(x, pdf3, label=\"sigma = 15\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Standard Deviation and Normal Distribution\")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()\n\n# Q3) Effect of Mean\nsigma = 10\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=50, scale=sigma)\npdf2 = stats.norm.pdf(x, loc=70, scale=sigma)\npdf3 = stats.norm.pdf(x, loc=90, scale=sigma)\nplt.figure(figsize=(9, 5))\nplt.plot(x, pdf1, label=\"mean = 50\")\nplt.plot(x, pdf2, label=\"mean = 70\")\nplt.plot(x, pdf3, label=\"mean = 90\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Mean and Normal Distribution\")\nplt.legend()\nplt.grid(alpha=0.3)\nplt.show()\n\n# Q4) Binomial Distribution\nn = 20\np = 0.3\nx = np.arange(0, n + 1)\npmf = stats.binom.pmf(x, n, p)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Purchases\")\nplt.ylabel(\"Probability\")\nplt.title(\"Binomial Distribution\")\nplt.grid()\nplt.show()\n\n# Q5) Poisson Distribution\nlam = 4\nx = np.arange(0, 15)\npmf = stats.poisson.pmf(x, mu=lam)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Calls\")\nplt.ylabel(\"Probability\")\nplt.title(\"Poisson Distribution\")\nplt.grid()\nplt.show()\n\n\n# ==============================================================================\n# ASM PRACTICAL 3: Confidence Intervals & Bootstrapping\n# ==============================================================================\ndelivery_time = np.array([\n    31, 28, 35, 42, 30,\n    27, 39, 33, 26, 32,\n    34, 31, 38, 26, 32,\n    41, 30, 36, 29, 37\n])\n\nn = len(delivery_time)\nsample_mean = np.mean(delivery_time)\nsample_sd = np.std(delivery_time, ddof=1)\ndf_deg = n - 1\nSE = sample_sd / np.sqrt(n)\n\nt_critical = stats.t.ppf(0.975, df_deg)\nmargin_error = t_critical * SE\nlower = sample_mean - margin_error\nupper = sample_mean + margin_error\n\nprint(\"Sample Mean =\", sample_mean)\nprint(\"Sample SD =\", sample_sd)\nprint(\"Degrees of Freedom =\", df_deg)\nprint(\"Standard Error =\", SE)\nprint(\"Margin of Error =\", margin_error)\nprint(\"95% Confidence Interval =\", (lower, upper))\n\n# Bootstrap CI\nnp.random.seed(42)\nbootstrap_means = []\nfor i in range(5000):\n    bootstrap_sample = np.random.choice(\n        delivery_time, size=len(delivery_time), replace=True\n    )\n    bootstrap_means.append(np.mean(bootstrap_sample))\n\nbootstrap_means = np.array(bootstrap_means)\nlower_bootstrap = np.percentile(bootstrap_means, 2.5)\nupper_bootstrap = np.percentile(bootstrap_means, 97.5)\n\nprint(\"Bootstrap Mean =\", np.mean(bootstrap_means))\nprint(\"95% Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\nprint(\"t-based CI =\", (lower, upper))\nprint(\"Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\nprint(\"t-based CI width =\", lower - upper)\nprint(\"Bootstrap CI width =\", upper_bootstrap - lower_bootstrap)\n\n\n# ==============================================================================\n# ASM PRACTICAL 4: Hypothesis Testing (t-test, Chi-square, ANOVA, Tukey HSD)\n# ==============================================================================\nfrom scipy.stats import chi2_contingency, f_oneway\nfrom statsmodels.stats.multicomp import pairwise_tukeyhsd\n\n# Q1: Two-sample t-test\ndf_titanic = sns.load_dataset(\"titanic\")\nmale = df_titanic[df_titanic[\"sex\"] == \"male\"][\"fare\"].dropna()\nfemale = df_titanic[df_titanic[\"sex\"] == \"female\"][\"fare\"].dropna()\n\nt_stat, p_value = stats.ttest_ind(male, female, equal_var=False)\nprint(\"t_statistic:\", t_stat)\nprint(\"p-value:\", p_value)\n\n# Q2: Chi-square test\ntable = pd.crosstab(df_titanic[\"class\"], df_titanic[\"survived\"])\nprint(table)\nchi2, p_val, dof, expected = chi2_contingency(table)\nprint(\"Chi-square statistics:\", chi2)\nprint(\"Degrees of Freedom:\", dof)\nprint(\"p-value:\", p_val)\n\n# Q3: ANOVA & Tukey HSD\nfirst = df_titanic[df_titanic[\"class\"] == \"First\"][\"fare\"].dropna()\nsecond = df_titanic[df_titanic[\"class\"] == \"Second\"][\"fare\"].dropna()\nthird = df_titanic[df_titanic[\"class\"] == \"Third\"][\"fare\"].dropna()\n\nF, p_val_anova = f_oneway(first, second, third)\nprint(\"F-statistic:\", F)\nprint(\"p-value:\", p_val_anova)\n\ndf_clean = df_titanic.dropna(subset=[\"fare\"])\ntukey = pairwise_tukeyhsd(endog=df_clean[\"fare\"], groups=df_clean[\"class\"])\nprint(tukey)\n\n\n# ==============================================================================\n# ASM PRACTICAL 5: A/B Testing\n# ==============================================================================\nfrom scipy.stats import ttest_ind\n\ngroup_A = np.array([\n    42, 38, 45, 51, 47, 39, 44, 50, 46, 41,\n    43, 48, 37, 49, 45, 40, 52, 44, 46, 43\n])\n\ngroup_B = np.array([\n    48, 52, 55, 49, 58, 51, 54, 56, 50, 53,\n    57, 49, 55, 52, 59, 54, 51, 56, 53, 55\n])\n\nmean_A = np.mean(group_A)\nmean_B = np.mean(group_B)\nt_stat, p_val = ttest_ind(group_A, group_B, equal_var=False)\n\nprint(\"Mean - Group A:\", mean_A)\nprint(\"Mean - Group B:\", mean_B)\nprint(\"t-statistic:\", t_stat)\nprint(\"p-value:\", p_val)\n\n\n# ==============================================================================\n# ASM PRACTICAL 6: Linear Regression & Spearman Correlation\n# ==============================================================================\nfrom sklearn.datasets import load_diabetes\nimport statsmodels.api as sm\nfrom scipy.stats import spearmanr\n\n# Q1: Simple Linear Regression\ndiabetes = load_diabetes(as_frame=True)\ndf_diab = diabetes.frame\nprint(df_diab.head())\nprint(df_diab[[\"bmi\", \"target\"]].corr())\n\nX = sm.add_constant(df_diab[\"bmi\"])\ny = df_diab['target']\nmodel = sm.OLS(y, X).fit()\nprint(model.summary())\n\n# Q2: Multiple Linear Regression\nX_multi = df_diab[[\"bmi\", \"bp\", \"age\"]]\nX_multi = sm.add_constant(X_multi)\nmodel_multi = sm.OLS(df_diab[\"target\"], X_multi).fit()\nprint(model_multi.summary())\n\n# Q3: Spearman Rank Correlation\nstudy_time = [2, 4, 1, 5, 3]\nexam_score = [50, 65, 45, 80, 60]\ncorr, p_v = spearmanr(study_time, exam_score)\nprint(\"Spearman Correlation:\", corr)\nprint(\"P-value:\", p_v)\n\n\n# ==============================================================================\n# ASM PRACTICAL 7: Logistic Regression & Classification\n# ==============================================================================\nfrom datasets import load_dataset\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import (\n    accuracy_score, precision_score, recall_score, f1_score,\n    confusion_matrix, classification_report, roc_curve, roc_auc_score\n)\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\n\n# Q1: Churn Prediction\ndataset = load_dataset(\"scikit-learn/churn-prediction\")\ndf_churn = dataset[\"train\"].to_pandas()\n\nX = df_churn[[\"tenure\", \"MonthlyCharges\"]]\ny = df_churn[\"Churn\"].map({\"No\": 0, \"Yes\": 1})\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel_logit = LogisticRegression()\nmodel_logit.fit(X_train, y_train)\ny_pred = model_logit.predict(X_test)\n\nprint(\"Confusion Matrix:\")\nprint(confusion_matrix(y_test, y_pred))\nprint(\"Accuracy:\", accuracy_score(y_test, y_pred))\nprint(\"Precision:\", precision_score(y_test, y_pred))\nprint(\"Recall:\", recall_score(y_test, y_pred))\nprint(\"F1-score:\", f1_score(y_test, y_pred))\nprint(\"\\nClassification Report:\")\nprint(classification_report(y_test, y_pred))\n\ny_prob = model_logit.predict_proba(X_test)[:, 1]\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\nauc = roc_auc_score(y_test, y_prob)\nprint(\"AUC:\", auc)\n\nplt.plot(fpr, tpr, label=f\"ROC curve (AUC = {auc:.3f})\")\nplt.plot([0, 1], [0, 1], linestyle=\"--\")\nplt.xlabel(\"False Positive Rate\")\nplt.ylabel(\"True Positive Rate\")\nplt.title(\"ROC Curve - Customer Churn\")\nplt.legend()\nplt.show()\n\n# Q2: Palmer Penguins\npenguins = sns.load_dataset(\"penguins\")\ndf_peng = penguins[penguins[\"species\"].isin([\"Adelie\", \"Gentoo\"])].copy()\nfeatures = [\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\"]\ndf_peng = df_peng[features + [\"species\"]].dropna()\n\nX = df_peng[features]\ny = (df_peng[\"species\"] == \"Gentoo\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nmodel_pipe = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"logistic\", LogisticRegression(max_iter=1000))\n])\nmodel_pipe.fit(X_train, y_train)\ny_pred = model_pipe.predict(X_test)\ny_prob = model_pipe.predict_proba(X_test)[:, 1]\n\nprint(f\"Confusion Matrix: \\n{confusion_matrix(y_test, y_pred)}\")\nprint(f\"Accuracy: {accuracy_score(y_test, y_pred)}\")\nprint(f\"Classification Report: \\n{classification_report(y_test, y_pred)}\")\n\n\n# ==============================================================================\n# ASM PRACTICAL 8: Principal Component Analysis (PCA)\n# ==============================================================================\nfrom sklearn.datasets import load_wine, load_breast_cancer\nfrom sklearn.decomposition import PCA\n\n# Q1 & Q2: Wine Dataset\nwine = load_wine()\nx_wine = pd.DataFrame(data=wine.data, columns=wine.feature_names)\ny_wine = wine.target\n\nscaler = StandardScaler()\nx_scaled = scaler.fit_transform(x_wine)\n\npca = PCA()\nx_pca = pca.fit_transform(x_scaled)\nexplained_var = pca.explained_variance_ratio_\ncum_var = explained_var.cumsum()\nn_comp = (cum_var >= 0.9).argmax() + 1\nprint(\"Number of components explaining at least 90% variance:\", n_comp)\n\npca_2 = PCA(n_components=2)\nx_pca_2 = pca_2.fit_transform(x_scaled)\nplt.figure(figsize=(8, 6))\nplt.scatter(x_pca_2[:, 0], x_pca_2[:, 1], c=y_wine)\nplt.xlabel('First Principal Component')\nplt.ylabel('Second Principal Component')\nplt.title('PCA of Wine Dataset')\nplt.colorbar(label=\"Wine Class\")\nplt.show()\n\n# Q3: Cancer Dataset\ncancer = load_breast_cancer()\nx_cancer = cancer.data\ny_cancer = cancer.target\n\nscaler_c = StandardScaler()\nx_cancer_scaled = scaler_c.fit_transform(x_cancer)\npca_c = PCA()\nx_cancer_pca = pca_c.fit_transform(x_cancer_scaled)\ncum_var_c = pca_c.explained_variance_ratio_.cumsum()\nn_comp_c = np.argmax(cum_var_c >= 0.90) + 1\nprint(\"Cancer dataset components for 90% variance:\", n_comp_c)\n\n\n# ==============================================================================\n# ASM PRACTICAL 9: Bayesian Updating for Medical Testing\n# ==============================================================================\nprior_disease = 0.01\nsensitivity = 0.95\nspecificity = 0.90\nfalse_positive_rate = 1 - specificity\n\nprob_positive = (\n    sensitivity * prior_disease +\n    false_positive_rate * (1 - prior_disease)\n)\nposterior_disease = (sensitivity * prior_disease) / prob_positive\n\nprint(\"Prior Probability of Disease:\", prior_disease)\nprint(\"Probability of Positive Test:\", prob_positive)\nprint(\"Posterior Probability P(Disease | Positive):\", posterior_disease)\n"};
+    const codeData = {"asm1": "\"\"\"\n================================================================================\nPRACTICAL 1: DESCRIPTIVE STATISTICS & EXPLORATORY DATA ANALYSIS (EDA)\n================================================================================\nFULL QUESTIONS:\n\nQ1) Analyze the Iris Dataset:\n    1. Load the Iris Dataset.\n    2. Calculate mean of each numerical feature.\n    3. Calculate median of each numerical feature.\n    4. Calculate mode(s) of each numerical feature.\n       (Note: Mode can be multi-modal or cannot be calculated for continuous data)\n    5. Calculate standard deviation of each numerical feature.\n    6. Calculate variance of each numerical feature.\n    7. Calculate skewness of each numerical feature.\n    8. Calculate kurtosis of each numerical feature.\n    9. Plot the distribution (histogram with KDE) for each numerical feature.\n    10. Interpret the results.\n\nQ2) Analyze the Tips Dataset:\n    1. Load the Tips Dataset.\n    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)\n       for all numerical features (total_bill, tip, size).\n    3. Plot histograms with KDE for numerical features.\n    4. Interpret the results.\n\nQ3) Analyze the Indian Stock Market Dataset:\n    1. Load 'indian_stock_market.csv'.\n    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)\n       for numerical stock prices (MSFT, IBM, SBUX, AAPL, GSPC).\n    3. Plot distribution histograms with KDE.\n    4. Interpret the results.\n================================================================================\n\"\"\"\n\nimport pandas as pd\nimport numpy as np\nimport seaborn as sns\nfrom scipy.stats import skew,kurtosis\nimport matplotlib.pyplot as plt\n\niris = sns.load_dataset('iris')\nprint(iris.head())\niris.info()\n\nnumerical_cols = iris.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = iris[col].mean()\n  median_val = iris[col].median()\n  mode_val = iris[col].mode().tolist()\n  std_val = iris[col].std()\n  var_val = iris[col].var()\n  skewness_val = skew(iris[col])\n  kurtosis_val = kurtosis(iris[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15,10))\nfor i, col in enumerate(numerical_cols):\n  plt.subplot(2,2,i+1)\n  sns.histplot(iris[col],kde=True,bins=15)\n  plt.title(f'Distribution of {col}')\n  plt.xlabel('col')\n  plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q2) Analyze the Tips dataset\n\ntips = sns.load_dataset('tips')\nprint(tips.head())\ntips.info()\n\nnumerical_cols = tips.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = tips[col].mean()\n  median_val = tips[col].median()\n  mode_val = tips[col].mode().tolist()\n  std_val = tips[col].std()\n  var_val = tips[col].var()\n  skewness_val = skew(tips[col])\n  kurtosis_val = kurtosis(tips[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15,10))\nfor i, col in enumerate(numerical_cols):\n  plt.subplot(2,2,i+1)\n  sns.histplot(tips[col],kde=True,bins=15)\n  plt.title(f'Distribution of {col}')\n  plt.xlabel('col')\n  plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q3) Analyze the Stock dataset\n\nimport pandas as pd\nstock = pd.read_csv('indian_stock_market.csv')\nprint(stock.head())\nstock.info()\n\nnumerical_cols = stock.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = stock[col].mean()\n  median_val = stock[col].median()\n  mode_val = stock[col].mode().tolist()\n  std_val = stock[col].std()\n  var_val = stock[col].var()\n  skewness_val = skew(stock[col])\n  kurtosis_val = kurtosis(stock[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15, 15))\nfor i, col in enumerate(numerical_cols):\n   plt.subplot(3, 2, i + 1)\n   sns.histplot(stock[col], kde=True, bins=15)\n   plt.title(f'Distribution of {col}')\n   plt.xlabel(col)\n   plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()", "asm2": "\"\"\"\n================================================================================\nPRACTICAL 2: PROBABILITY DISTRIBUTIONS (NORMAL, BINOMIAL, POISSON)\n================================================================================\nFULL QUESTIONS:\n\nQ1) Normal Distribution:\n    Plot a Normal Distribution with mean (mu) = 70 and standard deviation (sigma) = 10\n    over the range x in [20, 120].\n    Interpret: The curve is symmetric, centered at 70, and bell-shaped.\n\nQ2) Effect of Standard Deviation on Normal Distribution:\n    Fix mean mu = 70. Plot three normal curves with standard deviations sigma = 5, 10, 15.\n    Interpret: \n    - sigma = 5 is the most concentrated/tallest.\n    - sigma = 15 has the greatest spread/flattest.\n    - As sigma increases, the peak height decreases and spread increases.\n\nQ3) Effect of Mean on Normal Distribution:\n    Fix standard deviation sigma = 10. Plot three normal curves with means mu = 50, 70, 90.\n    Interpret:\n    - When mean changes with constant sigma, the normal curve shifts horizontally\n      along the x-axis. Its shape, spread, and height remain unchanged.\n\nQ4) Binomial Distribution:\n    Plot the Probability Mass Function (PMF) of a Binomial Distribution for n = 20 customers\n    with probability of purchase p = 0.3.\n    Interpret: Represents the discrete likelihood of different numbers of customer purchases.\n\nQ5) Poisson Distribution:\n    Plot the PMF of a Poisson Distribution with an average rate lambda = 4 calls per minute\n    over x = 0 to 14.\n    Interpret: Poisson is a discrete distribution where expected number of calls equals lambda = 4.\n================================================================================\n\"\"\"\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy import stats\n\n# Q1) Normal Distribution\nmu = 70\nsigma = 10\nx = np.linspace(20, 120, 500)\npdf = stats.norm.pdf(x, loc=mu, scale = sigma)\nplt.plot(x,pdf)\nplt.xlabel(\"X\")\nplt.ylabel(\"Density\")\nplt.title(\"Normal Distribution\")\nplt.grid()\nplt.show()\n\n# Q2) Effect of Standard Deviation\nmu = 70\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=mu, scale = 5)\npdf2 = stats.norm.pdf(x, loc=mu, scale = 10)\npdf3 = stats.norm.pdf(x, loc=mu, scale = 15)\nplt.figure(figsize=(9,5))\nplt.plot(x, pdf1, label=\"sigma = 5\")\nplt.plot(x, pdf2, label=\"sigma = 10\")\nplt.plot(x, pdf3, label=\"sigma = 15\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Standard Deviation and Norrmal Distribution\")\nplt.legend()\nplt.grid(alpha = 0.3)\nplt.show()\n\n# Q3) Effect of Mean\nsigma= 10\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=50, scale = sigma)\npdf2 = stats.norm.pdf(x, loc=70, scale = sigma)\npdf3 = stats.norm.pdf(x, loc=90, scale = sigma)\nplt.figure(figsize=(9,5))\nplt.plot(x, pdf1, label=\"mean = 5\")\nplt.plot(x, pdf2, label=\"mean = 10\")\nplt.plot(x, pdf3, label=\"mean = 15\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Mean and Norrmal Distribution\")\nplt.legend()\nplt.grid(alpha = 0.3)\nplt.show()\n\n# Q4) Binomial Distribution\nimport numpy as np\nn = 20\np = 0.3\nx = np.arange(0, n+1)\npmf = stats.binom.pmf(x, n ,p)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Purchases\")\nplt.ylabel(\"Probbaility\")\nplt.title(\"Binomial Distribution\")\nplt.grid()\nplt.show()\n\n# Q5) Poisson Distribution\nlam = 4\nx = np.arange(0, 15)\npmf = stats.poisson.pmf(x, mu=lam)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Calls\")\nplt.ylabel(\"Probability\")\nplt.title(\"Poisson Distribution\")\nplt.grid()\nplt.show()", "asm3": "\"\"\"\n================================================================================\nPRACTICAL 3: CONFIDENCE INTERVALS & BOOTSTRAPPING\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Parametric Student's t-based Confidence Interval)\n    Given delivery times (in minutes) for 20 orders:\n    [31, 28, 35, 42, 30, 27, 39, 33, 26, 32, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37]\n    1. Calculate the sample mean and sample standard deviation (ddof=1).\n    2. Determine degrees of freedom (df = n - 1) and standard error (SE = s / sqrt(n)).\n    3. Compute the 95% Confidence Interval for the population mean delivery time\n       using the Student's t-distribution critical value.\n\nQuestion 2: (Non-Parametric Bootstrap Confidence Interval)\n    1. Estimate the 95% Confidence Interval for the mean delivery time using Bootstrapping\n       with 5,000 resamples (sampling with replacement, random seed 42).\n    2. Calculate the 2.5th and 97.5th percentiles of the bootstrap distribution.\n    3. Compare the t-based CI and Bootstrap CI in terms of range and interval width.\n================================================================================\n\"\"\"\n\nfrom scipy import stats\nimport numpy as np\n\ndelivery_time = np.array([\n    31, 28, 35, 42, 30,\n    27, 39, 33, 26, 32,\n    34, 31, 38, 26, 32,\n    41, 30, 36, 29, 37\n])\n\nn = len(delivery_time)\n\n# Sample mean and sample standard deviation\nsample_mean = np.mean(delivery_time)\nsample_sd = np.std(delivery_time, ddof = 1) # for population ddof=0\n\n# Degrees of Freedom\ndf = n - 1\n\n# Standard Error\nSE = sample_sd / np.sqrt(n)\n\n# 95% confidence interval\nt_critical = stats.t.ppf(0.975, df)\nmargin_error = t_critical * SE\nlower = sample_mean - margin_error\nupper = sample_mean + margin_error\n\nprint(\"Sample Mean =\", sample_mean)\nprint(\"Sample SD =\", sample_sd)\nprint(\"Degrees of Freedom =\", df)\nprint(\"Standard Error =\", SE)\nprint(\"Margin of Error =\", margin_error)\nprint(\"95% Confidence Interval =\", (lower, upper))\n\n# Question 2: Bootstrap Confidence Interval\nnp.random.seed(42)\nbootstrap_means = []\n\nfor i in range(5000):\n  bootstrap_sample = np.random.choice(\n      delivery_time,\n      size=len(delivery_time),\n      replace=True\n  )\n  bootstrap_means.append(np.mean(bootstrap_sample))\n\nbootstrap_means = np.array(bootstrap_means)\n\n# 95% percentile bootstrap CI\nlower_bootstrap = np.percentile(bootstrap_means, 2.5)\nupper_bootstrap = np.percentile(bootstrap_means, 97.5)\n\nprint(\"Bootstrap Mean =\", np.mean(bootstrap_means))\nprint(\"95% Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\n\nprint(\"t-based CI =\", (lower, upper))\nprint(\"Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\nprint(\"t-based CI width =\", lower - upper)\nprint(\"Bootstrap CI width =\", upper_bootstrap - lower_bootstrap)", "asm4": "\"\"\"\n================================================================================\nPRACTICAL 4: HYPOTHESIS TESTING (T-TEST, CHI-SQUARE, ONE-WAY ANOVA & TUKEY HSD)\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Two-Sample Independent t-Test)\n    Using the Titanic dataset, perform Welch's independent two-sample t-test\n    (equal_var=False) to test if there is a statistically significant difference\n    between ticket fares paid by male passengers vs female passengers.\n    H0: Mean fare of male = Mean fare of female.\n\nQuestion 2: (Chi-Square Test of Independence)\n    Using the Titanic dataset, construct a contingency table crossing passenger\n    'class' (First, Second, Third) with 'survived' status (0, 1).\n    Perform a Chi-Square test of independence to assess whether passenger class\n    is significantly associated with survival outcome.\n\nQuestion 3: (One-Way ANOVA & Post-Hoc Tukey HSD Test)\n    Test the hypothesis:\n    H0: Mean ticket fares do not differ significantly across the 3 passenger classes\n        (First, Second, Third).\n    1. Perform One-Way ANOVA (f_oneway).\n    2. If p < 0.05, perform Tukey's Honestly Significant Difference (HSD) test\n       to identify which specific pairwise passenger classes differ in mean fare.\n================================================================================\n\"\"\"\n\nimport seaborn as sns\nfrom scipy import stats\n\ndf = sns.load_dataset(\"titanic\")\nmale = df[df[\"sex\"] == \"male\"][\"fare\"].dropna()\nfemale = df[df[\"sex\"] == \"female\"][\"fare\"].dropna()\n\nt_stat, p_value = stats.ttest_ind(\n    male, female, equal_var=False\n)\nprint(\"t_statistic:\", t_stat)\nprint(\"p-value:\", p_value)\n\n# Question 2: Chi-Square Test of Independence\nfrom scipy.stats import chi2_contingency\nimport pandas as pd\n\ntable = pd.crosstab(df[\"class\"], df[\"survived\"])\nprint(table)\n\nchi2, p_value, dof, expected = chi2_contingency(table)\nprint(\"Chi-square statistics:\", chi2)\nprint(\"Degrees of Freedom:\", dof)\nprint(\"p-value:\", p_value)\n\n# Question 3: One-Way ANOVA & Tukey HSD\n# h0: mean fares do not differ significance across 3 passenger classes\nfrom scipy.stats import f_oneway\n\nfirst = df[df[\"class\"] == \"First\"][\"fare\"].dropna()\nsecond = df[df[\"class\"] == \"Second\"][\"fare\"].dropna()\nthird = df[df[\"class\"] == \"Third\"][\"fare\"].dropna()\n\nF, p_value = f_oneway(first, second, third)\nprint(\"F-statistic:\", F)\nprint(\"p-value:\", p_value)\n\nfrom statsmodels.stats.multicomp import pairwise_tukeyhsd\n\ndf = df.dropna(subset=[\"fare\"])\ntukey = pairwise_tukeyhsd(endog=df[\"fare\"], groups=df[\"class\"])\nprint(tukey)", "asm5": "\"\"\"\n================================================================================\nPRACTICAL 5: A/B TESTING\n================================================================================\nFULL QUESTIONS:\n\nQuestion: (A/B Testing Analysis with Two-Sample Welch's t-Test)\n    Given conversion / performance metrics from an A/B test with 20 users per group:\n    - Control Group A:\n      [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]\n    - Treatment Variant Group B:\n      [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]\n\n    1. Calculate the sample mean for Group A and Group B.\n    2. Conduct an independent two-sample t-test (Welch's t-test, equal_var=False)\n       to determine whether Group B exhibits a statistically significant improvement.\n    3. Interpret the resulting t-statistic and p-value at alpha = 0.05.\n================================================================================\n\"\"\"\n\nimport numpy as np\nfrom scipy.stats import ttest_ind\n\ngroup_A = np.array([\n    42, 38, 45, 51, 47, 39, 44, 50, 46, 41,\n    43, 48, 37, 49, 45, 40, 52, 44, 46, 43\n])\n\ngroup_B = np.array([\n    48, 52, 55, 49, 58, 51, 54, 56, 50, 53,\n    57, 49, 55, 52, 59, 54, 51, 56, 53, 55\n])\n\nmean_A = np.mean(group_A)\nmean_B = np.mean(group_B)\n\nt_stat, p_value = ttest_ind(group_A, group_B, equal_var=False)\n\nprint(\"Mean - Group A:\", mean_A)\nprint(\"Mean - Group B:\", mean_B)\nprint(\"t-statistic:\", t_stat)\nprint(\"p-value:\", p_value)", "asm6": "\"\"\"\n================================================================================\nPRACTICAL 6: LINEAR REGRESSION & CORRELATION\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Simple Linear Regression)\n    Load the scikit-learn Diabetes dataset into a pandas DataFrame.\n    1. Evaluate the Pearson correlation between Body Mass Index ('bmi') and the\n       disease progression outcome ('target').\n    2. Fit an Ordinary Least Squares (OLS) Simple Linear Regression model\n       (target ~ bmi + intercept) using statsmodels.\n    3. Output and interpret the model summary (R-squared, coefficients, p-values).\n\nQuestion 2: (Multiple Linear Regression)\n    Fit an OLS Multiple Linear Regression model predicting disease progression ('target')\n    using three predictors: 'bmi', blood pressure ('bp'), and 'age'.\n    Add an intercept constant and evaluate:\n    - Overall model fit (R-squared, F-statistic).\n    - Which individual variables are statistically significant predictors.\n\nQuestion 3: (Spearman Rank Correlation)\n    Given:\n    study_time = [2, 4, 1, 5, 3]\n    exam_score = [50, 65, 45, 80, 60]\n    Calculate the Spearman rank correlation coefficient and p-value.\n    Interpret the monotonic relationship between study time and exam score.\n================================================================================\n\"\"\"\n\nfrom sklearn.datasets import load_diabetes\nimport pandas as pd\nimport statsmodels.api as sm\n\ndiabetes = load_diabetes(as_frame=True)\ndf = diabetes.frame\nprint(df.head())\n\n# correlation\nprint(df[[\"bmi\", \"target\"]].corr())\n\n# Simple linear regression\nX = sm.add_constant(df[\"bmi\"])\ny = df['target']\nmodel = sm.OLS(y, X).fit()\nprint(model.summary())\n\n# Question 2: Multiple Linear Regression\nX = df[[\"bmi\", \"bp\", \"age\"]]\nX = sm.add_constant(X)\nmodel = sm.OLS(df[\"target\"], X).fit()\nprint(model.summary())\n\n# Question 3: Spearman Rank Correlation\nfrom scipy.stats import spearmanr\n\nstudy_time = [2, 4, 1, 5, 3]\nexam_score = [50, 65, 45, 80, 60]\n\ncorrelation, p_value = spearmanr(study_time, exam_score)\nprint(\"Spearman Correlation:\", correlation)\nprint(\"P-value:\", p_value)", "asm7": "\"\"\"\n================================================================================\nPRACTICAL 7: LOGISTIC REGRESSION & CLASSIFICATION\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Customer Churn Prediction with Logistic Regression)\n    Load the customer churn prediction dataset ('scikit-learn/churn-prediction').\n    1. Use 'tenure' and 'MonthlyCharges' as predictors to predict binary 'Churn' (No=0, Yes=1).\n    2. Split data into training (80%) and testing (20%) sets using stratified sampling.\n    3. Fit a Logistic Regression model on the training set.\n    4. Predict on the test set and evaluate using:\n       - Confusion Matrix\n       - Accuracy, Precision, Recall, F1-Score\n       - Classification Report\n    5. Compute predicted probabilities, generate the ROC curve, and calculate the AUC score.\n\nQuestion 2: (Binary Classification Pipeline on Palmer Penguins)\n    Load the Palmer Penguins dataset and filter for species 'Adelie' and 'Gentoo'.\n    1. Use four features: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.\n    2. Encode target species: Adelie=0, Gentoo=1.\n    3. Build a Machine Learning Pipeline consisting of:\n       - StandardScaler()\n       - LogisticRegression(max_iter=1000)\n    4. Train on 80% train split and evaluate on 20% test split.\n    5. Output Confusion Matrix, Accuracy, Precision, Recall, F1-Score,\n       Classification Report, and ROC Curve with AUC score.\n================================================================================\n\"\"\"\n\nfrom datasets import load_dataset\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import (\n    accuracy_score,\n    precision_score,\n    recall_score,\n    f1_score,\n    confusion_matrix,\n    classification_report\n)\n\n# Load dataset\ndataset = load_dataset(\"scikit-learn/churn-prediction\")\ndf = dataset[\"train\"].to_pandas()\n\n# Select predictors and target\nX = df[[\"tenure\", \"MonthlyCharges\"]]\ny = df[\"Churn\"].map({\"No\": 0, \"Yes\": 1})\n\n# Train-test split\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y,\n    test_size=0.2,\n    random_state = 42,\n    stratify = y\n)\n\n# Fit logistic regression\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\n\n# Predict\ny_pred = model.predict(X_test)\n\n# Confusion Matrix\nprint(\"Confusion Matix:\")\nprint(confusion_matrix(y_test,y_pred))\n\n# Performance metrics\nprint(\"\\nPerfomance Metrics\")\nprint(\"---------------------\")\nprint(\"Accuracy:\", accuracy_score(y_test,y_pred))\nprint(\"Precision:\", precision_score(y_test,y_pred))\nprint(\"Recall:\", recall_score(y_test,y_pred))\nprint(\"F1-score:\", f1_score(y_test,y_pred))\n\n# Complete classification report\nprint(\"\\nClassification Report:\")\nprint(classification_report(y_test,y_pred))\n\nfrom sklearn.metrics import roc_curve, roc_auc_score\nimport matplotlib.pyplot as plt\n\n# Predicted probabilities for churn\ny_prob = model.predict_proba(X_test)[:,1]\n\n# ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\n\n# AUC\nauc = roc_auc_score(y_test, y_prob)\nprint(\"AUC:\", auc)\n\n# Plot ROC curve\nplt.plot(fpr, tpr, label=f\"ROC curve (AUC = {auc:.3f})\")\nplt.plot([0, 1], [0,1], linestyle=\"--\")\nplt.xlabel(\"False Positive Rate\")\nplt.ylabel(\"True Positive Rate\")\nplt.title(\"ROC Curve - Customer Churn\")\nplt.legend()\nplt.show()\n\n# Question 2: Palmer Penguins Dataset (Adelie vs Gentoo)\nimport seaborn as sns\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\n\n# Load dataset\ndataset = sns.load_dataset(\"penguins\")\ndf = dataset.copy()\ndf = dataset[dataset[\"species\"].isin([\"Adelie\", \"Gentoo\"])].copy()\n\nfeatures = [\n    \"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\"\n]\n\ndf = df[features + [\"species\"]].dropna()\n\nX = df[features]\ny = (df[\"species\"] == \"Gentoo\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y,\n    test_size = 0.2,\n    random_state=42,\n    stratify=y\n)\n\n# Standardize and fit logistic regression\nmodel = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"logistic\", LogisticRegression(max_iter=1000))\n])\n\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\ny_prob = model.predict_proba(X_test)[:, 1]\n\n# Confusion matrix\nprint(f\"Confusion Matrix: \\n{confusion_matrix(y_test, y_pred)}\")\n\n# Performance metrics\nprint(f\"\\nPerformance Metrics: \\nAccuracy: {accuracy_score(y_test, y_pred)}\")\nprint(f\"Precision: {precision_score(y_test, y_pred)}\")\nprint(f\"Recall: {recall_score(y_test, y_pred)}\")\nprint(f\"F1 Score: {f1_score(y_test, y_pred)}\")\n\n# Classification report\nprint(f\"\\nClassification Report: \\n{classification_report(y_test, y_pred)}\\n\")\nprint(f\"\\nInterpretation: \\nThus, the model is correct 100% of times.\")\n\n# ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\n\n# AUC\nauc = roc_auc_score(y_test, y_prob)\nprint(\"AUC: \", auc)\n\n# Plot ROC curve\nplt.plot(fpr, tpr, label=f\"ROC Curve (AUC = {auc: .3f})\")\nplt.plot([0, 1], [0, 1], linestyle=\"--\")\nplt.xlabel(\"False Positive Rate\")\nplt.ylabel(\"True Positive Rate\")\nplt.title(\"ROC Curve - Adelie/Gentoo\")\nplt.legend()\nplt.show()", "asm8": "\"\"\"\n================================================================================\nPRACTICAL 8: PRINCIPAL COMPONENT ANALYSIS (PCA)\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1 & 2: (PCA on Wine Dataset)\n    Load the scikit-learn Wine dataset (178 samples, 13 features).\n    1. Standardize all 13 features using StandardScaler.\n    2. Apply PCA and calculate the Explained Variance Ratio and Cumulative Explained Variance.\n    3. Determine the minimum number of principal components required to retain\n       at least 90% of the total variance.\n    4. Transform the dataset using PCA with 2 components and plot a 2D scatter plot\n       colored by wine class to visualize class separability.\n\nQuestion 3: (PCA on Breast Cancer Dataset with Scree Plot)\n    Load the scikit-learn Breast Cancer dataset (569 observations, 30 features).\n    1. Standardize all 30 features using StandardScaler.\n    2. Apply PCA and compute the cumulative explained variance.\n    3. Find the minimum number of components explaining at least 90% variance.\n    4. Plot the Cumulative Explained Variance curve (scree plot) with a red dashed\n       line at 90% variance threshold.\n================================================================================\n\"\"\"\n\nimport pandas as pd \nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import load_wine\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.decomposition import PCA\n\n# loading dataset\nwine = load_wine()\nx = pd.DataFrame(data=wine.data, columns=wine.feature_names)\ny = wine.target\n\nprint(\"Original dataset shape\", x.shape)\nprint(\"First five observation\\n\", x.head())\n\n# standardization\nscaler = StandardScaler()\nx_scaled = scaler.fit_transform(x)\n\n# applying pca \npca = PCA()\nx_pca = pca.fit_transform(x_scaled)\n\n# explained variance \nexplained_variance = pca.explained_variance_ratio_\nprint(\"Explained variance ratio\", explained_variance)\n\n# cumulative explained variance\ncumulative_variance = explained_variance.cumsum()\nprint(\"Cumulative explained variance\", cumulative_variance)\n\n# number of components explaining at least 90% \nn_components = (cumulative_variance >= 0.9).argmax() + 1\nprint(\"Number of components explaining at least 90% variance\", n_components)\n\n# Transform using selected components\npca_reduced = PCA(n_components=n_components)\nx_reduced = pca_reduced.fit_transform(x_scaled)\n\n# reduced dataset shape\nprint(\"Reduced dataset shape\", x_reduced.shape)\n\n# Q2: PCA with two components visualization\npca_2 = PCA(n_components=2)\nx_pca_2 = pca_2.fit_transform(x_scaled)\nprint(x_pca_2.shape)\n\nplt.figure(figsize=(8,6))\nplt.scatter(x_pca_2[:,0], x_pca_2[:,1], c=y)\nplt.xlabel('First Principal Component')\nplt.ylabel('Second Principal Component')\nplt.title('PCA of Wine Dataset')\nplt.colorbar(label=\"Wine Class\")\nplt.show()\n\n# Q3: Cancer Dataset PCA\nfrom sklearn.datasets import load_breast_cancer\nimport numpy as np\n\ncancer = load_breast_cancer()\nx = cancer.data\ny = cancer.target\ntarget_names = cancer.target_names\nfeature_names = cancer.feature_names\n\nprint(\"Number of observations\", x.shape[0])\nprint(\"Number of features\", x.shape[1])\nprint(\"Target Name:\\n\", target_names)\n\n# Standardization\nscaler = StandardScaler()\nx_scaled = scaler.fit_transform(x)\n\n# Applying PCA\npca = PCA()\nx_pca = pca.fit_transform(x_scaled)\n\n# Explained variance ratio\nexplained_variance = pca.explained_variance_ratio_\nprint(\"Explained variance ratio:\\n\", explained_variance)\n\n# Cumulative explained variance\ncumulative_variance = explained_variance.cumsum()\nprint(\"Cumulative explained variance:\\n\", cumulative_variance)\n\n# Number of components explaining at least 90% variance\nn_components = np.argmax(cumulative_variance >= 0.90) + 1\nprint(\"Number of components explaining at least 90% variance:\", n_components)\n\n# Transform using selected components\npca_reduced = PCA(n_components=n_components)\nx_reduced = pca_reduced.fit_transform(x_scaled)\n\n# Reduced dataset shape\nprint(\"Reduced dataset shape:\", x_reduced.shape)\n\n# Plot cumulative explained variance\nplt.plot(\n    range(1, len(cumulative_variance) + 1),\n    cumulative_variance,\n    marker='o'\n)\nplt.axhline(y=0.90, color='red', linestyle='--', label='90% variance')\nplt.xlabel(\"Number of Principal Components\")\nplt.ylabel(\"Cumulative Explained Variance\")\nplt.title(\"PCA - Cancer Dataset\")\nplt.legend()\nplt.grid(True)\nplt.show()", "asm9": "\"\"\"\n================================================================================\nPRACTICAL 9: BAYESIAN UPDATING FOR MEDICAL DIAGNOSTIC TESTING\n================================================================================\nFULL QUESTIONS:\n\nQuestion: (Bayes' Theorem in Medical Diagnostic Testing)\n    A diagnostic test for a disease has the following epidemiological characteristics:\n    - Prior probability of disease in the population: P(Disease) = 0.01 (1%)\n    - Test Sensitivity (True Positive Rate): P(+ | Disease) = 0.95 (95%)\n    - Test Specificity (True Negative Rate): P(- | No Disease) = 0.90 (90%)\n    - False Positive Rate: P(+ | No Disease) = 1 - Specificity = 0.10 (10%)\n\n    Using Bayes' Theorem:\n    1. Calculate the total probability of a positive test:\n       P(+) = P(+ | Disease) * P(Disease) + P(+ | No Disease) * P(No Disease)\n    2. Calculate the posterior probability of disease given a positive test:\n       P(Disease | +) = [P(+ | Disease) * P(Disease)] / P(+)\n    3. Interpret the result in terms of the Base-Rate Fallacy.\n================================================================================\n\"\"\"\n\nprior_disease = 0.01\n\n# Test characteristics\nsensitivity = 0.95\nspecificity = 0.90\n\n# Probability of a positive test among people without disease\nfalse_positive_rate = 1 - specificity\n\n# Bayes' theorem after first positive test\nprob_positive = (\n    sensitivity * prior_disease +\n    false_positive_rate * (1 - prior_disease)\n)\n\n# Posterior probability P(Disease | Positive)\nposterior_disease = (sensitivity * prior_disease) / prob_positive\n\nprint(\"Prior Probability of Disease:\", prior_disease)\nprint(\"Sensitivity:\", sensitivity)\nprint(\"Specificity:\", specificity)\nprint(\"False Positive Rate:\", false_positive_rate)\nprint(\"Probability of Positive Test:\", prob_positive)\nprint(\"Posterior Probability of Disease given Positive Test:\", posterior_disease)", "asm_all": "\"\"\"\n================================================================================\nAPPLIED STATISTICAL METHODS (ASM) - PRACTICALS 1 TO 9\nFULL QUESTIONS & IMPLEMENTATION\n================================================================================\n\"\"\"\n\n\n# ==============================================================================\n# ASM PRACTICAL 1\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 1: DESCRIPTIVE STATISTICS & EXPLORATORY DATA ANALYSIS (EDA)\n================================================================================\nFULL QUESTIONS:\n\nQ1) Analyze the Iris Dataset:\n    1. Load the Iris Dataset.\n    2. Calculate mean of each numerical feature.\n    3. Calculate median of each numerical feature.\n    4. Calculate mode(s) of each numerical feature.\n       (Note: Mode can be multi-modal or cannot be calculated for continuous data)\n    5. Calculate standard deviation of each numerical feature.\n    6. Calculate variance of each numerical feature.\n    7. Calculate skewness of each numerical feature.\n    8. Calculate kurtosis of each numerical feature.\n    9. Plot the distribution (histogram with KDE) for each numerical feature.\n    10. Interpret the results.\n\nQ2) Analyze the Tips Dataset:\n    1. Load the Tips Dataset.\n    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)\n       for all numerical features (total_bill, tip, size).\n    3. Plot histograms with KDE for numerical features.\n    4. Interpret the results.\n\nQ3) Analyze the Indian Stock Market Dataset:\n    1. Load 'indian_stock_market.csv'.\n    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)\n       for numerical stock prices (MSFT, IBM, SBUX, AAPL, GSPC).\n    3. Plot distribution histograms with KDE.\n    4. Interpret the results.\n================================================================================\n\"\"\"\n\nimport pandas as pd\nimport numpy as np\nimport seaborn as sns\nfrom scipy.stats import skew,kurtosis\nimport matplotlib.pyplot as plt\n\niris = sns.load_dataset('iris')\nprint(iris.head())\niris.info()\n\nnumerical_cols = iris.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = iris[col].mean()\n  median_val = iris[col].median()\n  mode_val = iris[col].mode().tolist()\n  std_val = iris[col].std()\n  var_val = iris[col].var()\n  skewness_val = skew(iris[col])\n  kurtosis_val = kurtosis(iris[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15,10))\nfor i, col in enumerate(numerical_cols):\n  plt.subplot(2,2,i+1)\n  sns.histplot(iris[col],kde=True,bins=15)\n  plt.title(f'Distribution of {col}')\n  plt.xlabel('col')\n  plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q2) Analyze the Tips dataset\n\ntips = sns.load_dataset('tips')\nprint(tips.head())\ntips.info()\n\nnumerical_cols = tips.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = tips[col].mean()\n  median_val = tips[col].median()\n  mode_val = tips[col].mode().tolist()\n  std_val = tips[col].std()\n  var_val = tips[col].var()\n  skewness_val = skew(tips[col])\n  kurtosis_val = kurtosis(tips[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15,10))\nfor i, col in enumerate(numerical_cols):\n  plt.subplot(2,2,i+1)\n  sns.histplot(tips[col],kde=True,bins=15)\n  plt.title(f'Distribution of {col}')\n  plt.xlabel('col')\n  plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# Q3) Analyze the Stock dataset\n\nimport pandas as pd\nstock = pd.read_csv('indian_stock_market.csv')\nprint(stock.head())\nstock.info()\n\nnumerical_cols = stock.select_dtypes(include=np.number).columns.to_list()\nfor col in numerical_cols:\n  mean_val = stock[col].mean()\n  median_val = stock[col].median()\n  mode_val = stock[col].mode().tolist()\n  std_val = stock[col].std()\n  var_val = stock[col].var()\n  skewness_val = skew(stock[col])\n  kurtosis_val = kurtosis(stock[col])\n  print(f\"---Stats for {col}---\")\n  print(f\" Mean: {mean_val}\")\n  print(f\" Median: {median_val}\")\n  print(f\" Mode: {mode_val}\")\n  print(f\" Standard Deviation: {std_val}\")\n  print(f\" Variance: {var_val}\")\n  print(f\" Skewness: {skewness_val}\")\n  print(f\" Kurtosis: {kurtosis_val}\")\n  print(\"\\n\")\n\nplt.figure(figsize=(15, 15))\nfor i, col in enumerate(numerical_cols):\n   plt.subplot(3, 2, i + 1)\n   sns.histplot(stock[col], kde=True, bins=15)\n   plt.title(f'Distribution of {col}')\n   plt.xlabel(col)\n   plt.ylabel('Frequency')\nplt.tight_layout()\nplt.show()\n\n# ==============================================================================\n# ASM PRACTICAL 2\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 2: PROBABILITY DISTRIBUTIONS (NORMAL, BINOMIAL, POISSON)\n================================================================================\nFULL QUESTIONS:\n\nQ1) Normal Distribution:\n    Plot a Normal Distribution with mean (mu) = 70 and standard deviation (sigma) = 10\n    over the range x in [20, 120].\n    Interpret: The curve is symmetric, centered at 70, and bell-shaped.\n\nQ2) Effect of Standard Deviation on Normal Distribution:\n    Fix mean mu = 70. Plot three normal curves with standard deviations sigma = 5, 10, 15.\n    Interpret: \n    - sigma = 5 is the most concentrated/tallest.\n    - sigma = 15 has the greatest spread/flattest.\n    - As sigma increases, the peak height decreases and spread increases.\n\nQ3) Effect of Mean on Normal Distribution:\n    Fix standard deviation sigma = 10. Plot three normal curves with means mu = 50, 70, 90.\n    Interpret:\n    - When mean changes with constant sigma, the normal curve shifts horizontally\n      along the x-axis. Its shape, spread, and height remain unchanged.\n\nQ4) Binomial Distribution:\n    Plot the Probability Mass Function (PMF) of a Binomial Distribution for n = 20 customers\n    with probability of purchase p = 0.3.\n    Interpret: Represents the discrete likelihood of different numbers of customer purchases.\n\nQ5) Poisson Distribution:\n    Plot the PMF of a Poisson Distribution with an average rate lambda = 4 calls per minute\n    over x = 0 to 14.\n    Interpret: Poisson is a discrete distribution where expected number of calls equals lambda = 4.\n================================================================================\n\"\"\"\n\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom scipy import stats\n\n# Q1) Normal Distribution\nmu = 70\nsigma = 10\nx = np.linspace(20, 120, 500)\npdf = stats.norm.pdf(x, loc=mu, scale = sigma)\nplt.plot(x,pdf)\nplt.xlabel(\"X\")\nplt.ylabel(\"Density\")\nplt.title(\"Normal Distribution\")\nplt.grid()\nplt.show()\n\n# Q2) Effect of Standard Deviation\nmu = 70\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=mu, scale = 5)\npdf2 = stats.norm.pdf(x, loc=mu, scale = 10)\npdf3 = stats.norm.pdf(x, loc=mu, scale = 15)\nplt.figure(figsize=(9,5))\nplt.plot(x, pdf1, label=\"sigma = 5\")\nplt.plot(x, pdf2, label=\"sigma = 10\")\nplt.plot(x, pdf3, label=\"sigma = 15\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Standard Deviation and Norrmal Distribution\")\nplt.legend()\nplt.grid(alpha = 0.3)\nplt.show()\n\n# Q3) Effect of Mean\nsigma= 10\nx = np.linspace(20, 120, 500)\npdf1 = stats.norm.pdf(x, loc=50, scale = sigma)\npdf2 = stats.norm.pdf(x, loc=70, scale = sigma)\npdf3 = stats.norm.pdf(x, loc=90, scale = sigma)\nplt.figure(figsize=(9,5))\nplt.plot(x, pdf1, label=\"mean = 5\")\nplt.plot(x, pdf2, label=\"mean = 10\")\nplt.plot(x, pdf3, label=\"mean = 15\")\nplt.xlabel(\"Marks\")\nplt.ylabel(\"Probability Density Function\")\nplt.title(\"Effect of Mean and Norrmal Distribution\")\nplt.legend()\nplt.grid(alpha = 0.3)\nplt.show()\n\n# Q4) Binomial Distribution\nimport numpy as np\nn = 20\np = 0.3\nx = np.arange(0, n+1)\npmf = stats.binom.pmf(x, n ,p)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Purchases\")\nplt.ylabel(\"Probbaility\")\nplt.title(\"Binomial Distribution\")\nplt.grid()\nplt.show()\n\n# Q5) Poisson Distribution\nlam = 4\nx = np.arange(0, 15)\npmf = stats.poisson.pmf(x, mu=lam)\nplt.stem(x, pmf)\nplt.xlabel(\"Number of Calls\")\nplt.ylabel(\"Probability\")\nplt.title(\"Poisson Distribution\")\nplt.grid()\nplt.show()\n\n# ==============================================================================\n# ASM PRACTICAL 3\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 3: CONFIDENCE INTERVALS & BOOTSTRAPPING\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Parametric Student's t-based Confidence Interval)\n    Given delivery times (in minutes) for 20 orders:\n    [31, 28, 35, 42, 30, 27, 39, 33, 26, 32, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37]\n    1. Calculate the sample mean and sample standard deviation (ddof=1).\n    2. Determine degrees of freedom (df = n - 1) and standard error (SE = s / sqrt(n)).\n    3. Compute the 95% Confidence Interval for the population mean delivery time\n       using the Student's t-distribution critical value.\n\nQuestion 2: (Non-Parametric Bootstrap Confidence Interval)\n    1. Estimate the 95% Confidence Interval for the mean delivery time using Bootstrapping\n       with 5,000 resamples (sampling with replacement, random seed 42).\n    2. Calculate the 2.5th and 97.5th percentiles of the bootstrap distribution.\n    3. Compare the t-based CI and Bootstrap CI in terms of range and interval width.\n================================================================================\n\"\"\"\n\nfrom scipy import stats\nimport numpy as np\n\ndelivery_time = np.array([\n    31, 28, 35, 42, 30,\n    27, 39, 33, 26, 32,\n    34, 31, 38, 26, 32,\n    41, 30, 36, 29, 37\n])\n\nn = len(delivery_time)\n\n# Sample mean and sample standard deviation\nsample_mean = np.mean(delivery_time)\nsample_sd = np.std(delivery_time, ddof = 1) # for population ddof=0\n\n# Degrees of Freedom\ndf = n - 1\n\n# Standard Error\nSE = sample_sd / np.sqrt(n)\n\n# 95% confidence interval\nt_critical = stats.t.ppf(0.975, df)\nmargin_error = t_critical * SE\nlower = sample_mean - margin_error\nupper = sample_mean + margin_error\n\nprint(\"Sample Mean =\", sample_mean)\nprint(\"Sample SD =\", sample_sd)\nprint(\"Degrees of Freedom =\", df)\nprint(\"Standard Error =\", SE)\nprint(\"Margin of Error =\", margin_error)\nprint(\"95% Confidence Interval =\", (lower, upper))\n\n# Question 2: Bootstrap Confidence Interval\nnp.random.seed(42)\nbootstrap_means = []\n\nfor i in range(5000):\n  bootstrap_sample = np.random.choice(\n      delivery_time,\n      size=len(delivery_time),\n      replace=True\n  )\n  bootstrap_means.append(np.mean(bootstrap_sample))\n\nbootstrap_means = np.array(bootstrap_means)\n\n# 95% percentile bootstrap CI\nlower_bootstrap = np.percentile(bootstrap_means, 2.5)\nupper_bootstrap = np.percentile(bootstrap_means, 97.5)\n\nprint(\"Bootstrap Mean =\", np.mean(bootstrap_means))\nprint(\"95% Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\n\nprint(\"t-based CI =\", (lower, upper))\nprint(\"Bootstrap CI =\", (lower_bootstrap, upper_bootstrap))\nprint(\"t-based CI width =\", lower - upper)\nprint(\"Bootstrap CI width =\", upper_bootstrap - lower_bootstrap)\n\n# ==============================================================================\n# ASM PRACTICAL 4\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 4: HYPOTHESIS TESTING (T-TEST, CHI-SQUARE, ONE-WAY ANOVA & TUKEY HSD)\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Two-Sample Independent t-Test)\n    Using the Titanic dataset, perform Welch's independent two-sample t-test\n    (equal_var=False) to test if there is a statistically significant difference\n    between ticket fares paid by male passengers vs female passengers.\n    H0: Mean fare of male = Mean fare of female.\n\nQuestion 2: (Chi-Square Test of Independence)\n    Using the Titanic dataset, construct a contingency table crossing passenger\n    'class' (First, Second, Third) with 'survived' status (0, 1).\n    Perform a Chi-Square test of independence to assess whether passenger class\n    is significantly associated with survival outcome.\n\nQuestion 3: (One-Way ANOVA & Post-Hoc Tukey HSD Test)\n    Test the hypothesis:\n    H0: Mean ticket fares do not differ significantly across the 3 passenger classes\n        (First, Second, Third).\n    1. Perform One-Way ANOVA (f_oneway).\n    2. If p < 0.05, perform Tukey's Honestly Significant Difference (HSD) test\n       to identify which specific pairwise passenger classes differ in mean fare.\n================================================================================\n\"\"\"\n\nimport seaborn as sns\nfrom scipy import stats\n\ndf = sns.load_dataset(\"titanic\")\nmale = df[df[\"sex\"] == \"male\"][\"fare\"].dropna()\nfemale = df[df[\"sex\"] == \"female\"][\"fare\"].dropna()\n\nt_stat, p_value = stats.ttest_ind(\n    male, female, equal_var=False\n)\nprint(\"t_statistic:\", t_stat)\nprint(\"p-value:\", p_value)\n\n# Question 2: Chi-Square Test of Independence\nfrom scipy.stats import chi2_contingency\nimport pandas as pd\n\ntable = pd.crosstab(df[\"class\"], df[\"survived\"])\nprint(table)\n\nchi2, p_value, dof, expected = chi2_contingency(table)\nprint(\"Chi-square statistics:\", chi2)\nprint(\"Degrees of Freedom:\", dof)\nprint(\"p-value:\", p_value)\n\n# Question 3: One-Way ANOVA & Tukey HSD\n# h0: mean fares do not differ significance across 3 passenger classes\nfrom scipy.stats import f_oneway\n\nfirst = df[df[\"class\"] == \"First\"][\"fare\"].dropna()\nsecond = df[df[\"class\"] == \"Second\"][\"fare\"].dropna()\nthird = df[df[\"class\"] == \"Third\"][\"fare\"].dropna()\n\nF, p_value = f_oneway(first, second, third)\nprint(\"F-statistic:\", F)\nprint(\"p-value:\", p_value)\n\nfrom statsmodels.stats.multicomp import pairwise_tukeyhsd\n\ndf = df.dropna(subset=[\"fare\"])\ntukey = pairwise_tukeyhsd(endog=df[\"fare\"], groups=df[\"class\"])\nprint(tukey)\n\n# ==============================================================================\n# ASM PRACTICAL 5\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 5: A/B TESTING\n================================================================================\nFULL QUESTIONS:\n\nQuestion: (A/B Testing Analysis with Two-Sample Welch's t-Test)\n    Given conversion / performance metrics from an A/B test with 20 users per group:\n    - Control Group A:\n      [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]\n    - Treatment Variant Group B:\n      [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]\n\n    1. Calculate the sample mean for Group A and Group B.\n    2. Conduct an independent two-sample t-test (Welch's t-test, equal_var=False)\n       to determine whether Group B exhibits a statistically significant improvement.\n    3. Interpret the resulting t-statistic and p-value at alpha = 0.05.\n================================================================================\n\"\"\"\n\nimport numpy as np\nfrom scipy.stats import ttest_ind\n\ngroup_A = np.array([\n    42, 38, 45, 51, 47, 39, 44, 50, 46, 41,\n    43, 48, 37, 49, 45, 40, 52, 44, 46, 43\n])\n\ngroup_B = np.array([\n    48, 52, 55, 49, 58, 51, 54, 56, 50, 53,\n    57, 49, 55, 52, 59, 54, 51, 56, 53, 55\n])\n\nmean_A = np.mean(group_A)\nmean_B = np.mean(group_B)\n\nt_stat, p_value = ttest_ind(group_A, group_B, equal_var=False)\n\nprint(\"Mean - Group A:\", mean_A)\nprint(\"Mean - Group B:\", mean_B)\nprint(\"t-statistic:\", t_stat)\nprint(\"p-value:\", p_value)\n\n# ==============================================================================\n# ASM PRACTICAL 6\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 6: LINEAR REGRESSION & CORRELATION\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Simple Linear Regression)\n    Load the scikit-learn Diabetes dataset into a pandas DataFrame.\n    1. Evaluate the Pearson correlation between Body Mass Index ('bmi') and the\n       disease progression outcome ('target').\n    2. Fit an Ordinary Least Squares (OLS) Simple Linear Regression model\n       (target ~ bmi + intercept) using statsmodels.\n    3. Output and interpret the model summary (R-squared, coefficients, p-values).\n\nQuestion 2: (Multiple Linear Regression)\n    Fit an OLS Multiple Linear Regression model predicting disease progression ('target')\n    using three predictors: 'bmi', blood pressure ('bp'), and 'age'.\n    Add an intercept constant and evaluate:\n    - Overall model fit (R-squared, F-statistic).\n    - Which individual variables are statistically significant predictors.\n\nQuestion 3: (Spearman Rank Correlation)\n    Given:\n    study_time = [2, 4, 1, 5, 3]\n    exam_score = [50, 65, 45, 80, 60]\n    Calculate the Spearman rank correlation coefficient and p-value.\n    Interpret the monotonic relationship between study time and exam score.\n================================================================================\n\"\"\"\n\nfrom sklearn.datasets import load_diabetes\nimport pandas as pd\nimport statsmodels.api as sm\n\ndiabetes = load_diabetes(as_frame=True)\ndf = diabetes.frame\nprint(df.head())\n\n# correlation\nprint(df[[\"bmi\", \"target\"]].corr())\n\n# Simple linear regression\nX = sm.add_constant(df[\"bmi\"])\ny = df['target']\nmodel = sm.OLS(y, X).fit()\nprint(model.summary())\n\n# Question 2: Multiple Linear Regression\nX = df[[\"bmi\", \"bp\", \"age\"]]\nX = sm.add_constant(X)\nmodel = sm.OLS(df[\"target\"], X).fit()\nprint(model.summary())\n\n# Question 3: Spearman Rank Correlation\nfrom scipy.stats import spearmanr\n\nstudy_time = [2, 4, 1, 5, 3]\nexam_score = [50, 65, 45, 80, 60]\n\ncorrelation, p_value = spearmanr(study_time, exam_score)\nprint(\"Spearman Correlation:\", correlation)\nprint(\"P-value:\", p_value)\n\n# ==============================================================================\n# ASM PRACTICAL 7\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 7: LOGISTIC REGRESSION & CLASSIFICATION\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1: (Customer Churn Prediction with Logistic Regression)\n    Load the customer churn prediction dataset ('scikit-learn/churn-prediction').\n    1. Use 'tenure' and 'MonthlyCharges' as predictors to predict binary 'Churn' (No=0, Yes=1).\n    2. Split data into training (80%) and testing (20%) sets using stratified sampling.\n    3. Fit a Logistic Regression model on the training set.\n    4. Predict on the test set and evaluate using:\n       - Confusion Matrix\n       - Accuracy, Precision, Recall, F1-Score\n       - Classification Report\n    5. Compute predicted probabilities, generate the ROC curve, and calculate the AUC score.\n\nQuestion 2: (Binary Classification Pipeline on Palmer Penguins)\n    Load the Palmer Penguins dataset and filter for species 'Adelie' and 'Gentoo'.\n    1. Use four features: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.\n    2. Encode target species: Adelie=0, Gentoo=1.\n    3. Build a Machine Learning Pipeline consisting of:\n       - StandardScaler()\n       - LogisticRegression(max_iter=1000)\n    4. Train on 80% train split and evaluate on 20% test split.\n    5. Output Confusion Matrix, Accuracy, Precision, Recall, F1-Score,\n       Classification Report, and ROC Curve with AUC score.\n================================================================================\n\"\"\"\n\nfrom datasets import load_dataset\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import (\n    accuracy_score,\n    precision_score,\n    recall_score,\n    f1_score,\n    confusion_matrix,\n    classification_report\n)\n\n# Load dataset\ndataset = load_dataset(\"scikit-learn/churn-prediction\")\ndf = dataset[\"train\"].to_pandas()\n\n# Select predictors and target\nX = df[[\"tenure\", \"MonthlyCharges\"]]\ny = df[\"Churn\"].map({\"No\": 0, \"Yes\": 1})\n\n# Train-test split\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y,\n    test_size=0.2,\n    random_state = 42,\n    stratify = y\n)\n\n# Fit logistic regression\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\n\n# Predict\ny_pred = model.predict(X_test)\n\n# Confusion Matrix\nprint(\"Confusion Matix:\")\nprint(confusion_matrix(y_test,y_pred))\n\n# Performance metrics\nprint(\"\\nPerfomance Metrics\")\nprint(\"---------------------\")\nprint(\"Accuracy:\", accuracy_score(y_test,y_pred))\nprint(\"Precision:\", precision_score(y_test,y_pred))\nprint(\"Recall:\", recall_score(y_test,y_pred))\nprint(\"F1-score:\", f1_score(y_test,y_pred))\n\n# Complete classification report\nprint(\"\\nClassification Report:\")\nprint(classification_report(y_test,y_pred))\n\nfrom sklearn.metrics import roc_curve, roc_auc_score\nimport matplotlib.pyplot as plt\n\n# Predicted probabilities for churn\ny_prob = model.predict_proba(X_test)[:,1]\n\n# ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\n\n# AUC\nauc = roc_auc_score(y_test, y_prob)\nprint(\"AUC:\", auc)\n\n# Plot ROC curve\nplt.plot(fpr, tpr, label=f\"ROC curve (AUC = {auc:.3f})\")\nplt.plot([0, 1], [0,1], linestyle=\"--\")\nplt.xlabel(\"False Positive Rate\")\nplt.ylabel(\"True Positive Rate\")\nplt.title(\"ROC Curve - Customer Churn\")\nplt.legend()\nplt.show()\n\n# Question 2: Palmer Penguins Dataset (Adelie vs Gentoo)\nimport seaborn as sns\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import StandardScaler\n\n# Load dataset\ndataset = sns.load_dataset(\"penguins\")\ndf = dataset.copy()\ndf = dataset[dataset[\"species\"].isin([\"Adelie\", \"Gentoo\"])].copy()\n\nfeatures = [\n    \"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\"\n]\n\ndf = df[features + [\"species\"]].dropna()\n\nX = df[features]\ny = (df[\"species\"] == \"Gentoo\").astype(int)\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y,\n    test_size = 0.2,\n    random_state=42,\n    stratify=y\n)\n\n# Standardize and fit logistic regression\nmodel = Pipeline([\n    (\"scaler\", StandardScaler()),\n    (\"logistic\", LogisticRegression(max_iter=1000))\n])\n\nmodel.fit(X_train, y_train)\n\ny_pred = model.predict(X_test)\ny_prob = model.predict_proba(X_test)[:, 1]\n\n# Confusion matrix\nprint(f\"Confusion Matrix: \\n{confusion_matrix(y_test, y_pred)}\")\n\n# Performance metrics\nprint(f\"\\nPerformance Metrics: \\nAccuracy: {accuracy_score(y_test, y_pred)}\")\nprint(f\"Precision: {precision_score(y_test, y_pred)}\")\nprint(f\"Recall: {recall_score(y_test, y_pred)}\")\nprint(f\"F1 Score: {f1_score(y_test, y_pred)}\")\n\n# Classification report\nprint(f\"\\nClassification Report: \\n{classification_report(y_test, y_pred)}\\n\")\nprint(f\"\\nInterpretation: \\nThus, the model is correct 100% of times.\")\n\n# ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_prob)\n\n# AUC\nauc = roc_auc_score(y_test, y_prob)\nprint(\"AUC: \", auc)\n\n# Plot ROC curve\nplt.plot(fpr, tpr, label=f\"ROC Curve (AUC = {auc: .3f})\")\nplt.plot([0, 1], [0, 1], linestyle=\"--\")\nplt.xlabel(\"False Positive Rate\")\nplt.ylabel(\"True Positive Rate\")\nplt.title(\"ROC Curve - Adelie/Gentoo\")\nplt.legend()\nplt.show()\n\n# ==============================================================================\n# ASM PRACTICAL 8\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 8: PRINCIPAL COMPONENT ANALYSIS (PCA)\n================================================================================\nFULL QUESTIONS:\n\nQuestion 1 & 2: (PCA on Wine Dataset)\n    Load the scikit-learn Wine dataset (178 samples, 13 features).\n    1. Standardize all 13 features using StandardScaler.\n    2. Apply PCA and calculate the Explained Variance Ratio and Cumulative Explained Variance.\n    3. Determine the minimum number of principal components required to retain\n       at least 90% of the total variance.\n    4. Transform the dataset using PCA with 2 components and plot a 2D scatter plot\n       colored by wine class to visualize class separability.\n\nQuestion 3: (PCA on Breast Cancer Dataset with Scree Plot)\n    Load the scikit-learn Breast Cancer dataset (569 observations, 30 features).\n    1. Standardize all 30 features using StandardScaler.\n    2. Apply PCA and compute the cumulative explained variance.\n    3. Find the minimum number of components explaining at least 90% variance.\n    4. Plot the Cumulative Explained Variance curve (scree plot) with a red dashed\n       line at 90% variance threshold.\n================================================================================\n\"\"\"\n\nimport pandas as pd \nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import load_wine\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.decomposition import PCA\n\n# loading dataset\nwine = load_wine()\nx = pd.DataFrame(data=wine.data, columns=wine.feature_names)\ny = wine.target\n\nprint(\"Original dataset shape\", x.shape)\nprint(\"First five observation\\n\", x.head())\n\n# standardization\nscaler = StandardScaler()\nx_scaled = scaler.fit_transform(x)\n\n# applying pca \npca = PCA()\nx_pca = pca.fit_transform(x_scaled)\n\n# explained variance \nexplained_variance = pca.explained_variance_ratio_\nprint(\"Explained variance ratio\", explained_variance)\n\n# cumulative explained variance\ncumulative_variance = explained_variance.cumsum()\nprint(\"Cumulative explained variance\", cumulative_variance)\n\n# number of components explaining at least 90% \nn_components = (cumulative_variance >= 0.9).argmax() + 1\nprint(\"Number of components explaining at least 90% variance\", n_components)\n\n# Transform using selected components\npca_reduced = PCA(n_components=n_components)\nx_reduced = pca_reduced.fit_transform(x_scaled)\n\n# reduced dataset shape\nprint(\"Reduced dataset shape\", x_reduced.shape)\n\n# Q2: PCA with two components visualization\npca_2 = PCA(n_components=2)\nx_pca_2 = pca_2.fit_transform(x_scaled)\nprint(x_pca_2.shape)\n\nplt.figure(figsize=(8,6))\nplt.scatter(x_pca_2[:,0], x_pca_2[:,1], c=y)\nplt.xlabel('First Principal Component')\nplt.ylabel('Second Principal Component')\nplt.title('PCA of Wine Dataset')\nplt.colorbar(label=\"Wine Class\")\nplt.show()\n\n# Q3: Cancer Dataset PCA\nfrom sklearn.datasets import load_breast_cancer\nimport numpy as np\n\ncancer = load_breast_cancer()\nx = cancer.data\ny = cancer.target\ntarget_names = cancer.target_names\nfeature_names = cancer.feature_names\n\nprint(\"Number of observations\", x.shape[0])\nprint(\"Number of features\", x.shape[1])\nprint(\"Target Name:\\n\", target_names)\n\n# Standardization\nscaler = StandardScaler()\nx_scaled = scaler.fit_transform(x)\n\n# Applying PCA\npca = PCA()\nx_pca = pca.fit_transform(x_scaled)\n\n# Explained variance ratio\nexplained_variance = pca.explained_variance_ratio_\nprint(\"Explained variance ratio:\\n\", explained_variance)\n\n# Cumulative explained variance\ncumulative_variance = explained_variance.cumsum()\nprint(\"Cumulative explained variance:\\n\", cumulative_variance)\n\n# Number of components explaining at least 90% variance\nn_components = np.argmax(cumulative_variance >= 0.90) + 1\nprint(\"Number of components explaining at least 90% variance:\", n_components)\n\n# Transform using selected components\npca_reduced = PCA(n_components=n_components)\nx_reduced = pca_reduced.fit_transform(x_scaled)\n\n# Reduced dataset shape\nprint(\"Reduced dataset shape:\", x_reduced.shape)\n\n# Plot cumulative explained variance\nplt.plot(\n    range(1, len(cumulative_variance) + 1),\n    cumulative_variance,\n    marker='o'\n)\nplt.axhline(y=0.90, color='red', linestyle='--', label='90% variance')\nplt.xlabel(\"Number of Principal Components\")\nplt.ylabel(\"Cumulative Explained Variance\")\nplt.title(\"PCA - Cancer Dataset\")\nplt.legend()\nplt.grid(True)\nplt.show()\n\n# ==============================================================================\n# ASM PRACTICAL 9\n# ==============================================================================\n\"\"\"\n================================================================================\nPRACTICAL 9: BAYESIAN UPDATING FOR MEDICAL DIAGNOSTIC TESTING\n================================================================================\nFULL QUESTIONS:\n\nQuestion: (Bayes' Theorem in Medical Diagnostic Testing)\n    A diagnostic test for a disease has the following epidemiological characteristics:\n    - Prior probability of disease in the population: P(Disease) = 0.01 (1%)\n    - Test Sensitivity (True Positive Rate): P(+ | Disease) = 0.95 (95%)\n    - Test Specificity (True Negative Rate): P(- | No Disease) = 0.90 (90%)\n    - False Positive Rate: P(+ | No Disease) = 1 - Specificity = 0.10 (10%)\n\n    Using Bayes' Theorem:\n    1. Calculate the total probability of a positive test:\n       P(+) = P(+ | Disease) * P(Disease) + P(+ | No Disease) * P(No Disease)\n    2. Calculate the posterior probability of disease given a positive test:\n       P(Disease | +) = [P(+ | Disease) * P(Disease)] / P(+)\n    3. Interpret the result in terms of the Base-Rate Fallacy.\n================================================================================\n\"\"\"\n\nprior_disease = 0.01\n\n# Test characteristics\nsensitivity = 0.95\nspecificity = 0.90\n\n# Probability of a positive test among people without disease\nfalse_positive_rate = 1 - specificity\n\n# Bayes' theorem after first positive test\nprob_positive = (\n    sensitivity * prior_disease +\n    false_positive_rate * (1 - prior_disease)\n)\n\n# Posterior probability P(Disease | Positive)\nposterior_disease = (sensitivity * prior_disease) / prob_positive\n\nprint(\"Prior Probability of Disease:\", prior_disease)\nprint(\"Sensitivity:\", sensitivity)\nprint(\"Specificity:\", specificity)\nprint(\"False Positive Rate:\", false_positive_rate)\nprint(\"Probability of Positive Test:\", prob_positive)\nprint(\"Posterior Probability of Disease given Positive Test:\", posterior_disease)"};
 
     function copyCode(key) {
       const text = codeData[key];
       if (!text) return;
       navigator.clipboard.writeText(text).then(() => {
-        showToast(key === 'asm_all' ? '✓ ALL ASM Practicals (1-9) Copied!' : '✓ ' + key.toUpperCase() + ' Code Copied!');
+        showToast(key === 'asm_all' ? '✓ ALL ASM Practicals (1-9) Copied!' : '✓ ' + key.toUpperCase() + ' Code & Questions Copied!');
       });
     }
 

@@ -1,4 +1,38 @@
-# ASM Practical 2 - Probability Distributions
+"""
+================================================================================
+PRACTICAL 2: PROBABILITY DISTRIBUTIONS (NORMAL, BINOMIAL, POISSON)
+================================================================================
+FULL QUESTIONS:
+
+Q1) Normal Distribution:
+    Plot a Normal Distribution with mean (mu) = 70 and standard deviation (sigma) = 10
+    over the range x in [20, 120].
+    Interpret: The curve is symmetric, centered at 70, and bell-shaped.
+
+Q2) Effect of Standard Deviation on Normal Distribution:
+    Fix mean mu = 70. Plot three normal curves with standard deviations sigma = 5, 10, 15.
+    Interpret: 
+    - sigma = 5 is the most concentrated/tallest.
+    - sigma = 15 has the greatest spread/flattest.
+    - As sigma increases, the peak height decreases and spread increases.
+
+Q3) Effect of Mean on Normal Distribution:
+    Fix standard deviation sigma = 10. Plot three normal curves with means mu = 50, 70, 90.
+    Interpret:
+    - When mean changes with constant sigma, the normal curve shifts horizontally
+      along the x-axis. Its shape, spread, and height remain unchanged.
+
+Q4) Binomial Distribution:
+    Plot the Probability Mass Function (PMF) of a Binomial Distribution for n = 20 customers
+    with probability of purchase p = 0.3.
+    Interpret: Represents the discrete likelihood of different numbers of customer purchases.
+
+Q5) Poisson Distribution:
+    Plot the PMF of a Poisson Distribution with an average rate lambda = 4 calls per minute
+    over x = 0 to 14.
+    Interpret: Poisson is a discrete distribution where expected number of calls equals lambda = 4.
+================================================================================
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

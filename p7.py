@@ -1,6 +1,33 @@
-# ASM Practical 7 - Logistic Regression & Classification
+"""
+================================================================================
+PRACTICAL 7: LOGISTIC REGRESSION & CLASSIFICATION
+================================================================================
+FULL QUESTIONS:
 
-# Question 1: Customer Churn Prediction
+Question 1: (Customer Churn Prediction with Logistic Regression)
+    Load the customer churn prediction dataset ('scikit-learn/churn-prediction').
+    1. Use 'tenure' and 'MonthlyCharges' as predictors to predict binary 'Churn' (No=0, Yes=1).
+    2. Split data into training (80%) and testing (20%) sets using stratified sampling.
+    3. Fit a Logistic Regression model on the training set.
+    4. Predict on the test set and evaluate using:
+       - Confusion Matrix
+       - Accuracy, Precision, Recall, F1-Score
+       - Classification Report
+    5. Compute predicted probabilities, generate the ROC curve, and calculate the AUC score.
+
+Question 2: (Binary Classification Pipeline on Palmer Penguins)
+    Load the Palmer Penguins dataset and filter for species 'Adelie' and 'Gentoo'.
+    1. Use four features: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.
+    2. Encode target species: Adelie=0, Gentoo=1.
+    3. Build a Machine Learning Pipeline consisting of:
+       - StandardScaler()
+       - LogisticRegression(max_iter=1000)
+    4. Train on 80% train split and evaluate on 20% test split.
+    5. Output Confusion Matrix, Accuracy, Precision, Recall, F1-Score,
+       Classification Report, and ROC Curve with AUC score.
+================================================================================
+"""
+
 from datasets import load_dataset
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression

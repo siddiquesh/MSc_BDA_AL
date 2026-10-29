@@ -1,6 +1,28 @@
-# ASM Practical 8 - Principal Component Analysis (PCA)
+"""
+================================================================================
+PRACTICAL 8: PRINCIPAL COMPONENT ANALYSIS (PCA)
+================================================================================
+FULL QUESTIONS:
 
-# Q1: Wine Dataset PCA
+Question 1 & 2: (PCA on Wine Dataset)
+    Load the scikit-learn Wine dataset (178 samples, 13 features).
+    1. Standardize all 13 features using StandardScaler.
+    2. Apply PCA and calculate the Explained Variance Ratio and Cumulative Explained Variance.
+    3. Determine the minimum number of principal components required to retain
+       at least 90% of the total variance.
+    4. Transform the dataset using PCA with 2 components and plot a 2D scatter plot
+       colored by wine class to visualize class separability.
+
+Question 3: (PCA on Breast Cancer Dataset with Scree Plot)
+    Load the scikit-learn Breast Cancer dataset (569 observations, 30 features).
+    1. Standardize all 30 features using StandardScaler.
+    2. Apply PCA and compute the cumulative explained variance.
+    3. Find the minimum number of components explaining at least 90% variance.
+    4. Plot the Cumulative Explained Variance curve (scree plot) with a red dashed
+       line at 90% variance threshold.
+================================================================================
+"""
+
 import pandas as pd 
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_wine

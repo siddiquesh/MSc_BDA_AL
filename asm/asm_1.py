@@ -1,5 +1,37 @@
-# ASM Practical 1 - Descriptive Statistics
-# Q1) Analyze the iris dataset
+"""
+================================================================================
+PRACTICAL 1: DESCRIPTIVE STATISTICS & EXPLORATORY DATA ANALYSIS (EDA)
+================================================================================
+FULL QUESTIONS:
+
+Q1) Analyze the Iris Dataset:
+    1. Load the Iris Dataset.
+    2. Calculate mean of each numerical feature.
+    3. Calculate median of each numerical feature.
+    4. Calculate mode(s) of each numerical feature.
+       (Note: Mode can be multi-modal or cannot be calculated for continuous data)
+    5. Calculate standard deviation of each numerical feature.
+    6. Calculate variance of each numerical feature.
+    7. Calculate skewness of each numerical feature.
+    8. Calculate kurtosis of each numerical feature.
+    9. Plot the distribution (histogram with KDE) for each numerical feature.
+    10. Interpret the results.
+
+Q2) Analyze the Tips Dataset:
+    1. Load the Tips Dataset.
+    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)
+       for all numerical features (total_bill, tip, size).
+    3. Plot histograms with KDE for numerical features.
+    4. Interpret the results.
+
+Q3) Analyze the Indian Stock Market Dataset:
+    1. Load 'indian_stock_market.csv'.
+    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)
+       for numerical stock prices (MSFT, IBM, SBUX, AAPL, GSPC).
+    3. Plot distribution histograms with KDE.
+    4. Interpret the results.
+================================================================================
+"""
 
 import pandas as pd
 import numpy as np

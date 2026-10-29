@@ -1,0 +1,297 @@
+=== PAGE 1 ===
+Q1)Analyze the iris dataset. 1.Load the Iris Dataset
+2.Calculate mean of each numerical feature.
+3.Calculate median of each numerical feature.
+4.Calculate mode(s) of each numerical feature.(Note:Mode can be multi-modal or cannot be calculated for continuous data)
+5.Calculate standard deviation of each numerical feature.
+6.Calculate variance of each numerical feature.
+7.Calculate skewness of each numerical feature.
+8.Calculate kurtosis of each numerical feature.
+Also interpret the results
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from scipy.stats import skew,kurtosis
+import matplotlib.pyplot as plt
+iris = sns.load_dataset('iris')
+print(iris.head())
+iris.info()
+   sepal_length  sepal_width  petal_length  petal_width species
+0           5.1          3.5           1.4          0.2  setosa
+1           4.9          3.0           1.4          0.2  setosa
+2           4.7          3.2           1.3          0.2  setosa
+3           4.6          3.1           1.5          0.2  setosa
+4           5.0          3.6           1.4          0.2  setosa
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 150 entries, 0 to 149
+Data columns (total 5 columns):
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   sepal_length  150 non-null    float64
+ 1   sepal_width   150 non-null    float64
+ 2   petal_length  150 non-null    float64
+ 3   petal_width   150 non-null    float64
+ 4   species       150 non-null    object 
+dtypes: float64(4), object(1)
+memory usage: 6.0+ KB
+numerical_cols = iris.select_dtypes(include=np.number).columns.to_list()
+for col in numerical_cols:
+  mean_val = iris[col].mean()
+  median_val = iris[col].median()
+  mode_val = iris[col].mode().tolist()
+  std_val = iris[col].std()
+  var_val = iris[col].var()
+  skewness_val = skew(iris[col])
+  kurtosis_val = kurtosis(iris[col])
+  print(f"---Stats for {col}---")
+  print(f" Mean: {mean_val}")
+  print(f" Median: {median_val}")
+  print(f" Mode: {mode_val}")
+  print(f" Standard Deviation: {std_val}")
+  print(f" Variance: {var_val}")
+  print(f" Skewness: {skewness_val}")
+  print(f" Kurtosis: {kurtosis_val}")
+  print("\n")
+---Stats for sepal_length---
+ Mean: 5.843333333333334
+ Median: 5.8
+ Mode: [5.0]
+ Standard Deviation: 0.8280661279778629
+ Variance: 0.6856935123042505
+ Skewness: 0.3117530585022963
+ Kurtosis: -0.5735679489249765
+---Stats for sepal_width---
+ Mean: 3.0573333333333337
+ Median: 3.0
+ Mode: [3.0]
+ Standard Deviation: 0.435866284936698
+ Variance: 0.1899794183445188
+ Skewness: 0.31576710633893473
+ Kurtosis: 0.18097631752246768
+10/24/26, 2:49 PM
+Copy of ASM.ipynb - Colab
+https://colab.research.google.com/drive/1bOVmxMY7Uln7OFUvkfzmHzDBXFjdCYTr#scrollTo=7YLr2NxjgSbv&printMode=true
+1/6
+
+=== PAGE 2 ===
+---Stats for petal_length---
+ Mean: 3.7580000000000005
+ Median: 4.35
+ Mode: [1.4, 1.5]
+ Standard Deviation: 1.7652982332594667
+ Variance: 3.1162778523489942
+ Skewness: -0.2721276664567214
+ Kurtosis: -1.3955358863990055
+---Stats for petal_width---
+ Mean: 1.1993333333333336
+ Median: 1.3
+ Mode: [0.2]
+ Standard Deviation: 0.7622376689603465
+ Variance: 0.5810062639821029
+ Skewness: -0.10193420656560036
+ Kurtosis: -1.336067405231553
+plt.figure(figsize=(15,10))
+for i, col in enumerate(numerical_cols):
+  plt.subplot(2,2,i+1)
+  sns.histplot(iris[col],kde=True,bins=15)
+  plt.title(f'Distribution of {col}')
+  plt.xlabel('col')
+  plt.ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+Interpretations:
+Q2. Analyze the Tips dataset.
+tips = sns.load_dataset('tips')
+print(tips.head())
+tips.info()
+10/24/26, 2:49 PM
+Copy of ASM.ipynb - Colab
+https://colab.research.google.com/drive/1bOVmxMY7Uln7OFUvkfzmHzDBXFjdCYTr#scrollTo=7YLr2NxjgSbv&printMode=true
+2/6
+
+=== PAGE 3 ===
+   total_bill   tip     sex smoker  day    time  size
+0       16.99  1.01  Female     No  Sun  Dinner     2
+1       10.34  1.66    Male     No  Sun  Dinner     3
+2       21.01  3.50    Male     No  Sun  Dinner     3
+3       23.68  3.31    Male     No  Sun  Dinner     2
+4       24.59  3.61  Female     No  Sun  Dinner     4
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 244 entries, 0 to 243
+Data columns (total 7 columns):
+ #   Column      Non-Null Count  Dtype   
+---  ------      --------------  -----   
+ 0   total_bill  244 non-null    float64 
+ 1   tip         244 non-null    float64 
+ 2   sex         244 non-null    category
+ 3   smoker      244 non-null    category
+ 4   day         244 non-null    category
+ 5   time        244 non-null    category
+ 6   size        244 non-null    int64   
+dtypes: category(4), float64(2), int64(1)
+memory usage: 7.4 KB
+numerical_cols = tips.select_dtypes(include=np.number).columns.to_list()
+for col in numerical_cols:
+  mean_val = tips[col].mean()
+  median_val = tips[col].median()
+  mode_val = tips[col].mode().tolist()
+  std_val = tips[col].std()
+  var_val = tips[col].var()
+  skewness_val = skew(tips[col])
+  kurtosis_val = kurtosis(tips[col])
+  print(f"---Stats for {col}---")
+  print(f" Mean: {mean_val}")
+  print(f" Median: {median_val}")
+  print(f" Mode: {mode_val}")
+  print(f" Standard Deviation: {std_val}")
+  print(f" Variance: {var_val}")
+  print(f" Skewness: {skewness_val}")
+  print(f" Kurtosis: {kurtosis_val}")
+  print("\n")
+---Stats for total_bill---
+ Mean: 19.78594262295082
+ Median: 17.795
+ Mode: [13.42]
+ Standard Deviation: 8.902411954856856
+ Variance: 79.25293861397826
+ Skewness: 1.1262346334818638
+ Kurtosis: 1.1691681323851366
+---Stats for tip---
+ Mean: 2.99827868852459
+ Median: 2.9
+ Mode: [2.0]
+ Standard Deviation: 1.3836381890011826
+ Variance: 1.9144546380624725
+ Skewness: 1.4564266884221506
+ Kurtosis: 3.5495519893455114
+---Stats for size---
+ Mean: 2.569672131147541
+ Median: 2.0
+ Mode: [2]
+ Standard Deviation: 0.9510998047322332
+ Variance: 0.9045908385616921
+ Skewness: 1.4389653841920984
+ Kurtosis: 1.6719276263625504
+plt.figure(figsize=(15,10))
+for i, col in enumerate(numerical_cols):
+  plt.subplot(2,2,i+1)
+  sns.histplot(tips[col],kde=True,bins=15)
+  plt.title(f'Distribution of {col}')
+  plt.xlabel('col')
+  plt.ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+10/24/26, 2:49 PM
+Copy of ASM.ipynb - Colab
+https://colab.research.google.com/drive/1bOVmxMY7Uln7OFUvkfzmHzDBXFjdCYTr#scrollTo=7YLr2NxjgSbv&printMode=true
+3/6
+
+=== PAGE 4 ===
+Interpretations:
+import pandas as pd
+stock = pd.read_csv('indian_stock_market.csv')
+print(stock.head())
+stock.info()
+        MSFT        IBM       SBUX       AAPL         GSPC        Date
+0  23.950705  80.517962  16.149666  11.086612  1416.599976  2007-01-03
+1  23.910599  81.378851  16.167992  11.332687  1418.339966  2007-01-04
+2  23.774242  80.642129  16.099269  11.251984  1409.709961  2007-01-05
+3  24.006852  81.867244  16.039710  11.307550  1412.839966  2007-01-08
+4  24.030914  82.835742  15.970989  12.246870  1412.109985  2007-01-09
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 2306 entries, 0 to 2305
+Data columns (total 6 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   MSFT    2306 non-null   float64
+ 1   IBM     2306 non-null   float64
+ 2   SBUX    2306 non-null   float64
+ 3   AAPL    2306 non-null   float64
+ 4   GSPC    2306 non-null   float64
+ 5   Date    2306 non-null   object 
+dtypes: float64(5), object(1)
+memory usage: 108.2+ KB
+numerical_cols = stock.select_dtypes(include=np.number).columns.to_list()
+for col in numerical_cols:
+  mean_val = stock[col].mean()
+  median_val = stock[col].median()
+  mode_val = stock[col].mode().tolist()
+  std_val = stock[col].std()
+  var_val = stock[col].var()
+  skewness_val = skew(stock[col])
+  kurtosis_val = kurtosis(stock[col])
+  print(f"---Stats for {col}---")
+  print(f" Mean: {mean_val}")
+  print(f" Median: {median_val}")
+10/24/26, 2:49 PM
+Copy of ASM.ipynb - Colab
+https://colab.research.google.com/drive/1bOVmxMY7Uln7OFUvkfzmHzDBXFjdCYTr#scrollTo=7YLr2NxjgSbv&printMode=true
+4/6
+
+=== PAGE 5 ===
+  print(f" Mode: {mode_val}")
+  print(f" Standard Deviation: {std_val}")
+  print(f" Variance: {var_val}")
+  print(f" Skewness: {skewness_val}")
+  print(f" Kurtosis: {kurtosis_val}")
+  print("\n")
+---Stats for MSFT---
+ Mean: 28.737785089332178
+ Median: 24.990737000000003
+ Mode: [20.7885, 22.432038, 23.442524, 23.780523, 23.799136, 23.812836, 24.375044, 24.883749, 26.236076, 27.52491, 27.622691
+ Standard Deviation: 9.47173720879108
+ Variance: 89.71380575239743
+ Skewness: 1.0208522738773171
+ Kurtosis: 0.11462575264900465
+---Stats for IBM---
+ Mean: 136.23959955550737
+ Median: 143.8331255
+ Mode: [180.597103]
+ Standard Deviation: 37.37635951034845
+ Variance: 1396.9922502468153
+ Skewness: -0.14935923700494055
+ Kurtosis: -1.4100218574371501
+---Stats for SBUX---
+ Mean: 23.213089442758022
+ Median: 17.896952499999998
+ Mode: [4.421114, 4.576884, 8.475711, 9.149186]
+ Standard Deviation: 15.522634058857422
+ Variance: 240.95216812520047
+ Skewness: 0.8361669202826096
+ Kurtosis: -0.2839467576607704
+---Stats for AAPL---
+ Mean: 54.71981027276669
+ Median: 49.3274845
+ Mode: [16.391781]
+ Standard Deviation: 34.645281823743694
+ Variance: 1200.2955526466253
+ Skewness: 0.5172608251299968
+ Kurtosis: -0.9016618135051773
+---Stats for GSPC---
+ Mean: 1459.9998694236774
+ Median: 1402.3700565
+ Mode: [1064.880005, 1099.22998, 1178.099976, 1182.449951, 1271.5, 1343.800049, 1348.859985, 1360.030029, 1387.170044, 1416.
+ Standard Deviation: 361.673515822571
+ Variance: 130807.73204745952
+ Skewness: 0.2650502148137591
+ Kurtosis: -0.8511923676815929
+plt.figure(figsize=(15, 15))
+for i, col in enumerate(numerical_cols):
+   plt.subplot(3, 2, i + 1)
+   sns.histplot(stock[col], kde=True, bins=15)
+   plt.title(f'Distribution of {col}')
+   plt.xlabel(col)
+   plt.ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+10/24/26, 2:49 PM
+Copy of ASM.ipynb - Colab
+https://colab.research.google.com/drive/1bOVmxMY7Uln7OFUvkfzmHzDBXFjdCYTr#scrollTo=7YLr2NxjgSbv&printMode=true
+5/6
+
+=== PAGE 6 ===
+10/24/26, 2:49 PM
+Copy of ASM.ipynb - Colab
+https://colab.research.google.com/drive/1bOVmxMY7Uln7OFUvkfzmHzDBXFjdCYTr#scrollTo=7YLr2NxjgSbv&printMode=true
+6/6
+

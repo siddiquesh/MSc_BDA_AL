@@ -1,6 +1,25 @@
-# ASM Practical 3 - Confidence Intervals & Bootstrapping
+"""
+================================================================================
+PRACTICAL 3: CONFIDENCE INTERVALS & BOOTSTRAPPING
+================================================================================
+FULL QUESTIONS:
 
-# Question 1: t-based Confidence Interval
+Question 1: (Parametric Student's t-based Confidence Interval)
+    Given delivery times (in minutes) for 20 orders:
+    [31, 28, 35, 42, 30, 27, 39, 33, 26, 32, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37]
+    1. Calculate the sample mean and sample standard deviation (ddof=1).
+    2. Determine degrees of freedom (df = n - 1) and standard error (SE = s / sqrt(n)).
+    3. Compute the 95% Confidence Interval for the population mean delivery time
+       using the Student's t-distribution critical value.
+
+Question 2: (Non-Parametric Bootstrap Confidence Interval)
+    1. Estimate the 95% Confidence Interval for the mean delivery time using Bootstrapping
+       with 5,000 resamples (sampling with replacement, random seed 42).
+    2. Calculate the 2.5th and 97.5th percentiles of the bootstrap distribution.
+    3. Compare the t-based CI and Bootstrap CI in terms of range and interval width.
+================================================================================
+"""
+
 from scipy import stats
 import numpy as np
 

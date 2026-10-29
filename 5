@@ -1,6 +1,23 @@
-# ASM Practical 5 - A/B Testing
+"""
+================================================================================
+PRACTICAL 5: A/B TESTING
+================================================================================
+FULL QUESTIONS:
 
-# Dataset for A/B Testing
+Question: (A/B Testing Analysis with Two-Sample Welch's t-Test)
+    Given conversion / performance metrics from an A/B test with 20 users per group:
+    - Control Group A:
+      [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]
+    - Treatment Variant Group B:
+      [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]
+
+    1. Calculate the sample mean for Group A and Group B.
+    2. Conduct an independent two-sample t-test (Welch's t-test, equal_var=False)
+       to determine whether Group B exhibits a statistically significant improvement.
+    3. Interpret the resulting t-statistic and p-value at alpha = 0.05.
+================================================================================
+"""
+
 import numpy as np
 from scipy.stats import ttest_ind
 
