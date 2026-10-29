@@ -1,605 +1,475 @@
-# =====================================================================
-# PRACTICAL 1: Matrix Operations & Image Processing
-# =====================================================================
-import numpy as np
+"""
+================================================================================
+APPLIED STATISTICAL METHODS (ASM) - PRACTICALS 1 TO 9
+MSc Big Data Analytics
+================================================================================
+"""
 
-#create a 1-D array and dimension
-v1=np.array([5,4,7,8])
-print(v1)
-print(v1.ndim)
-
-#create a 2-D array
-v2=np.array([[1,5,3],[4,7,9],[4,9,4]])
-print(v2)
-
-#create a matrix of 2 rows 3 column
-v3=np.array([[1,5],[4,7],[4,9]])
-print(v3)
-
-#matrix addition
-v4=np.array([[6,3,8],[2,5,2],[8,1,3]])
-print(v4)
-print('addition of v2 and v4 is \n',v2+v4)
-
-#matrix subtraction
-print('subtraction of v2 and v4 is \n',v2-v4)
-
-# scalar matrix
-print('scalar matrix of v4 is \n',2*v4)
-
-# multiplication matrix
-print(np.dot(v2,v4))
-#element wise multiplication just use '*' for multiply.
-
-#transpose of the matrix
-print('transpose of matrix v2 is \n',v2.T)
-
-#matrix determinant
-a=np.array([[1,2,3],[1,1,5],[2,4,7]])
-print('Matrix a= \n',a)
-print('determinant of the a is',np.linalg.det(a))
-
-#inverse of the matrix
-print('inverse of the a is \n',np.linalg.inv(a))
-
-b= np.array([[1,2,3],
-             [1,1,5],
-             [2,4,6]])
-
-if np.linalg.det(b) != 0:
-    print('inverse of a is \n',np.linalg.inv(b))
-else:
-    print('inverse does not exist for matrix having deteminant zero ')
-
-# identity matrix 
-print('identity matrix \n',np.eye(3)) #parameter is used to define the dimension of matrix
-
-import matplotlib.pyplot as plt
-from skimage import color,io
-from skimage.transform import resize
-
-image=io.imread('C:/Users/USER-11/Downloads/images.jpg')
-#print(image)
-gray_image=color.rgb2gray(image)
-gray_image=resize(gray_image,(256,256))
-
-#brighting the image
-bright_image=gray_image*2.0
-bright_image=np.clip(bright_image,0,1)
-
-#noisy or distortion will be present in the image
-noisy_image=gray_image+0.3
-noisy_image=np.clip(noisy_image,0,1)
-
-#darkening the image
-dark_image=gray_image-0.2
-dark_image=np.clip(dark_image,0,1)
-
-#fliping the image
-transpose_image=gray_image.T
-
-#inversing the image
-inverse_image=np.linalg.inv(gray_image)
-inverse_image=np.clip(inverse_image,0,1)
-
-#plotting the original image
-plt.imshow(image, cmap='gray')
-plt.title('original image')
-plt.show()
-
-plt.figure(figsize=(12,12))
-plt.subplot(2,3,1)
-plt.imshow(gray_image,cmap='gray')
-plt.title('Original Gray Image')
-
-plt.figure(figsize=(12,12))
-plt.subplot(2,3,2)
-plt.imshow(bright_image,cmap='gray')
-plt.title('Bright Image')
-
-plt.figure(figsize=(12,12))
-plt.subplot(2,3,3)
-plt.imshow(noisy_image,cmap='gray')
-plt.title('noisy Image')
-
-plt.figure(figsize=(12,12))
-plt.subplot(2,3,4)
-plt.imshow(dark_image,cmap='gray')
-plt.title('dark Image')
-
-plt.figure(figsize=(12,12))
-plt.subplot(2,3,5)
-plt.imshow(transpose_image,cmap='gray')
-plt.title('transpose Image')
-
-plt.figure(figsize=(12,12))
-plt.subplot(2,3,6)
-plt.imshow(inverse_image,cmap='gray')
-plt.title('inverse Image')
-
-
-# =====================================================================
-# PRACTICAL 2A: Gaussian Elimination
-# =====================================================================
-import numpy as np
-'''
-system of equation
-2x+y-z=8
--3x-y+2z=-11
--2x+y+2z=-3
-'''
-A=np.array([[2,1,-1],[-3,-1,2],[-2,1,2]],dtype=float)
-B=np.array([8.0,-11.0,-3.0])
-
-print('co-efficient matrix A:\n',A)
-print('Right hand side matrix B:\n',B)
-
-def gaussian_elimination(A,B):
-    n=len(B)
-    # forward elimination
-    for i in range(n):
-        for j in range(i+1,n):
-            ratio =A[j][i]/A[i][i]
-            A[j,i:]=A[j,i:]-ratio*A[i,i:]
-            B[j]=B[j]-ratio*B[i]
-    x=np.zeros(n)
-    for i in range(n-1,-1,-1):
-        x[i]=(B[i]-np.dot(A[i,i+1:],x[i+1:]))/A[i][i]
-    return x
-
-gauss=gaussian_elimination(A,B)
-print(A)
-print('Solution by gaussian elimination :\n',gauss)
-
-C=np.array([[1,1,2],[2,3,6],[3,6,10]],dtype=float)
-D=np.array([4.0,10.0,17.0])
-
-def gaussian_eliminate(C,D):
-    n=len(B)
-    # forward elimination
-    for i in range(n):
-        for j in range(i+1,n):
-            ratio =C[j][i]/C[i][i]
-            C[j,i:]=C[j,i:]-ratio*C[i,i:]
-            D[j]=D[j]-ratio*D[i]
-    x=np.zeros(n)
-    for i in range(n-1,-1,-1):
-        x[i]=(D[i]-np.dot(C[i,i+1:],x[i+1:]))/C[i][i]
-    return x
-
-gaus=gaussian_eliminate(C,D)
-print(C)
-print('Solution by gaussian elimination :\n',gaus)
-
-
-# =====================================================================
-# PRACTICAL 2B: LU Factorization
-# =====================================================================
-import numpy as np
-from scipy.linalg import lu,lu_factor, lu_solve
-A=np.array(([3,-1,2],[-3,-2,10],[9,-5,6]), dtype=float)
-b=np.array([10,20,30],dtype=float)
-P,L,U=lu(A)
-print("Matrix A: \n",A)
-print("Matrix Permutation: \n",P)
-print("Matrix Lower: \n",L)
-print("Matrix Upper: \n",U)
-lu_factorization = lu_factor(A)
-print("LU Factorization: \n",lu_factorization)
-x=lu_solve(lu_factorization,b)
-print("Solution: \n",x)
-
-#
-import numpy as np
-from scipy.linalg import lu,lu_factor, lu_solve
-A=np.array(([3,-1],[4,1]), dtype=float)
-b=np.array([1,6],dtype=float)
-P,L,U=lu(A)
-print("Matrix A: \n",A)
-print("Matrix Permutation: \n",P)
-print("Matrix Lower: \n",L)
-print("Matrix Upper: \n",U)
-lu_factorization = lu_factor(A)
-print("LU Factorization: \n",lu_factorization)
-x=lu_solve(lu_factorization,b)
-print("Solution: \n",x)
-
-#user input equation
-a1,b1,c1,d1=map(float,input("Enter the equation 1 (a1,b1,c1,d1):").split())
-a2,b2,c2,d2=map(float,input("Enter the equation 2 (a2,b2,c2,d2):").split())
-a3,b3,c3,d3=map(float,input("Enter the equation 3 (a3,b3,c3,d3):").split())
-A=np.array(([a1,b1,c1],[a2,b2,c2],[a3,b3,c3]), dtype=float)
-b=np.array([d1,d2,d3],dtype=float)
-P,L,U=lu(A)
-print("Matrix A: \n",A)
-print("Matrix Permutation: \n",P)
-print("Matrix Lower: \n",L)
-print("Matrix Upper: \n",U)
-lu_factorization = lu_factor(A)
-print("LU Factorization: \n",lu_factorization)
-x=lu_solve(lu_factorization,b)
-print("Solution: \n",x)
-
+# ==============================================================================
+# ASM PRACTICAL 1: Descriptive Statistics (Iris, Tips, Stock Market)
+# ==============================================================================
 import pandas as pd
-# Load the file from Colab's default storage path
-df= pd.read_csv('/content/book_sale.csv')
-# View the first 5 rows
-print(df.head())
-A=df.iloc[:,0:3].to_numpy()
-b=df.iloc[:,3].to_numpy()
-print('matrix A\n',A)
-print('vector b\n',b)
-
-
-# =====================================================================
-# PRACTICAL 3: Simple Linear Regression
-# =====================================================================
-# linear regression using formula
 import numpy as np
+import seaborn as sns
+from scipy.stats import skew, kurtosis
 import matplotlib.pyplot as plt
 
-x=np.array([1,2,3,4,5])
-y=np.array([2,4,5,4,5])
-
-X_mean = np.mean(x)
-Y_mean = np.mean(y)
-
-numerator= np.sum((x - X_mean)* (y - Y_mean))
-denominator = np.sum((x - X_mean) ** 2)
-slope = numerator / denominator
-intercept = Y_mean - slope * X_mean
-
-print("Slope: ", slope)
-print("Intercept: ", intercept)
-
-y_pred = slope * x + intercept
-print(y_pred)
-
-plt.scatter(x,y, color="black", label="Actual Data")
-plt.plot(x,y_pred, color='red', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
-
-# Linear Regression using pre build function
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-
-#-1 (Rows): Tells NumPy to automatically calculate the number of rows. 
-# Since there are 5 elements total, NumPy computes (5 / 1 = 5) rows.
-x=np.array([1,2,3,4,5]).reshape(-1,1) 
-y=np.array([2,4,5,4,5])
-
-model=LinearRegression()
-model.fit(x,y)
-
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
-
-y_pred=model.predict(x)
-
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import *
-import pandas as pd
-
-housing = pd.read_csv('Housing.csv')
-
-#Select feature and Target
-x= housing[["area"]]
-y = housing['price']
-
-model=LinearRegression()
-model.fit(x,y)
-
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
-
-y_pred=model.predict(x)
-
-print("R2 Score: ",r2_score(y,model.predict(x)))
-print("MSE: ",mean_squared_error(y,model.predict(x)))
-
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
-
-#Select feature and Target on bedroom
-x= housing[["bedrooms"]]
-y = housing['price']
-
-model=LinearRegression()
-model.fit(x,y)
-
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
-
-y_pred=model.predict(x)
-
-print("R2 Score: ",r2_score(y,model.predict(x)))
-print("MSE: ",mean_squared_error(y,model.predict(x)))
-
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import *
-
-x=np.array([1,2,3,4,5]).reshape(-1,1)
-y=np.array([2,4,6,8,9])
-
-model=LinearRegression()
-model.fit(x,y)
-
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
-
-y_pred=model.predict(x)
-
-print("R2 Score: ",r2_score(y,model.predict(x)))
-print("MSE: ",mean_squared_error(y,model.predict(x)))
-
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
-
-
-# =====================================================================
-# PRACTICAL 4: Principal Component Analysis (PCA)
-# =====================================================================
-import numpy as np
-np.random.seed(42)
-x=np.random.rand(100,2) @ np.array([[2,1],[1,3]]) # @ sign is used for multiplication
-print(x)
-
-# step 2 : Standardize
-x_mean = x - np.mean(x,axis=0)
-
-# step 3 : Covariance matrix
-cov_matrix = np.cov(x_mean, rowvar=False)
-print("Covariance matrix: ",cov_matrix)
-
-# STEP 4 : Eigenvalues and Eigenvectors
-eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
-print("Eigenvalues: ",eigenvalues)
-print("Eigenvectors: ",eigenvectors)
-
-#STEP 5 : sort eigenvectors by eigenvalues (descending)
-sorted_idx = np.argsort(eigenvalues)[::-1]
-
-eigenvalues = eigenvalues[sorted_idx]
-eigenvectors = eigenvectors[:,sorted_idx]
-print("Eigenvalues: ",eigenvalues)
-print("Eigenvectors: ",eigenvectors)
-
-#step 6 : project data onto first principal component (reduce to 1D)
-pc1=eigenvectors[:,0]
-print("pc1 \n",pc1)
-
-x_pca=x_mean @pc1
-print("x pca\n",x_pca) #projected on pc1
-
-import numpy as np
-from sklearn.datasets import load_iris
-iris = load_iris()
-x = iris.data
-
-# step 2 : Standardize
-x_mean = x - np.mean(x,axis=0)
-
-# step 3 : Covariance matrix
-cov_matrix = np.cov(x_mean, rowvar=False)
-
-# STEP 4 : Eigenvalues and Eigenvectors
-eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
-
-#STEP 5 : sort eigenvectors by eigenvalues (descending)
-sorted_idx = np.argsort(eigenvalues)[::-1]
-
-eigenvalues = eigenvalues[sorted_idx]
-eigenvectors = eigenvectors[:,sorted_idx]
-
-#step 6 : project data onto first principal component (reduce to 1D)
-pc1=eigenvectors[:,:2]
-
-x_pca=x_mean @pc1
-
-print("Eigenvalues: ",eigenvalues)
-print("Principal components: ",eigenvectors)
-print("x pca\n",x_pca) #projected on pc1
-
-
-# =====================================================================
-# PRACTICAL 5: SVD Image Compression
-# =====================================================================
-import numpy as np
-import matplotlib.pyplot as plt
-from skimage import io, color
-from skimage.metrics import mean_squared_error
-
-#step 1: Load image and convert to grayscale
-img = io.imread('images.jpg')
-gray = color.rgb2gray(img) # values between 0-1
-
-plt.imshow(gray, cmap='gray')
-plt.title("Original GrayScale Image")
-plt.axis('off')
-plt.show()
-
-# step 2: Apply SVD
-U, S , Vt = np.linalg.svd(gray, full_matrices=False)
-# returns U and Vt with shapes (m,k) and (k,n) instead of full sq sizes(m,m) and
-
-#step 3 : Function to reconstruct with top r values
-def reconstruct(U, S, Vt, r):
-    return U[:, :r] @ np.diag(S[:r]) @ Vt[:r, :]
-
-#step 4: Choose r values
-r1,r2,r3,r4,r5,r6,r7,r8,r9 = 5,20,50,100,150,200,500,800,1100
-
-#Step 5 : Reconstruct images
-img_r1 = reconstruct(U, S, Vt, r1)
-img_r2 = reconstruct(U, S, Vt, r2)
-img_r3 = reconstruct(U, S, Vt, r3)
-img_r4 = reconstruct(U, S, Vt, r4)
-img_r5 = reconstruct(U, S, Vt, r5)
-img_r6 = reconstruct(U, S, Vt, r6)
-img_r7 = reconstruct(U, S, Vt, r7)
-img_r8 = reconstruct(U, S, Vt, r8)
-img_r9 = reconstruct(U, S, Vt, r9)
-
-plt.close('all')
-plt.figure(figsize=(18, 12))
-
-plt.subplot(3, 3, 1)
-plt.imshow(img_r1, cmap='gray')
-plt.title(f"r={r1}")
-plt.axis('off')
-
-plt.subplot(3, 3, 2)
-plt.imshow(img_r2, cmap='gray')
-plt.title(f"r={r2}")
-plt.axis('off')
-
-plt.subplot(3, 3, 3)
-plt.imshow(img_r3, cmap='gray')
-plt.title(f"r={r3}")
-plt.axis('off')
-
-plt.subplot(3, 3, 4)
-plt.imshow(img_r4, cmap='gray')
-plt.title(f"r={r4}")
-plt.axis('off')
-
-plt.subplot(3, 3, 5)
-plt.imshow(img_r5, cmap='gray')
-plt.title(f"r={r5}")
-plt.axis('off')
-
-plt.subplot(3, 3, 6)
-plt.imshow(img_r6, cmap='gray')
-plt.title(f"r={r6}")
-plt.axis('off')
-
-plt.subplot(3, 3, 7)
-plt.imshow(img_r7, cmap='gray')
-plt.title(f"r={r7}")
-plt.axis('off')
-
-plt.subplot(3, 3, 8)
-plt.imshow(img_r8, cmap='gray')
-plt.title(f"r={r8}")
-plt.axis('off')
-
-plt.subplot(3, 3, 9)
-plt.imshow(img_r9, cmap='gray')
-plt.title(f"r={r9}")
-plt.axis('off')
-
+# Q1) Iris Dataset
+iris = sns.load_dataset('iris')
+print(iris.head())
+iris.info()
+
+numerical_cols = iris.select_dtypes(include=np.number).columns.to_list()
+for col in numerical_cols:
+    mean_val = iris[col].mean()
+    median_val = iris[col].median()
+    mode_val = iris[col].mode().tolist()
+    std_val = iris[col].std()
+    var_val = iris[col].var()
+    skewness_val = skew(iris[col])
+    kurtosis_val = kurtosis(iris[col])
+    print(f"---Stats for {col}---")
+    print(f" Mean: {mean_val}")
+    print(f" Median: {median_val}")
+    print(f" Mode: {mode_val}")
+    print(f" Standard Deviation: {std_val}")
+    print(f" Variance: {var_val}")
+    print(f" Skewness: {skewness_val}")
+    print(f" Kurtosis: {kurtosis_val}")
+    print("\n")
+
+plt.figure(figsize=(15, 10))
+for i, col in enumerate(numerical_cols):
+    plt.subplot(2, 2, i + 1)
+    sns.histplot(iris[col], kde=True, bins=15)
+    plt.title(f'Distribution of {col}')
+    plt.xlabel('col')
+    plt.ylabel('Frequency')
 plt.tight_layout()
 plt.show()
 
-#Step 6: Compute mse
-mse_r1 = mean_squared_error(gray, img_r1)
-mse_r2 = mean_squared_error(gray, img_r2)
-mse_r3 = mean_squared_error(gray, img_r3)
-mse_r4 = mean_squared_error(gray, img_r4)
-mse_r5 = mean_squared_error(gray, img_r5)
-mse_r6 = mean_squared_error(gray, img_r6)
-mse_r7 = mean_squared_error(gray, img_r7)
-mse_r8 = mean_squared_error(gray, img_r8)
-mse_r9 = mean_squared_error(gray, img_r9)
+# Q2) Tips Dataset
+tips = sns.load_dataset('tips')
+print(tips.head())
+tips.info()
 
-print(mse_r1)
-print(mse_r2)
-print(mse_r3)
-print(mse_r4)
-print(mse_r5)
-print(mse_r6)
-print(mse_r7)
-print(mse_r8)
-print(mse_r9)
+numerical_cols = tips.select_dtypes(include=np.number).columns.to_list()
+for col in numerical_cols:
+    mean_val = tips[col].mean()
+    median_val = tips[col].median()
+    mode_val = tips[col].mode().tolist()
+    std_val = tips[col].std()
+    var_val = tips[col].var()
+    skewness_val = skew(tips[col])
+    kurtosis_val = kurtosis(tips[col])
+    print(f"---Stats for {col}---")
+    print(f" Mean: {mean_val}")
+    print(f" Median: {median_val}")
+    print(f" Mode: {mode_val}")
+    print(f" Standard Deviation: {std_val}")
+    print(f" Variance: {var_val}")
+    print(f" Skewness: {skewness_val}")
+    print(f" Kurtosis: {kurtosis_val}")
+    print("\n")
+
+plt.figure(figsize=(15, 10))
+for i, col in enumerate(numerical_cols):
+    plt.subplot(2, 2, i + 1)
+    sns.histplot(tips[col], kde=True, bins=15)
+    plt.title(f'Distribution of {col}')
+    plt.xlabel('col')
+    plt.ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+
+# Q3) Stock Dataset
+stock = pd.read_csv('indian_stock_market.csv')
+print(stock.head())
+stock.info()
+
+numerical_cols = stock.select_dtypes(include=np.number).columns.to_list()
+for col in numerical_cols:
+    mean_val = stock[col].mean()
+    median_val = stock[col].median()
+    mode_val = stock[col].mode().tolist()
+    std_val = stock[col].std()
+    var_val = stock[col].var()
+    skewness_val = skew(stock[col])
+    kurtosis_val = kurtosis(stock[col])
+    print(f"---Stats for {col}---")
+    print(f" Mean: {mean_val}")
+    print(f" Median: {median_val}")
+    print(f" Mode: {mode_val}")
+    print(f" Standard Deviation: {std_val}")
+    print(f" Variance: {var_val}")
+    print(f" Skewness: {skewness_val}")
+    print(f" Kurtosis: {kurtosis_val}")
+    print("\n")
+
+plt.figure(figsize=(15, 15))
+for i, col in enumerate(numerical_cols):
+    plt.subplot(3, 2, i + 1)
+    sns.histplot(stock[col], kde=True, bins=15)
+    plt.title(f'Distribution of {col}')
+    plt.xlabel(col)
+    plt.ylabel('Frequency')
+plt.tight_layout()
+plt.show()
 
 
-# =====================================================================
-# PRACTICAL 6: K-Means Clustering with Distance Metrics
-# =====================================================================
-import numpy as np
+# ==============================================================================
+# ASM PRACTICAL 2: Probability Distributions (Normal, Binomial, Poisson)
+# ==============================================================================
+from scipy import stats
 
-#Euclidean Distance
-def euclidean_distance(a,b):
-    return np.sqrt(np.sum((a-b)**2))
+# Q1) Normal Distribution
+mu = 70
+sigma = 10
+x = np.linspace(20, 120, 500)
+pdf = stats.norm.pdf(x, loc=mu, scale=sigma)
+plt.plot(x, pdf)
+plt.xlabel("X")
+plt.ylabel("Density")
+plt.title("Normal Distribution")
+plt.grid()
+plt.show()
 
-#Manhattan Distance
-def manhattan_distance(a,b):
-    return np.sum(np.abs(a-b))
+# Q2) Effect of Standard Deviation
+mu = 70
+x = np.linspace(20, 120, 500)
+pdf1 = stats.norm.pdf(x, loc=mu, scale=5)
+pdf2 = stats.norm.pdf(x, loc=mu, scale=10)
+pdf3 = stats.norm.pdf(x, loc=mu, scale=15)
+plt.figure(figsize=(9, 5))
+plt.plot(x, pdf1, label="sigma = 5")
+plt.plot(x, pdf2, label="sigma = 10")
+plt.plot(x, pdf3, label="sigma = 15")
+plt.xlabel("Marks")
+plt.ylabel("Probability Density Function")
+plt.title("Effect of Standard Deviation and Normal Distribution")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.show()
 
-def kmeans_custom(X, max_iters=10):
-    centroids = np.array([[1,0,0],[0,1,1]]) #2 centroids
-    for i in range (max_iters):
-        clusters = [[] for i in range(2)]
-        
-        #Assign points to clusters
-        for point in X:
-            distances = []
-            for centroid in centroids:
-                distances.append(manhattan_distance(point, centroid))
-            
-            cluster_index = np.argmin(distances)
-            clusters[cluster_index].append(point)
-        
-        # Update Centroid
-        new_centroids = []
-        for cluster in clusters:
-            new_centroids.append(np.mean(cluster, axis=0))
-        
-        new_centroids = np.array(new_centroids)
-        if np.allclose(centroids, new_centroids):
-            break
-        centroids = new_centroids
-    return np.array(centroids), clusters
+# Q3) Effect of Mean
+sigma = 10
+x = np.linspace(20, 120, 500)
+pdf1 = stats.norm.pdf(x, loc=50, scale=sigma)
+pdf2 = stats.norm.pdf(x, loc=70, scale=sigma)
+pdf3 = stats.norm.pdf(x, loc=90, scale=sigma)
+plt.figure(figsize=(9, 5))
+plt.plot(x, pdf1, label="mean = 50")
+plt.plot(x, pdf2, label="mean = 70")
+plt.plot(x, pdf3, label="mean = 90")
+plt.xlabel("Marks")
+plt.ylabel("Probability Density Function")
+plt.title("Effect of Mean and Normal Distribution")
+plt.legend()
+plt.grid(alpha=0.3)
+plt.show()
 
-x = np.array([[1,2,3,],[0,1,2],[3,0,5],[4,1,3],[5,0,1]])
-print(x)
+# Q4) Binomial Distribution
+n = 20
+p = 0.3
+x = np.arange(0, n + 1)
+pmf = stats.binom.pmf(x, n, p)
+plt.stem(x, pmf)
+plt.xlabel("Number of Purchases")
+plt.ylabel("Probability")
+plt.title("Binomial Distribution")
+plt.grid()
+plt.show()
 
-centroids_x, clusters_x = kmeans_custom(x)
-print("Centroids of X: \n", centroids_x)
-print("Clusters of X: \n", clusters_x)
+# Q5) Poisson Distribution
+lam = 4
+x = np.arange(0, 15)
+pmf = stats.poisson.pmf(x, mu=lam)
+plt.stem(x, pmf)
+plt.xlabel("Number of Calls")
+plt.ylabel("Probability")
+plt.title("Poisson Distribution")
+plt.grid()
+plt.show()
 
-import matplotlib.pyplot as plt
-def plot_clusters_2D(x,clusters,centroid):
-    colors=['r','g']
-    plt.figure(figsize=(10,6))
-    for i, cluster in enumerate(clusters):
-        cluster = np.array(cluster)
-        plt.scatter(cluster[:,0], cluster[:,1], color = colors[i])
-    plt.scatter(centroid[:,0],centroid[:,1], c="black", marker="x", s = 300)
-    plt.title("Manhattan Distance")
-    plt.xlabel("Feature 1")
-    plt.ylabel("Feature 2")
-    plt.show()
 
-centroids_x, clusters_x = kmeans_custom(x) #Function call
-plot_clusters_2D(x, clusters_x, centroids_x)
+# ==============================================================================
+# ASM PRACTICAL 3: Confidence Intervals & Bootstrapping
+# ==============================================================================
+delivery_time = np.array([
+    31, 28, 35, 42, 30,
+    27, 39, 33, 26, 32,
+    34, 31, 38, 26, 32,
+    41, 30, 36, 29, 37
+])
+
+n = len(delivery_time)
+sample_mean = np.mean(delivery_time)
+sample_sd = np.std(delivery_time, ddof=1)
+df_deg = n - 1
+SE = sample_sd / np.sqrt(n)
+
+t_critical = stats.t.ppf(0.975, df_deg)
+margin_error = t_critical * SE
+lower = sample_mean - margin_error
+upper = sample_mean + margin_error
+
+print("Sample Mean =", sample_mean)
+print("Sample SD =", sample_sd)
+print("Degrees of Freedom =", df_deg)
+print("Standard Error =", SE)
+print("Margin of Error =", margin_error)
+print("95% Confidence Interval =", (lower, upper))
+
+# Bootstrap CI
+np.random.seed(42)
+bootstrap_means = []
+for i in range(5000):
+    bootstrap_sample = np.random.choice(
+        delivery_time, size=len(delivery_time), replace=True
+    )
+    bootstrap_means.append(np.mean(bootstrap_sample))
+
+bootstrap_means = np.array(bootstrap_means)
+lower_bootstrap = np.percentile(bootstrap_means, 2.5)
+upper_bootstrap = np.percentile(bootstrap_means, 97.5)
+
+print("Bootstrap Mean =", np.mean(bootstrap_means))
+print("95% Bootstrap CI =", (lower_bootstrap, upper_bootstrap))
+print("t-based CI =", (lower, upper))
+print("Bootstrap CI =", (lower_bootstrap, upper_bootstrap))
+print("t-based CI width =", lower - upper)
+print("Bootstrap CI width =", upper_bootstrap - lower_bootstrap)
+
+
+# ==============================================================================
+# ASM PRACTICAL 4: Hypothesis Testing (t-test, Chi-square, ANOVA, Tukey HSD)
+# ==============================================================================
+from scipy.stats import chi2_contingency, f_oneway
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+
+# Q1: Two-sample t-test
+df_titanic = sns.load_dataset("titanic")
+male = df_titanic[df_titanic["sex"] == "male"]["fare"].dropna()
+female = df_titanic[df_titanic["sex"] == "female"]["fare"].dropna()
+
+t_stat, p_value = stats.ttest_ind(male, female, equal_var=False)
+print("t_statistic:", t_stat)
+print("p-value:", p_value)
+
+# Q2: Chi-square test
+table = pd.crosstab(df_titanic["class"], df_titanic["survived"])
+print(table)
+chi2, p_val, dof, expected = chi2_contingency(table)
+print("Chi-square statistics:", chi2)
+print("Degrees of Freedom:", dof)
+print("p-value:", p_val)
+
+# Q3: ANOVA & Tukey HSD
+first = df_titanic[df_titanic["class"] == "First"]["fare"].dropna()
+second = df_titanic[df_titanic["class"] == "Second"]["fare"].dropna()
+third = df_titanic[df_titanic["class"] == "Third"]["fare"].dropna()
+
+F, p_val_anova = f_oneway(first, second, third)
+print("F-statistic:", F)
+print("p-value:", p_val_anova)
+
+df_clean = df_titanic.dropna(subset=["fare"])
+tukey = pairwise_tukeyhsd(endog=df_clean["fare"], groups=df_clean["class"])
+print(tukey)
+
+
+# ==============================================================================
+# ASM PRACTICAL 5: A/B Testing
+# ==============================================================================
+from scipy.stats import ttest_ind
+
+group_A = np.array([
+    42, 38, 45, 51, 47, 39, 44, 50, 46, 41,
+    43, 48, 37, 49, 45, 40, 52, 44, 46, 43
+])
+
+group_B = np.array([
+    48, 52, 55, 49, 58, 51, 54, 56, 50, 53,
+    57, 49, 55, 52, 59, 54, 51, 56, 53, 55
+])
+
+mean_A = np.mean(group_A)
+mean_B = np.mean(group_B)
+t_stat, p_val = ttest_ind(group_A, group_B, equal_var=False)
+
+print("Mean - Group A:", mean_A)
+print("Mean - Group B:", mean_B)
+print("t-statistic:", t_stat)
+print("p-value:", p_val)
+
+
+# ==============================================================================
+# ASM PRACTICAL 6: Linear Regression & Spearman Correlation
+# ==============================================================================
+from sklearn.datasets import load_diabetes
+import statsmodels.api as sm
+from scipy.stats import spearmanr
+
+# Q1: Simple Linear Regression
+diabetes = load_diabetes(as_frame=True)
+df_diab = diabetes.frame
+print(df_diab.head())
+print(df_diab[["bmi", "target"]].corr())
+
+X = sm.add_constant(df_diab["bmi"])
+y = df_diab['target']
+model = sm.OLS(y, X).fit()
+print(model.summary())
+
+# Q2: Multiple Linear Regression
+X_multi = df_diab[["bmi", "bp", "age"]]
+X_multi = sm.add_constant(X_multi)
+model_multi = sm.OLS(df_diab["target"], X_multi).fit()
+print(model_multi.summary())
+
+# Q3: Spearman Rank Correlation
+study_time = [2, 4, 1, 5, 3]
+exam_score = [50, 65, 45, 80, 60]
+corr, p_v = spearmanr(study_time, exam_score)
+print("Spearman Correlation:", corr)
+print("P-value:", p_v)
+
+
+# ==============================================================================
+# ASM PRACTICAL 7: Logistic Regression & Classification
+# ==============================================================================
+from datasets import load_dataset
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score,
+    confusion_matrix, classification_report, roc_curve, roc_auc_score
+)
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+# Q1: Churn Prediction
+dataset = load_dataset("scikit-learn/churn-prediction")
+df_churn = dataset["train"].to_pandas()
+
+X = df_churn[["tenure", "MonthlyCharges"]]
+y = df_churn["Churn"].map({"No": 0, "Yes": 1})
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model_logit = LogisticRegression()
+model_logit.fit(X_train, y_train)
+y_pred = model_logit.predict(X_test)
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("F1-score:", f1_score(y_test, y_pred))
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+
+y_prob = model_logit.predict_proba(X_test)[:, 1]
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+auc = roc_auc_score(y_test, y_prob)
+print("AUC:", auc)
+
+plt.plot(fpr, tpr, label=f"ROC curve (AUC = {auc:.3f})")
+plt.plot([0, 1], [0, 1], linestyle="--")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve - Customer Churn")
+plt.legend()
+plt.show()
+
+# Q2: Palmer Penguins
+penguins = sns.load_dataset("penguins")
+df_peng = penguins[penguins["species"].isin(["Adelie", "Gentoo"])].copy()
+features = ["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"]
+df_peng = df_peng[features + ["species"]].dropna()
+
+X = df_peng[features]
+y = (df_peng["species"] == "Gentoo").astype(int)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model_pipe = Pipeline([
+    ("scaler", StandardScaler()),
+    ("logistic", LogisticRegression(max_iter=1000))
+])
+model_pipe.fit(X_train, y_train)
+y_pred = model_pipe.predict(X_test)
+y_prob = model_pipe.predict_proba(X_test)[:, 1]
+
+print(f"Confusion Matrix: \n{confusion_matrix(y_test, y_pred)}")
+print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
+print(f"Classification Report: \n{classification_report(y_test, y_pred)}")
+
+
+# ==============================================================================
+# ASM PRACTICAL 8: Principal Component Analysis (PCA)
+# ==============================================================================
+from sklearn.datasets import load_wine, load_breast_cancer
+from sklearn.decomposition import PCA
+
+# Q1 & Q2: Wine Dataset
+wine = load_wine()
+x_wine = pd.DataFrame(data=wine.data, columns=wine.feature_names)
+y_wine = wine.target
+
+scaler = StandardScaler()
+x_scaled = scaler.fit_transform(x_wine)
+
+pca = PCA()
+x_pca = pca.fit_transform(x_scaled)
+explained_var = pca.explained_variance_ratio_
+cum_var = explained_var.cumsum()
+n_comp = (cum_var >= 0.9).argmax() + 1
+print("Number of components explaining at least 90% variance:", n_comp)
+
+pca_2 = PCA(n_components=2)
+x_pca_2 = pca_2.fit_transform(x_scaled)
+plt.figure(figsize=(8, 6))
+plt.scatter(x_pca_2[:, 0], x_pca_2[:, 1], c=y_wine)
+plt.xlabel('First Principal Component')
+plt.ylabel('Second Principal Component')
+plt.title('PCA of Wine Dataset')
+plt.colorbar(label="Wine Class")
+plt.show()
+
+# Q3: Cancer Dataset
+cancer = load_breast_cancer()
+x_cancer = cancer.data
+y_cancer = cancer.target
+
+scaler_c = StandardScaler()
+x_cancer_scaled = scaler_c.fit_transform(x_cancer)
+pca_c = PCA()
+x_cancer_pca = pca_c.fit_transform(x_cancer_scaled)
+cum_var_c = pca_c.explained_variance_ratio_.cumsum()
+n_comp_c = np.argmax(cum_var_c >= 0.90) + 1
+print("Cancer dataset components for 90% variance:", n_comp_c)
+
+
+# ==============================================================================
+# ASM PRACTICAL 9: Bayesian Updating for Medical Testing
+# ==============================================================================
+prior_disease = 0.01
+sensitivity = 0.95
+specificity = 0.90
+false_positive_rate = 1 - specificity
+
+prob_positive = (
+    sensitivity * prior_disease +
+    false_positive_rate * (1 - prior_disease)
+)
+posterior_disease = (sensitivity * prior_disease) / prob_positive
+
+print("Prior Probability of Disease:", prior_disease)
+print("Probability of Positive Test:", prob_positive)
+print("Posterior Probability P(Disease | Positive):", posterior_disease)

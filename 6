@@ -1,57 +1,35 @@
-import numpy as np
+# ASM Practical 6 - Linear Regression & Correlation
 
-#Euclidean Distance
-def euclidean_distance(a,b):
-    return np.sqrt(np.sum((a-b)**2))
+# Question 1: Simple Linear Regression (Diabetes Dataset)
+from sklearn.datasets import load_diabetes
+import pandas as pd
+import statsmodels.api as sm
 
-#Manhattan Distance
-def manhattan_distance(a,b):
-    return np.sum(np.abs(a-b))
+diabetes = load_diabetes(as_frame=True)
+df = diabetes.frame
+print(df.head())
 
-def kmeans_custom(X, max_iters=10):
-    centroids = np.array([[1,0,0],[0,1,1]]) #2 centroids
-    for i in range (max_iters):
-        clusters = [[] for i in range(2)]
-        
-        #Assign points to clusters
-        for point in X:
-            distances = []
-            for centroid in centroids:
-                distances.append(manhattan_distance(point, centroid))
-            
-            cluster_index = np.argmin(distances)
-            clusters[cluster_index].append(point)
-        
-        # Update Centroid
-        new_centroids = []
-        for cluster in clusters:
-            new_centroids.append(np.mean(cluster, axis=0))
-        
-        new_centroids = np.array(new_centroids)
-        if np.allclose(centroids, new_centroids):
-            break
-        centroids = new_centroids
-    return np.array(centroids), clusters
+# correlation
+print(df[["bmi", "target"]].corr())
 
-x = np.array([[1,2,3,],[0,1,2],[3,0,5],[4,1,3],[5,0,1]])
-print(x)
+# Simple linear regression
+X = sm.add_constant(df["bmi"])
+y = df['target']
+model = sm.OLS(y, X).fit()
+print(model.summary())
 
-centroids_x, clusters_x = kmeans_custom(x)
-print("Centroids of X: \n", centroids_x)
-print("Clusters of X: \n", clusters_x)
+# Question 2: Multiple Linear Regression
+X = df[["bmi", "bp", "age"]]
+X = sm.add_constant(X)
+model = sm.OLS(df["target"], X).fit()
+print(model.summary())
 
-import matplotlib.pyplot as plt
-def plot_clusters_2D(x,clusters,centroid):
-    colors=['r','g']
-    plt.figure(figsize=(10,6))
-    for i, cluster in enumerate(clusters):
-        cluster = np.array(cluster)
-        plt.scatter(cluster[:,0], cluster[:,1], color = colors[i])
-    plt.scatter(centroid[:,0],centroid[:,1], c="black", marker="x", s = 300)
-    plt.title("Manhattan Distance")
-    plt.xlabel("Feature 1")
-    plt.ylabel("Feature 2")
-    plt.show()
+# Question 3: Spearman Rank Correlation
+from scipy.stats import spearmanr
 
-centroids_x, clusters_x = kmeans_custom(x) #Function call
-plot_clusters_2D(x, clusters_x, centroids_x)
+study_time = [2, 4, 1, 5, 3]
+exam_score = [50, 65, 45, 80, 60]
+
+correlation, p_value = spearmanr(study_time, exam_score)
+print("Spearman Correlation:", correlation)
+print("P-value:", p_value)

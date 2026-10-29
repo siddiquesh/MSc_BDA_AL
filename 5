@@ -1,107 +1,25 @@
+# ASM Practical 5 - A/B Testing
+
+# Dataset for A/B Testing
 import numpy as np
-import matplotlib.pyplot as plt
-from skimage import io, color
-from skimage.metrics import mean_squared_error
+from scipy.stats import ttest_ind
 
-#step 1: Load image and convert to grayscale
-img = io.imread('images.jpg')
-gray = color.rgb2gray(img) # values between 0-1
+group_A = np.array([
+    42, 38, 45, 51, 47, 39, 44, 50, 46, 41,
+    43, 48, 37, 49, 45, 40, 52, 44, 46, 43
+])
 
-plt.imshow(gray, cmap='gray')
-plt.title("Original GrayScale Image")
-plt.axis('off')
-plt.show()
+group_B = np.array([
+    48, 52, 55, 49, 58, 51, 54, 56, 50, 53,
+    57, 49, 55, 52, 59, 54, 51, 56, 53, 55
+])
 
-# step 2: Apply SVD
-U, S , Vt = np.linalg.svd(gray, full_matrices=False)
-# returns U and Vt with shapes (m,k) and (k,n) instead of full sq sizes(m,m) and
+mean_A = np.mean(group_A)
+mean_B = np.mean(group_B)
 
-#step 3 : Function to reconstruct with top r values
-def reconstruct(U, S, Vt, r):
-    return U[:, :r] @ np.diag(S[:r]) @ Vt[:r, :]
+t_stat, p_value = ttest_ind(group_A, group_B, equal_var=False)
 
-#step 4: Choose r values
-r1,r2,r3,r4,r5,r6,r7,r8,r9 = 5,20,50,100,150,200,500,800,1100
-
-#Step 5 : Reconstruct images
-img_r1 = reconstruct(U, S, Vt, r1)
-img_r2 = reconstruct(U, S, Vt, r2)
-img_r3 = reconstruct(U, S, Vt, r3)
-img_r4 = reconstruct(U, S, Vt, r4)
-img_r5 = reconstruct(U, S, Vt, r5)
-img_r6 = reconstruct(U, S, Vt, r6)
-img_r7 = reconstruct(U, S, Vt, r7)
-img_r8 = reconstruct(U, S, Vt, r8)
-img_r9 = reconstruct(U, S, Vt, r9)
-
-plt.close('all')
-plt.figure(figsize=(18, 12))
-
-plt.subplot(3, 3, 1)
-plt.imshow(img_r1, cmap='gray')
-plt.title(f"r={r1}")
-plt.axis('off')
-
-plt.subplot(3, 3, 2)
-plt.imshow(img_r2, cmap='gray')
-plt.title(f"r={r2}")
-plt.axis('off')
-
-plt.subplot(3, 3, 3)
-plt.imshow(img_r3, cmap='gray')
-plt.title(f"r={r3}")
-plt.axis('off')
-
-plt.subplot(3, 3, 4)
-plt.imshow(img_r4, cmap='gray')
-plt.title(f"r={r4}")
-plt.axis('off')
-
-plt.subplot(3, 3, 5)
-plt.imshow(img_r5, cmap='gray')
-plt.title(f"r={r5}")
-plt.axis('off')
-
-plt.subplot(3, 3, 6)
-plt.imshow(img_r6, cmap='gray')
-plt.title(f"r={r6}")
-plt.axis('off')
-
-plt.subplot(3, 3, 7)
-plt.imshow(img_r7, cmap='gray')
-plt.title(f"r={r7}")
-plt.axis('off')
-
-plt.subplot(3, 3, 8)
-plt.imshow(img_r8, cmap='gray')
-plt.title(f"r={r8}")
-plt.axis('off')
-
-plt.subplot(3, 3, 9)
-plt.imshow(img_r9, cmap='gray')
-plt.title(f"r={r9}")
-plt.axis('off')
-
-plt.tight_layout()
-plt.show()
-
-#Step 6: Compute mse
-mse_r1 = mean_squared_error(gray, img_r1)
-mse_r2 = mean_squared_error(gray, img_r2)
-mse_r3 = mean_squared_error(gray, img_r3)
-mse_r4 = mean_squared_error(gray, img_r4)
-mse_r5 = mean_squared_error(gray, img_r5)
-mse_r6 = mean_squared_error(gray, img_r6)
-mse_r7 = mean_squared_error(gray, img_r7)
-mse_r8 = mean_squared_error(gray, img_r8)
-mse_r9 = mean_squared_error(gray, img_r9)
-
-print(mse_r1)
-print(mse_r2)
-print(mse_r3)
-print(mse_r4)
-print(mse_r5)
-print(mse_r6)
-print(mse_r7)
-print(mse_r8)
-print(mse_r9)
+print("Mean - Group A:", mean_A)
+print("Mean - Group B:", mean_B)
+print("t-statistic:", t_stat)
+print("p-value:", p_value)

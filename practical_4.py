@@ -1,60 +1,45 @@
-import numpy as np
-np.random.seed(42)
-x=np.random.rand(100,2) @ np.array([[2,1],[1,3]]) # @ sign is used for multiplication
-print(x)
+# ASM Practical 4 - Hypothesis Testing (t-test, Chi-square, ANOVA, Tukey HSD)
 
-# step 2 : Standardize
-x_mean = x - np.mean(x,axis=0)
+# Question 1: Two-Sample t-test
+import seaborn as sns
+from scipy import stats
 
-# step 3 : Covariance matrix
-cov_matrix = np.cov(x_mean, rowvar=False)
-print("Covariance matrix: ",cov_matrix)
+df = sns.load_dataset("titanic")
+male = df[df["sex"] == "male"]["fare"].dropna()
+female = df[df["sex"] == "female"]["fare"].dropna()
 
-# STEP 4 : Eigenvalues and Eigenvectors
-eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
-print("Eigenvalues: ",eigenvalues)
-print("Eigenvectors: ",eigenvectors)
+t_stat, p_value = stats.ttest_ind(
+    male, female, equal_var=False
+)
+print("t_statistic:", t_stat)
+print("p-value:", p_value)
 
-#STEP 5 : sort eigenvectors by eigenvalues (descending)
-sorted_idx = np.argsort(eigenvalues)[::-1]
+# Question 2: Chi-Square Test of Independence
+from scipy.stats import chi2_contingency
+import pandas as pd
 
-eigenvalues = eigenvalues[sorted_idx]
-eigenvectors = eigenvectors[:,sorted_idx]
-print("Eigenvalues: ",eigenvalues)
-print("Eigenvectors: ",eigenvectors)
+table = pd.crosstab(df["class"], df["survived"])
+print(table)
 
-#step 6 : project data onto first principal component (reduce to 1D)
-pc1=eigenvectors[:,0]
-print("pc1 \n",pc1)
+chi2, p_value, dof, expected = chi2_contingency(table)
+print("Chi-square statistics:", chi2)
+print("Degrees of Freedom:", dof)
+print("p-value:", p_value)
 
-x_pca=x_mean @pc1
-print("x pca\n",x_pca) #projected on pc1
+# Question 3: One-Way ANOVA & Tukey HSD
+# h0: mean fares do not differ significance across 3 passenger classes
+from scipy.stats import f_oneway
 
-import numpy as np
-from sklearn.datasets import load_iris
-iris = load_iris()
-x = iris.data
+first = df[df["class"] == "First"]["fare"].dropna()
+second = df[df["class"] == "Second"]["fare"].dropna()
+third = df[df["class"] == "Third"]["fare"].dropna()
 
-# step 2 : Standardize
-x_mean = x - np.mean(x,axis=0)
+F, p_value = f_oneway(first, second, third)
+print("F-statistic:", F)
+print("p-value:", p_value)
 
-# step 3 : Covariance matrix
-cov_matrix = np.cov(x_mean, rowvar=False)
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
 
-# STEP 4 : Eigenvalues and Eigenvectors
-eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
-
-#STEP 5 : sort eigenvectors by eigenvalues (descending)
-sorted_idx = np.argsort(eigenvalues)[::-1]
-
-eigenvalues = eigenvalues[sorted_idx]
-eigenvectors = eigenvectors[:,sorted_idx]
-
-#step 6 : project data onto first principal component (reduce to 1D)
-pc1=eigenvectors[:,:2]
-
-x_pca=x_mean @pc1
-
-print("Eigenvalues: ",eigenvalues)
-print("Principal components: ",eigenvectors)
-print("x pca\n",x_pca) #projected on pc1
+df = df.dropna(subset=["fare"])
+tukey = pairwise_tukeyhsd(endog=df["fare"], groups=df["class"])
+print(tukey)

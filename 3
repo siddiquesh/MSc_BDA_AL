@@ -1,130 +1,63 @@
-# linear regression using formula
+# ASM Practical 3 - Confidence Intervals & Bootstrapping
+
+# Question 1: t-based Confidence Interval
+from scipy import stats
 import numpy as np
-import matplotlib.pyplot as plt
 
-x=np.array([1,2,3,4,5])
-y=np.array([2,4,5,4,5])
+delivery_time = np.array([
+    31, 28, 35, 42, 30,
+    27, 39, 33, 26, 32,
+    34, 31, 38, 26, 32,
+    41, 30, 36, 29, 37
+])
 
-X_mean = np.mean(x)
-Y_mean = np.mean(y)
+n = len(delivery_time)
 
-numerator= np.sum((x - X_mean)* (y - Y_mean))
-denominator = np.sum((x - X_mean) ** 2)
-slope = numerator / denominator
-intercept = Y_mean - slope * X_mean
+# Sample mean and sample standard deviation
+sample_mean = np.mean(delivery_time)
+sample_sd = np.std(delivery_time, ddof = 1) # for population ddof=0
 
-print("Slope: ", slope)
-print("Intercept: ", intercept)
+# Degrees of Freedom
+df = n - 1
 
-y_pred = slope * x + intercept
-print(y_pred)
+# Standard Error
+SE = sample_sd / np.sqrt(n)
 
-plt.scatter(x,y, color="black", label="Actual Data")
-plt.plot(x,y_pred, color='red', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
+# 95% confidence interval
+t_critical = stats.t.ppf(0.975, df)
+margin_error = t_critical * SE
+lower = sample_mean - margin_error
+upper = sample_mean + margin_error
 
-# Linear Regression using pre build function
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+print("Sample Mean =", sample_mean)
+print("Sample SD =", sample_sd)
+print("Degrees of Freedom =", df)
+print("Standard Error =", SE)
+print("Margin of Error =", margin_error)
+print("95% Confidence Interval =", (lower, upper))
 
-#-1 (Rows): Tells NumPy to automatically calculate the number of rows. 
-# Since there are 5 elements total, NumPy computes (5 / 1 = 5) rows.
-x=np.array([1,2,3,4,5]).reshape(-1,1) 
-y=np.array([2,4,5,4,5])
+# Question 2: Bootstrap Confidence Interval
+np.random.seed(42)
+bootstrap_means = []
 
-model=LinearRegression()
-model.fit(x,y)
+for i in range(5000):
+  bootstrap_sample = np.random.choice(
+      delivery_time,
+      size=len(delivery_time),
+      replace=True
+  )
+  bootstrap_means.append(np.mean(bootstrap_sample))
 
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
+bootstrap_means = np.array(bootstrap_means)
 
-y_pred=model.predict(x)
+# 95% percentile bootstrap CI
+lower_bootstrap = np.percentile(bootstrap_means, 2.5)
+upper_bootstrap = np.percentile(bootstrap_means, 97.5)
 
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
+print("Bootstrap Mean =", np.mean(bootstrap_means))
+print("95% Bootstrap CI =", (lower_bootstrap, upper_bootstrap))
 
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import *
-import pandas as pd
-
-housing = pd.read_csv('Housing.csv')
-
-#Select feature and Target
-x= housing[["area"]]
-y = housing['price']
-
-model=LinearRegression()
-model.fit(x,y)
-
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
-
-y_pred=model.predict(x)
-
-print("R2 Score: ",r2_score(y,model.predict(x)))
-print("MSE: ",mean_squared_error(y,model.predict(x)))
-
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
-
-#Select feature and Target on bedroom
-x= housing[["bedrooms"]]
-y = housing['price']
-
-model=LinearRegression()
-model.fit(x,y)
-
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
-
-y_pred=model.predict(x)
-
-print("R2 Score: ",r2_score(y,model.predict(x)))
-print("MSE: ",mean_squared_error(y,model.predict(x)))
-
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import *
-
-x=np.array([1,2,3,4,5]).reshape(-1,1)
-y=np.array([2,4,6,8,9])
-
-model=LinearRegression()
-model.fit(x,y)
-
-print("Slope: ", model.coef_[0])
-print("Intercept: ", model.intercept_)
-
-y_pred=model.predict(x)
-
-print("R2 Score: ",r2_score(y,model.predict(x)))
-print("MSE: ",mean_squared_error(y,model.predict(x)))
-
-plt.scatter(x,y, color="blue", label="Actual Data")
-plt.plot(x,y_pred, color='green', label="Regression Line")
-plt.xlabel("Hours Studied")
-plt.ylabel("Marks Scored")
-plt.legend()
-plt.show()
+print("t-based CI =", (lower, upper))
+print("Bootstrap CI =", (lower_bootstrap, upper_bootstrap))
+print("t-based CI width =", lower - upper)
+print("Bootstrap CI width =", upper_bootstrap - lower_bootstrap)
