@@ -1,182 +1,181 @@
-"""
-================================================================================
-PRACTICAL 1: DESCRIPTIVE STATISTICS & EXPLORATORY DATA ANALYSIS (EDA)
-================================================================================
-FULL QUESTIONS:
+-- ================================================================================
+-- PRACTICAL 1: DATA SYSTEM FOR ANALYTICS (DSA)
+-- TOPIC: WORKING WITH DDL AND DML COMMANDS (MySQL)
+-- ================================================================================
+-- FULL QUESTIONS:
+-- Q. Working with DDL and DML Commands:
+--    A - DDL (Data Definition Language) Commands:
+--        1) Create Database and Table with Primary Key constraint.
+--        2) Alter table structure (modify column constraints).
+--        3) Drop Database and Table syntax.
+--    B - DML (Data Manipulation Language) Commands:
+--        1) Insert records into table (single and multi-row).
+--        2) Select specific columns and all records from table.
+--        3) Update specific records based on condition.
+--        4) Delete specific records based on condition.
+--    C - Operators:
+--        1) Relational Operators (>, >=).
+--        2) Arithmetic Operators (* 0.05 bonus calculation, alias).
+--        3) Logical and Range Operators (&&, BETWEEN ... AND, IN).
+--        4) LIKE Operator (Pattern matching with '%' and '_').
+--        5) IS NULL and IS NOT NULL Operators, and updating NULL values.
+-- ================================================================================
 
-Q1) Analyze the Iris Dataset:
-    1. Load the Iris Dataset (150 rows, 4 numerical features, 1 categorical species).
-    2. Calculate Mean, Median, Mode(s), Standard Deviation, Variance, Skewness, Kurtosis
-       for each numerical feature (sepal_length, sepal_width, petal_length, petal_width).
-    3. Plot distribution histograms with KDE for all numerical features in a 2x2 grid.
-    4. Provide detailed feature-by-feature statistical interpretation.
+-- --------------------------------------------------------------------------------
+-- PART A: DDL (DATA DEFINITION LANGUAGE) COMMANDS
+-- --------------------------------------------------------------------------------
 
-Q2) Analyze the Tips Dataset:
-    1. Load the Tips Dataset (244 rows, 7 columns).
-    2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis)
-       for numerical features (total_bill, tip, size).
-    3. Plot histograms with KDE for numerical features in a 2x2 grid.
-    4. Provide statistical interpretation of customer billing & tipping behavior.
+-- 1. CREATE DATABASE
+CREATE DATABASE IF NOT EXISTS abdulwahab;
+SHOW DATABASES;
+USE abdulwahab;
 
-Q3) Analyze the Indian Stock Market Dataset:
-    1. Load 'indian_stock_market.csv' (2306 rows).
-    2. Calculate summary statistics for numerical stock prices (MSFT, IBM, SBUX, AAPL, GSPC).
-    3. Plot distribution histograms with KDE in a 3x2 grid.
-================================================================================
-"""
+-- 2. CREATE TABLE
+CREATE TABLE IF NOT EXISTS employee (
+    empid INT PRIMARY KEY,
+    name CHAR(50),
+    doj DATE,
+    desgn CHAR(50),
+    deptid VARCHAR(20)
+);
 
-import os
-import pandas as pd
-import numpy as np
-import seaborn as sns
-from scipy.stats import skew, kurtosis
-import matplotlib.pyplot as plt
+-- Describe table schema
+DESC employee;
 
-# ------------------------------------------------------------------------------
-# Q1: Iris Dataset
-# ------------------------------------------------------------------------------
-iris = sns.load_dataset('iris')
-print("--- Iris Dataset Head ---")
-print(iris.head())
-print("\n--- Iris Dataset Info ---")
-iris.info()
+-- 3. ALTER TABLE
+-- Modify 'name' column to NOT NULL
+ALTER TABLE employee MODIFY name CHAR(50) NOT NULL;
+DESC employee;
 
-numerical_cols = iris.select_dtypes(include=np.number).columns.tolist()
+-- 4. DROP SYNTAX (Reference)
+-- DROP DATABASE <<db_name>>;
+-- DROP TABLE <<table_name>>;
 
-for col in numerical_cols:
-    mean_val = iris[col].mean()
-    median_val = iris[col].median()
-    mode_val = iris[col].mode().tolist()  # mode() can return multiple values
-    std_val = iris[col].std()
-    var_val = iris[col].var()
-    skewness_val = skew(iris[col])
-    kurtosis_val = kurtosis(iris[col])
-    print(f"... Statistics for '{col}'")
-    print(f" Mean: {mean_val:.3f}")
-    print(f" Median: {median_val:.3f}")
-    print(f" Mode: {mode_val}")
-    print(f" Standard Deviation: {std_val:.3f}")
-    print(f" Variance: {var_val:.3f}")
-    print(f" Skewness: {skewness_val:.3f}")
-    print(f" Kurtosis: {kurtosis_val:.3f}\n")
 
-"""
-Q1 Interpretation:
-1. General Dataset Overview: 150 entries, no missing values, 4 numerical features and 1 categorical species.
-2. Sepal Length: Mean (5.843) and Median (5.800) are very close. Slight positive skewness (0.315) pulls the mean slightly higher.
-3. Sepal Width: Mean (3.057) and Median (3.000) closely approximate a standard normal distribution.
-4. Petal Length (Bimodal): Gap between mean (3.758) and median (4.350). Two modes (1.4 and 1.5). High negative kurtosis (-1.402) confirms a bimodal distribution due to Setosa clustering at 1.4-1.5 while other species cluster higher.
-5. Petal Width: Mode at low end (0.2) represents small Setosa petals, while median (1.3) reflects larger flowers.
-"""
+-- --------------------------------------------------------------------------------
+-- PART B: DML (DATA MANIPULATION LANGUAGE) COMMANDS
+-- --------------------------------------------------------------------------------
 
-plt.figure(figsize=(15, 10))
-for i, col in enumerate(numerical_cols):
-    plt.subplot(2, 2, i + 1)
-    sns.histplot(iris[col], kde=True, bins=15)
-    plt.title(f'Distribution of {col}')
-    plt.xlabel(col)
-    plt.ylabel('Frequency')
-plt.tight_layout()
-plt.show()
+-- 1. INSERT COMMANDS
+-- Single row insert with all columns
+INSERT INTO employee VALUES (1, 'Alice', '2019-07-01', 'AS', 'D101');
 
-# ------------------------------------------------------------------------------
-# Q2: Tips Dataset
-# ------------------------------------------------------------------------------
-tips = sns.load_dataset('tips')
-print("\n--- Tips Dataset Head ---")
-print(tips.head())
-print("\n--- Tips Dataset Info ---")
-tips.info()
+-- Single row insert with specified columns
+INSERT INTO employee (empid, name, doj, desgn, deptid) 
+VALUES (2, 'Bob', '2020-01-04', 'AS', 'D104');
 
-numerical_cols = tips.select_dtypes(include=np.number).columns.to_list()
+-- Multi-row insert
+INSERT INTO employee VALUES
+    (3, 'John', '2020-01-25', 'Professor', 'D101'),
+    (4, 'Mary', '2015-03-05', 'HOD', 'D102'),
+    (5, 'Sam', '2017-02-04', 'Professor', 'D102'),
+    (6, 'Eric', '2019-08-17', 'Professor', 'D103'),
+    (7, 'Andrew', '2018-09-20', 'HOD', 'D104');
 
-for col in numerical_cols:
-    mean_val = tips[col].mean()
-    median_val = tips[col].median()
-    mode_val = tips[col].mode().tolist()
-    std_val = tips[col].std()
-    var_val = tips[col].var()
-    skew_val = skew(tips[col])
-    kurtosis_val = kurtosis(tips[col])
-    print(f"----- Stats for '{col}' -----")
-    print(f"Mean: {mean_val:.3f}")
-    print(f"Median: {median_val:.3f}")
-    print(f"Mode: {mode_val}")
-    print(f"Standard Deviation: {std_val:.3f}")
-    print(f"Variance: {var_val:.3f}")
-    print(f"Skewness: {skew_val:.3f}")
-    print(f"Kurtosis: {kurtosis_val:.3f}\n")
+-- 2. SELECT COMMANDS
+-- Select specific columns
+SELECT name, desgn FROM employee;
 
-"""
-Q2 Interpretation:
-1. Total Bill: Right-skewed (skewness 1.133), mean (19.786) > median (17.795). Most restaurant bills are on the lower end, with a few large bills pulling the mean up.
-2. Tip: Strong mode at 2.0 (psychological tendency for flat round tip). Highly positive skewness (1.465) and kurtosis (3.648 leptokurtic).
-3. Party Size: Mean 2.57, but median and mode are both 2. Most tables seat parties of two, with large parties acting as outliers.
-"""
+-- Select all columns
+SELECT * FROM employee;
 
-plt.figure(figsize=(15, 10))
-for i, col in enumerate(numerical_cols):
-    plt.subplot(2, 2, i + 1)
-    sns.histplot(tips[col], kde=True, bins=15)
-    plt.title(f'Distribution of {col}')
-    plt.xlabel(col)
-    plt.ylabel('Frequency')
-plt.tight_layout()
-plt.show()
+-- 3. UPDATE COMMAND
+-- Update date of joining and designation for empid 1
+UPDATE employee 
+SET doj = '2019-09-08', desgn = 'AS' 
+WHERE empid = 1;
 
-# ------------------------------------------------------------------------------
-# Q3: Indian Stock Market Dataset
-# ------------------------------------------------------------------------------
-if os.path.exists('indian_stock_market.csv'):
-    df_stock = pd.read_csv('indian_stock_market.csv')
-elif os.path.exists('asm/indian_stock_market.csv'):
-    df_stock = pd.read_csv('asm/indian_stock_market.csv')
-else:
-    # Graceful fallback: generate matching 2306-row stock dataset
-    np.random.seed(42)
-    n = 2306
-    dates = pd.date_range('2007-01-03', periods=n, freq='B')
-    df_stock = pd.DataFrame({
-        'MSFT': np.clip(np.random.normal(28.74, 9.47, n), 15.0, 60.0),
-        'IBM': np.clip(np.random.normal(136.24, 37.38, n), 60.0, 220.0),
-        'SBUX': np.clip(np.random.normal(23.21, 15.52, n), 3.5, 60.0),
-        'AAPL': np.clip(np.random.normal(54.72, 34.65, n), 10.0, 135.0),
-        'GSPC': np.clip(np.random.normal(1460.0, 361.67, n), 650.0, 2200.0),
-        'Date': dates.strftime('%Y-%m-%d')
-    })
+SELECT * FROM employee;
 
-print("\n--- Indian Stock Market Dataset Head ---")
-print(df_stock.head())
-print("\n--- Indian Stock Market Info ---")
-df_stock.info()
+-- 4. DELETE COMMAND
+-- Delete record of employee where empid is 1
+DELETE FROM employee WHERE empid = 1;
 
-numerical_cols = df_stock.select_dtypes(include=np.number).columns.to_list()
+SELECT * FROM employee;
 
-for col in numerical_cols:
-    clean_series = df_stock[col].dropna()
-    mean_val = clean_series.mean()
-    median_val = clean_series.median()
-    mode_val = clean_series.mode().tolist()
-    std_val = clean_series.std()
-    var_val = clean_series.var()
-    skew_val = skew(clean_series, nan_policy='omit')
-    kurtosis_val = kurtosis(clean_series, nan_policy='omit')
 
-    print(f"----- Stats for '{col}' -----")
-    print(f"Mean: {mean_val:.3f}")
-    print(f"Median: {median_val:.3f}")
-    print(f"Mode: {mode_val[:5]}")
-    print(f"Standard Deviation: {std_val:.3f}")
-    print(f"Variance: {var_val:.3f}")
-    print(f"Skewness: {skew_val:.3f}")
-    print(f"Kurtosis: {kurtosis_val:.3f}\n")
+-- --------------------------------------------------------------------------------
+-- PART C: OPERATORS
+-- --------------------------------------------------------------------------------
 
-plt.figure(figsize=(15, 10))
-for i, col in enumerate(numerical_cols):
-    plt.subplot(3, 2, i + 1)
-    sns.histplot(df_stock[col], kde=True, bins=15)
-    plt.title(f'Distribution of {col}')
-    plt.xlabel(col)
-    plt.ylabel('Frequency')
-plt.tight_layout()
-plt.show()
+-- Add salary column to demonstrate arithmetic and range queries
+ALTER TABLE employee ADD COLUMN salary DECIMAL(10, 2);
+
+-- Update salary values
+UPDATE employee SET salary = 650000 WHERE empid = 2;
+UPDATE employee SET salary = 800000 WHERE empid = 3;
+UPDATE employee SET salary = 700000 WHERE empid = 4;
+UPDATE employee SET salary = 500000 WHERE empid = 5;
+UPDATE employee SET salary = 300000 WHERE empid = 6;
+UPDATE employee SET salary = 700000 WHERE empid = 7;
+
+-- 1. RELATIONAL OPERATORS
+-- Select employees who joined after '2017-02-04'
+SELECT * FROM employee WHERE doj > '2017-02-04';
+
+-- Select employees where empid >= 4
+SELECT name, empid FROM employee WHERE empid >= 4;
+
+-- 2. ARITHMETIC OPERATORS
+-- Calculate 5% of salary (e.g. bonus / tax deduction)
+SELECT name, (salary * 0.05) AS bonus_component FROM employee;
+
+-- Calculate total salary including 5% bonus with alias
+SELECT name, (salary + salary * 0.05) AS Bonus FROM employee;
+
+-- 3. LOGICAL AND RANGE OPERATORS
+-- Filter by designation
+SELECT * FROM employee WHERE desgn = 'HOD';
+
+-- Relational AND operator (&& or AND)
+SELECT * FROM employee WHERE salary >= 500000 && salary <= 800000;
+
+-- BETWEEN ... AND operator
+SELECT * FROM employee WHERE salary BETWEEN 500000 AND 800000;
+
+-- IN operator
+SELECT * FROM employee WHERE salary IN (300000, 500000, 800000);
+
+-- --------------------------------------------------------------------------------
+-- 4. LIKE OPERATOR (PATTERN MATCHING)
+-- --------------------------------------------------------------------------------
+-- Note: Standard table with 'ename' as column alias / name
+-- Names starting with 'A'
+SELECT * FROM employee WHERE name LIKE 'A%';
+
+-- Names ending with 'b'
+SELECT * FROM employee WHERE name LIKE '%b';
+
+-- Names containing letter 'a' (case-insensitive in MySQL)
+SELECT * FROM employee WHERE name LIKE '%a%';
+
+-- Names where second character is 'o'
+SELECT * FROM employee WHERE name LIKE '_o%';
+
+-- Names where second last character is 'r'
+SELECT * FROM employee WHERE name LIKE '%r_';
+
+-- Names containing 'i' followed by exactly two characters
+SELECT * FROM employee WHERE name LIKE '%i__';
+
+-- Names having exactly 4 letters
+SELECT * FROM employee WHERE name LIKE '____';
+
+-- --------------------------------------------------------------------------------
+-- 5. IS NULL AND IS NOT NULL OPERATORS
+-- --------------------------------------------------------------------------------
+-- Insert a record with NULL department to test NULL checks
+INSERT INTO employee (empid, name, doj, desgn, deptid, salary) 
+VALUES (8, 'Samir', '2021-01-25', 'AS', NULL, 700000.00);
+
+-- Find employees with no assigned department (deptid IS NULL)
+SELECT * FROM employee WHERE deptid IS NULL;
+
+-- Find employees with an assigned department (deptid IS NOT NULL)
+SELECT * FROM employee WHERE deptid IS NOT NULL;
+
+-- Fill/Update NULL values with department 'D103'
+UPDATE employee SET deptid = 'D103' WHERE deptid IS NULL;
+
+-- Verify all employees have department assigned
+SELECT * FROM employee;

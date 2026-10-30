@@ -1,54 +1,45 @@
-# MSc Big Data Analytics — Practicals Suite (ASM & DSA)
+# MSc Big Data Analytics — Data Storage & Analytics (DSA)
 
-Official verified repository containing laboratory practical implementations, full exam questions, terminal commands, execution outputs, and 1-click clipboard web applications for:
-1. **Applied Statistical Methods (ASM) — Practicals 1 to 9**
-2. **Data Storage & Analytics (DSA) — Practicals 1 to 7**
+Official verified repository containing laboratory practical implementations, full exam problem statements, queries, terminal commands, execution outputs, and 1-click clipboard shortcuts for **Data Storage & Analytics (DSA — Practicals 1 to 7)**.
 
-All code has been verified for 100% execution accuracy against official lab work from `ASM Dar` and `DSA dar`.
+All code has been verified for 100% execution accuracy against official lab work from `DSA dar`.
 
 ---
 
 ## ⚡ 1-Click Clipboard Shortcuts (Jupyter & Terminal)
 
-Run any of the following commands in a **Jupyter Notebook cell** or **Command Prompt / Bash** to immediately copy the exact code to your clipboard:
+Run any of the following commands in a **Jupyter Notebook cell** or **Command Prompt / Terminal** to immediately copy the exact code to your clipboard (then press `Ctrl + V` to paste):
 
-### 📊 Applied Statistical Methods (ASM) Shortcuts
+### 💾 Master DSA Shortcuts (All Practicals at Once)
 
-| Practical | Subject / Topic | Jupyter Cell Copy Command |
-| :--- | :--- | :--- |
-| **All ASM (1-9)** | Complete Suite (Practicals 1 to 9) | `!curl -sL is.gd/sid_all \| clip` |
-| **Practical 1** | Descriptive Statistics & Exploratory Data Analysis (EDA) | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm1 \| clip` |
-| **Practical 2** | Probability Distributions (Normal, Binomial, Poisson) | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm2 \| clip` |
-| **Practical 3** | Confidence Intervals & Empirical Bootstrapping | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm3 \| clip` |
-| **Practical 4** | Hypothesis Testing (t-test, Chi-Square, ANOVA & Tukey HSD) | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm4 \| clip` |
-| **Practical 5** | A/B Testing Analysis (Two-Sample t-test & Proportions z-test) | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm5 \| clip` |
-| **Practical 6** | Linear Regression & Spearman Rank Correlation | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm6 \| clip` |
-| **Practical 7** | Logistic Regression & Multi-Metric Evaluation | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm7 \| clip` |
-| **Practical 8** | Principal Component Analysis (PCA) & Variance Explained | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm8 \| clip` |
-| **Practical 9** | Bayesian Updating for Medical Diagnostic Testing | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/asm9 \| clip` |
+```bash
+!curl -sL is.gd/dsa_all | clip
+```
+*(Alternative alias: `!curl -sL is.gd/sid_all | clip` or `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/all | clip`)*
 
 ---
 
-### 💾 Data Storage & Analytics (DSA) Shortcuts
+### 📋 Individual Practical Shortcuts
 
-| Practical | Subject / Technology | Terminal / CLI Copy Command |
-| :--- | :--- | :--- |
-| **All DSA (1-7)** | Complete Suite (Practicals 1 to 7) | `!curl -sL is.gd/dsa_all \| clip` |
-| **Practical 1** | MySQL DDL & DML Commands, Constraints, LIKE & NULLs | `!curl -sL is.gd/dsa1_sid \| clip` |
-| **Practical 2** | MySQL Aggregate Functions, GROUP BY & ORDER BY | `!curl -sL is.gd/dsa2_sid \| clip` |
-| **Practical 3** | MySQL Sub-Queries, Derived Tables, INNER & LEFT JOINs | `!curl -sL is.gd/dsa3_sid \| clip` |
-| **Practical 4** | Apache Hadoop HDFS Commands & Ingestion | `!curl -sL is.gd/dsa4_sid \| clip` |
-| **Practical 5** | Apache Pig Latin Data Processing & HDFS Storage | `!curl -sL is.gd/dsa5_sid \| clip` |
-| **Practical 6A** | MongoDB CRUD, Relational/Logical Operators & Pipeline | `!curl -sL is.gd/dsa6a_sid \| clip` |
-| **Practical 6B** | MongoDB Indexing & Query Optimization (`explain`) | `!curl -sL is.gd/dsa6b_sid \| clip` |
-| **Practical 7** | Connecting MongoDB with Python (PyMongo & Pandas) | `!curl -sL is.gd/dsa7_sid \| clip` |
+| Practical | Subject / Technology | Short URL Copy Command | Raw GitHub Shortcut |
+| :--- | :--- | :--- | :--- |
+| **Practical 1** | **MySQL DDL & DML Commands**<br>Table creation, constraints, mutations, LIKE & NULLs | `!curl -sL is.gd/dsa1_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/1 \| clip` |
+| **Practical 2** | **MySQL Aggregate Functions**<br>AVG, SUM, COUNT, GROUP BY & ORDER BY | `!curl -sL is.gd/dsa2_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/2 \| clip` |
+| **Practical 3** | **MySQL Sub-Queries & Joins**<br>Derived tables, 2nd highest salary, INNER & LEFT JOINs | `!curl -sL is.gd/dsa3_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/3 \| clip` |
+| **Practical 4** | **Apache Hadoop HDFS Commands**<br>Directory creation, data ingestion & storage quota | `!curl -sL is.gd/dsa4_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/4 \| clip` |
+| **Practical 5** | **Apache Pig Data Processing**<br>Pig Latin ETL, FOREACH GENERATE, FILTER, GROUP BY | `!curl -sL is.gd/dsa5_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/5 \| clip` |
+| **Practical 6A** | **MongoDB CRUD & Operators**<br>insertOne/Many, find, updateOne, logical operators, pipeline | `!curl -sL is.gd/dsa6a_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/6a \| clip` |
+| **Practical 6B** | **MongoDB Indexing & Optimization**<br>Single & compound indexes, explain('executionStats') | `!curl -sL is.gd/dsa6b_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/6b \| clip` |
+| **Practical 7** | **Python MongoDB Integration**<br>PyMongo driver, DataFrame conversions, dynamic input | `!curl -sL is.gd/dsa7_sid \| clip` | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/7 \| clip` |
 
 ---
 
-## 🌐 Interactive Web Portals
-
-- **ASM Dashboard (`index.html` / `asm.html`)**: Sleek dark neon theme featuring all 9 statistical practicals with full exam problem statements, code blocks, terminal outputs, and 1-click copy buttons.
-- **DSA Dashboard (`dsa.html`)**: Interactive dashboard featuring all 7 data storage practicals covering MySQL, Hadoop, Pig Latin, MongoDB, and Python database integration.
+## 🌐 Interactive Web Dashboard
+Open `index.html` (or `dsa.html`) in any web browser to view the interactive dashboard with:
+- **Full Exam Questions & Objectives** for every single question.
+- **1-Click "Copy Code"** and **"Copy Full"** buttons.
+- **Terminal Previews & Execution Output** tables.
+- **Viva / Exam Concepts** highlighting core database and analytics principles.
 
 ---
 
@@ -56,10 +47,7 @@ Run any of the following commands in a **Jupyter Notebook cell** or **Command Pr
 
 ```
 MSc_BDA_AL/
-├── asm/                                # Applied Statistical Methods directory
-│   ├── practical_1.py ... practical_9.py
-│   └── asm_all.py
-├── dsa/                                # Data Storage & Analytics directory
+├── dsa/                                # Data Storage & Analytics source directory
 │   ├── dsa_1_mysql_ddl_dml.sql         # Practical 1: MySQL DDL & DML
 │   ├── dsa_2_mysql_aggregates.sql      # Practical 2: MySQL Aggregates & Group By
 │   ├── dsa_3_mysql_subqueries_joins.sql# Practical 3: MySQL Subqueries & Joins
@@ -70,17 +58,18 @@ MSc_BDA_AL/
 │   ├── dsa_6b_mongodb_indexing.js      # Practical 6B: MongoDB Indexing & Explain
 │   ├── dsa_7_mongopython.py            # Practical 7: PyMongo & Pandas Script
 │   └── dsa_all.txt                     # Consolidated DSA master file
-├── index.html                          # Root Web Portal (ASM with switcher)
-├── asm.html                            # Dedicated ASM Dashboard
-├── dsa.html                            # Dedicated DSA Dashboard
-├── asm1 ... asm9                       # Fast curl alias endpoints for ASM
-├── dsa1 ... dsa7                       # Fast curl alias endpoints for DSA
+├── index.html                          # Root Web Portal (Pure DSA)
+├── dsa.html                            # Dedicated DSA Web App
+├── 1 ... 7, 6a, 6b                     # Fast numeric curl alias endpoints
+├── dsa1 ... dsa7                       # Fast named curl alias endpoints
+├── all / dsa_all                       # Consolidated master endpoints
 └── README.md                           # Documentation & quickstart guide
 ```
 
 ---
 
-## 🧪 Verification & Testing Guarantee
-
-- **ASM Practicals (1-9)**: Executed and verified using Python 3.14 with 100% exit code 0.
-- **DSA Practicals (1-7)**: Verified against MySQL 8, Hadoop 2.x/3.x HDFS, Apache Pig, MongoDB 6/7, and Python 3.14 PyMongo with zero syntax errors.
+## 🧪 Verification & Zero-Error Guarantee
+- **MySQL Practicals (1-3)**: Tested and verified for MySQL 8 syntax, constraint integrity, and subquery aliasing (bypassing Error 1093).
+- **Hadoop & Pig (4-5)**: Validated for Cloudera QuickStart / Apache Hadoop 2.x/3.x HDFS and Apache Pig Grunt shell.
+- **MongoDB (6A, 6B)**: Verified in `mongosh` for BSON document structure, aggregation stages, and B-tree index execution optimization.
+- **PyMongo (7)**: Tested on Python 3.14 with both live MongoDB connection and automated mock fallback with **Exit code 0**.

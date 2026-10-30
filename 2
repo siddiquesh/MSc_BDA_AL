@@ -1,164 +1,97 @@
-"""
-================================================================================
-PRACTICAL 2: PROBABILITY DISTRIBUTIONS (NORMAL, BINOMIAL, POISSON)
-================================================================================
-FULL QUESTIONS:
+-- ================================================================================
+-- PRACTICAL 2: DATA SYSTEM FOR ANALYTICS (DSA)
+-- TOPIC: WORKING WITH AGGREGATE FUNCTIONS & CLAUSES (MySQL)
+-- ================================================================================
+-- FULL QUESTIONS:
+-- A - Aggregate Functions:
+--     1. Display avg salary and sum of salary where date of joining is after 2007.
+--     2. Tell me the no. of emp whose name starts with 'a'.
+--     3. Show the avg salary of emp who have joined in the year 2020.
+--     4. Identify the no. of records belongs to no dept.
+--     5. Count total records.
+-- B - Group by Clause:
+--     1. Display the number of employees for each designation (or department).
+--     2. Display the count of HOD from each dept.
+--     3. Display avg salary from each designation joined after 2015.
+-- C - Order by Clause:
+--     1. Show all data w.r.t ascending order of their doj.
+--     2. Show all data order by deptid, desgn.
+--     3. Sorting data based on salary between 30000 and 50000 with sorting rules.
+-- ================================================================================
 
-Q1) Normal Distribution:
-    Generate values of X from 20 to 120 and calculate the probability density function
-    of X ~ N(mu=70, sigma=10).
-    Plot the Normal distribution curve.
-    Observe the graph and state:
-    1. Is the distribution symmetric?
-    2. Around which value is the curve centred?
-    3. What happens to the spread if standard deviation is increased?
+USE abdulwahab;
 
-Q2) Effect of Standard Deviation (Spread):
-    Plot three Normal distributions having the same mean = 70 but different standard
-    deviations 5, 10, 15.
-    Use the same graph to compare their shapes:
-    1. Which distribution is the most concentrated?
-    2. Which distribution has the greatest spread?
-    3. What happens to the height of the curve as standard deviation increases?
+-- Verify schema and table data
+DESC employee;
+SELECT * FROM employee;
 
-Q3) Effect of Mean (Horizontal Shift):
-    Plot three Normal distributions having the same standard deviation = 10 but different
-    means: N(50, 10^2), N(70, 10^2), N(90, 10^2).
-    1. What happens to the Normal distribution when the mean changes while the standard
-       deviation remains constant?
+-- --------------------------------------------------------------------------------
+-- PART A: AGGREGATE FUNCTIONS (AVG, SUM, COUNT, MIN, MAX)
+-- --------------------------------------------------------------------------------
 
-Q4) Binomial Distribution (Customer Purchases):
-    Consider a situation where a customer either purchases a product or does not purchase.
-    Suppose the probability of purchase is p = 0.3.
-    If n = 20 customers are observed, calculate and plot the probability mass function (PMF).
+-- 1. Display avg salary and sum of salary where date of joining is after 2007
+SELECT AVG(salary), SUM(salary) 
+FROM employee 
+WHERE doj > '2007-07-01';
 
-Q5) Poisson Distribution (Call Center Arrivals):
-    A customer-support centre receives an average of 4 calls per minute (lambda = 4).
-    Model the number of calls received in one minute using a Poisson distribution and
-    plot its PMF.
-    1. What is the value of lambda?
-    2. Is the Poisson distribution discrete or continuous?
-    3. What is the expected number of calls per minute?
-================================================================================
-"""
+-- 2. Tell me the number of employees whose name starts with 'a' (case-insensitive)
+SELECT COUNT(name) 
+FROM employee 
+WHERE name LIKE 'a%';
 
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
+-- 3. Show the avg salary of employees who have joined in the year 2020
+SELECT AVG(salary) 
+FROM employee 
+WHERE doj BETWEEN '2020-01-01' AND '2020-12-31';
 
-# ------------------------------------------------------------------------------
-# Q1: Normal Distribution Curve X ~ N(70, 10^2)
-# ------------------------------------------------------------------------------
-mu = 70
-sigma = 10
-x = np.linspace(20, 120, 500)
-pdf = stats.norm.pdf(x, loc=mu, scale=sigma)
+-- 4. Identify the number of records belonging to no department (deptid IS NULL)
+SELECT COUNT(deptid) 
+FROM employee 
+WHERE deptid IS NULL;
 
-plt.figure(figsize=(8, 5))
-plt.plot(x, pdf)
-plt.xlabel("X")
-plt.ylabel("Normal Distribution")
-plt.title("Normal Distribution X ~ N(70, 10^2)")
-plt.grid(True)
-plt.show()
+-- 5. Count total records in the employee table
+SELECT COUNT(empid) 
+FROM employee;
 
-"""
-Q1 Observations:
-1. Yes, it is symmetric.
-2. At 70 the curve is centered.
-3. The curve becomes more spread.
-"""
 
-# ------------------------------------------------------------------------------
-# Q2: Same Mean (70), Different Standard Deviations (5, 10, 15)
-# ------------------------------------------------------------------------------
-mu = 70
-x = np.linspace(20, 120, 500)
+-- --------------------------------------------------------------------------------
+-- PART B: GROUP BY CLAUSE
+-- --------------------------------------------------------------------------------
 
-pdf1 = stats.norm.pdf(x, loc=mu, scale=5)
-pdf2 = stats.norm.pdf(x, loc=mu, scale=10)
-pdf3 = stats.norm.pdf(x, loc=mu, scale=15)
+-- 1. Display the number of employees for each designation
+SELECT desgn, COUNT(empid) 
+FROM employee 
+GROUP BY desgn;
 
-plt.figure(figsize=(9, 5))
-plt.plot(x, pdf1, label="sigma=5")
-plt.plot(x, pdf2, label="sigma=10")
-plt.plot(x, pdf3, label="sigma=15")
+-- 2. Display the count of HOD from each department
+SELECT deptid, desgn, COUNT(empid) AS count 
+FROM employee 
+WHERE desgn = 'HOD' 
+GROUP BY deptid;
 
-plt.xlabel("Marks")
-plt.ylabel("Probability Density")
-plt.title("Effect of Standard Deviation on Normal Distribution")
-plt.legend()
-plt.grid(alpha=0.3)
-plt.show()
+-- 3. Display average salary from each designation joined after 2015
+SELECT desgn, AVG(salary) 
+FROM employee 
+WHERE doj > '2015-01-01' 
+GROUP BY desgn;
 
-"""
-Q2 Observations:
-1. Most concentrated: The distribution with sigma = 5.
-2. Greatest spread: The distribution with sigma = 15.
-3. Height of the curve: It decreases, making the curve flatter as sigma increases.
-"""
 
-# ------------------------------------------------------------------------------
-# Q3: Same Standard Deviation (10), Different Means (50, 70, 90)
-# ------------------------------------------------------------------------------
-sigma = 10
-x = np.linspace(20, 120, 500)
+-- --------------------------------------------------------------------------------
+-- PART C: ORDER BY CLAUSE
+-- --------------------------------------------------------------------------------
 
-pdf_m50 = stats.norm.pdf(x, loc=50, scale=sigma)
-pdf_m70 = stats.norm.pdf(x, loc=70, scale=sigma)
-pdf_m90 = stats.norm.pdf(x, loc=90, scale=sigma)
+-- 1. Show all data with respect to ascending order of their date of joining (doj)
+SELECT * 
+FROM employee 
+ORDER BY doj ASC;
 
-plt.figure(figsize=(9, 5))
-plt.plot(x, pdf_m50, label="mu=50")
-plt.plot(x, pdf_m70, label="mu=70")
-plt.plot(x, pdf_m90, label="mu=90")
+-- 2. Show all data ordered by department id and designation
+SELECT * 
+FROM employee 
+ORDER BY deptid, desgn;
 
-plt.xlabel("Marks")
-plt.ylabel("Probability Density")
-plt.title("Effect of Mean on Normal Distribution")
-plt.legend()
-plt.grid(alpha=0.3)
-plt.show()
-
-"""
-Q3 Observation:
-1. The entire distribution shifts horizontally along the x-axis without changing its shape or spread.
-"""
-
-# ------------------------------------------------------------------------------
-# Q4: Binomial Distribution (n=20, p=0.3)
-# ------------------------------------------------------------------------------
-n = 20
-p = 0.3
-x = np.arange(0, n + 1)
-pmf = stats.binom.pmf(x, n, p)
-
-plt.figure(figsize=(8, 5))
-plt.stem(x, pmf)
-plt.xlabel("Number of Purchases")
-plt.ylabel("Probability")
-plt.title("Binomial Distribution (n=20, p=0.3)")
-plt.grid(True)
-plt.show()
-
-# ------------------------------------------------------------------------------
-# Q5: Poisson Distribution (lambda = 4 calls/minute)
-# ------------------------------------------------------------------------------
-lam = 4
-x = np.arange(0, 20)
-pmf = stats.poisson.pmf(x, lam)
-
-plt.figure(figsize=(8, 5))
-plt.stem(x, pmf)
-plt.xlabel("Number of Calls")
-plt.ylabel("Probability")
-plt.title("Poisson Distribution (lambda=4)")
-plt.grid(True)
-plt.show()
-
-"""
-Q5 Observations:
-1. lambda = 4.
-2. Distribution is discrete.
-3. The expected number of calls is 4.
-"""
+-- 3. Sorting the data based on salary between 30000 and 50000, ordered by deptid DESC, desgn ASC
+SELECT * 
+FROM employee 
+WHERE salary BETWEEN 30000 AND 50000 
+ORDER BY deptid DESC, desgn;

@@ -1,92 +1,248 @@
-"""
-================================================================================
-PRACTICAL 6: REGRESSION ANALYSIS (SIMPLE, MULTIPLE & SPEARMAN RANK)
-================================================================================
-FULL QUESTIONS:
+// ================================================================================
+// PRACTICAL 6A: DATA SYSTEM FOR ANALYTICS (DSA)
+// TOPIC: MONGODB CRUD OPERATIONS, OPERATORS & AGGREGATION PIPELINE
+// ENVIRONMENT: MONGODB SHELL (mongosh)
+// ================================================================================
+// FULL QUESTIONS:
+// Q. Open Command Prompt, run 'mongosh', and execute:
+//    1. Create database 'abdulwahab' and collection 'employees'.
+//    2. Perform single (insertOne) and multiple (insertMany) document insertions.
+//    3. Retrieve all documents and specific documents with field projections.
+//    4. Perform document updates using updateOne and $set.
+//    5. Apply Relational ($lte) and Arithmetic ($inc) operators.
+//    6. Delete documents matching criteria using deleteOne.
+//    7. Demonstrate Logical Operators ($and, $not, $or, $nor, $exists, $in, $nin).
+//    8. Construct Aggregation Pipelines using $match, $group, $sort, $limit, $project.
+// ================================================================================
 
-Q1) Simple Linear Regression:
-    1. Load the Diabetes Dataset from sklearn.datasets.
-    2. Compute Pearson correlation between BMI and disease progression (target).
-    3. Fit a Simple Linear Regression model: target = beta0 + beta1 * BMI.
-    4. Display OLS regression summary and provide slope interpretation.
+// --------------------------------------------------------------------------------
+// 1. DATABASE & COLLECTION SETUP
+// --------------------------------------------------------------------------------
+// Show all available databases
+show dbs;
 
-Q2) Multiple Linear Regression:
-    1. Fit Multiple Linear Regression with predictors: BMI, BP (blood pressure), Age.
-    2. Display OLS regression summary.
-    3. Provide interpretation of significant predictors (p < 0.05) and insignificant predictors.
+// Switch to database
+use abdulwahab;
 
-Q3) Spearman Rank Correlation:
-    Given two variables:
-    Study Time: [2, 4, 1, 5, 3]
-    Exam Score: [50, 65, 45, 80, 60]
-    1. Compute Spearman's rank correlation coefficient and p-value.
-    2. State the monotonic relationship.
-================================================================================
-"""
+// Create 'employees' collection
+db.createCollection("employees");
 
-from sklearn.datasets import load_diabetes
-import pandas as pd
-import statsmodels.api as sm
-from scipy.stats import spearmanr
+// Verify created collection
+show collections;
 
-# ------------------------------------------------------------------------------
-# Q1: Simple Linear Regression (BMI vs Target)
-# ------------------------------------------------------------------------------
-diabetes = load_diabetes(as_frame=True)
-df = diabetes.frame
-print("--- Diabetes Dataset Head ---")
-print(df.head())
 
-# Correlation
-print("\n--- Correlation ---")
-print(df[['bmi', 'target']].corr())
+// --------------------------------------------------------------------------------
+// 2. INSERT OPERATIONS (insertOne & insertMany)
+// --------------------------------------------------------------------------------
+// Insert first single document
+db.employees.insertOne({
+    name: "Alice", 
+    age: 21
+});
 
-# Simple linear regression
-x = sm.add_constant(df['bmi'])
-y = df['target']
-model = sm.OLS(y, x).fit()
-print("\n--- Regression Summary ---")
-print(model.summary())
+// Insert second single document with full profile
+db.employees.insertOne({
+    name: "John", 
+    age: 25, 
+    desgn: "Professor", 
+    dept: "BDA", 
+    salary: 12000.00, 
+    email: ["john2@gmail.com", "john33@gmail.com"], 
+    doj: "2012-06-01"
+});
 
-"""
-Slope interpretation:
-For every one-unit increase in BMI, predicted Y increases by 949.4353 units on average.
-"""
+// Insert multiple documents (Batch 1)
+db.employees.insertMany([
+    {
+        name: "Mary", 
+        age: 27, 
+        desgn: "HOD", 
+        dept: "BDA", 
+        salary: 20000.00, 
+        doj: "2011-04-01"
+    },
+    {
+        name: "Bob", 
+        age: 24, 
+        desgn: "AS", 
+        dept: "BVoc SD", 
+        salary: 15000.00, 
+        email: ["bo123@gmail.com"], 
+        doj: "2014-08-01"
+    }
+]);
 
-# ------------------------------------------------------------------------------
-# Q2: Multiple Linear Regression (BMI, BP, Age vs Target)
-# ------------------------------------------------------------------------------
-print("\n--- Q2: Multiple Linear Regression ---")
-x_multi = df[["bmi", "bp", "age"]]
-x_multi = sm.add_constant(x_multi)
-y = df["target"]
-model_multi = sm.OLS(y, x_multi).fit()
-print(model_multi.summary())
+// Insert multiple documents (Batch 2)
+db.employees.insertMany([
+    {
+        name: "Andrew", 
+        age: 25, 
+        desgn: "HOD", 
+        dept: "BVoc SD", 
+        salary: 23000.00, 
+        email: ["andrewgriffin.2@gmail.com", "andrew.griffin@gmail.com"], 
+        doj: "2011-06-01"
+    },
+    {
+        name: "Sara", 
+        age: 30, 
+        desgn: "Professor", 
+        dept: "BSc IT", 
+        salary: 14000.00, 
+        email: ["sara@gmail.com"], 
+        doj: "2015-04-01"
+    }
+]);
 
-"""
-Regression Coefficients Summary:
-* Significant Predictors (p < 0.05):
-  - BMI (coef = 788.78): Strongest positive effect. A 1-unit increase yields a ~788.8 unit increase in target.
-  - BP (coef = 394.13): Positive effect. A 1-unit increase yields a ~394.1 unit increase in target.
-  - Intercept (const) (coef = 152.13): Expected value of target when all predictors are zero.
 
-* Insignificant Predictors (p >= 0.05):
-  - Age (coef = 25.99, p = 0.685): No statistically significant relationship with the target in this model.
-"""
+// --------------------------------------------------------------------------------
+// 3. READ & QUERY OPERATIONS
+// --------------------------------------------------------------------------------
+// Find all documents
+db.employees.find();
 
-# ------------------------------------------------------------------------------
-# Q3: Spearman Rank Correlation (Study Time vs Exam Score)
-# ------------------------------------------------------------------------------
-print("\n--- Q3: Spearman Rank Correlation ---")
-study_time = [2, 4, 1, 5, 3]
-exam_score = [50, 65, 45, 80, 60]
+// Find document with filter
+db.employees.find({ name: "Bob" });
 
-correlation, p_value = spearmanr(study_time, exam_score)
+// Find document with field projection (return only name and desgn)
+db.employees.find({ name: "Bob" }, { desgn: 1, name: 1 });
 
-print("Spearman's correlation coefficient:", correlation)
-print("p-value:", p_value)
 
-"""
-Interpretation:
-Spearman correlation coefficient is 1.0 -> Perfectly Positively Correlated.
-"""
+// --------------------------------------------------------------------------------
+// 4. UPDATE OPERATIONS
+// --------------------------------------------------------------------------------
+// Update salary for employee 'Sara'
+db.employees.updateOne({ name: "Sara" }, { $set: { salary: 15000 } });
+db.employees.find({ name: "Sara" });
+
+// Update multiple fields for 'Bob'
+db.employees.updateOne({ name: "Bob" }, { $set: { salary: 18000, desgn: "HOD" } });
+db.employees.find({ name: "Bob" });
+
+// Update designation and salary for 'John'
+db.employees.updateOne({ name: "John" }, { $set: { salary: 30000, desgn: "Expert" } });
+db.employees.find({ name: "John" });
+
+
+// --------------------------------------------------------------------------------
+// 5. RELATIONAL & ARITHMETIC OPERATORS
+// --------------------------------------------------------------------------------
+// Relational Operator ($lte: less than or equal)
+db.employees.find(
+    { salary: { $lte: 20000 } }, 
+    { name: 1, desgn: 1, salary: 1 }
+);
+
+// Arithmetic Increment Operator ($inc: increase salary by 10000 for non-Bob employees)
+db.employees.updateMany(
+    { name: { $ne: "Bob" } }, 
+    { $inc: { salary: 10000 } }
+);
+
+
+// --------------------------------------------------------------------------------
+// 6. DELETE OPERATION
+// --------------------------------------------------------------------------------
+// Delete employee with designation 'Expert'
+db.employees.deleteOne({ desgn: { $eq: "Expert" } });
+db.employees.find({ desgn: "Expert" });
+
+
+// --------------------------------------------------------------------------------
+// 7. LOGICAL OPERATORS
+// --------------------------------------------------------------------------------
+// $and Operator
+db.employees.find({
+    $and: [
+        { name: "Mary" }, 
+        { desgn: "HOD" }
+    ]
+});
+
+// $not Operator
+db.employees.find({
+    name: { $not: { $eq: "Sara" } }
+});
+
+// $or Operator
+db.employees.find({
+    $or: [
+        { age: { $gt: 25 } }, 
+        { desgn: "HOD" }
+    ]
+});
+
+// $nor Operator
+db.employees.find({
+    $nor: [
+        { age: 25 }, 
+        { desgn: "HOD" }
+    ]
+});
+
+// $exists Operator (check if document contains field 'email')
+db.employees.find({
+    email: { $exists: true }
+});
+
+// Display employees whose salary are exactly 35000 or 25000 using $or
+db.employees.find({
+    $or: [
+        { salary: 35000 }, 
+        { salary: 25000 }
+    ]
+});
+
+// Using $in Operator
+db.employees.find({
+    salary: { $in: [18000, 35000] }
+});
+
+// Using $nin (Not in) Operator
+db.employees.find({
+    salary: { $nin: [25000, 35000] }
+});
+
+
+// --------------------------------------------------------------------------------
+// 8. AGGREGATION PIPELINE ($match, $group, $sort, $limit, $project)
+// --------------------------------------------------------------------------------
+
+// Aggregation 1: $match - Filter by department
+db.employees.aggregate([
+    { $match: { dept: "BSc IT" } }
+]);
+
+// Aggregation 2: $group - Calculate average & total salary per department
+db.employees.aggregate([
+    { 
+        $group: {
+            _id: "$dept",
+            avgSalary: { $avg: "$salary" },
+            totalSalary: { $sum: "$salary" }
+        }
+    }
+]);
+
+// Aggregation 3: $sort - Sort by salary descending (-1)
+db.employees.aggregate([
+    { $sort: { salary: -1 } }
+]);
+
+// Aggregation 4: $limit - Find top highest paid employees
+db.employees.aggregate([
+    { $sort: { salary: -1 } },
+    { $limit: 2 }
+]);
+
+// Aggregation 5: $project - Reshape output fields (exclude _id, include name, dept, salary)
+db.employees.aggregate([
+    { 
+        $project: { 
+            _id: 0, 
+            name: 1, 
+            dept: 1, 
+            salary: 1 
+        } 
+    }
+]);
