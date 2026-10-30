@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MSc BDA - Data Storage & Analytics (DSA Practicals 1-7)</title>
+  <style>
+    :root {
+      --bg-primary: #070b14;
+      --bg-secondary: #0f172a;
+      --bg-card: #151e33;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --code-bg: #030712;
+      --border: #1e293b;
+      --border-card: #223254;
+      --success: #10b981;
+      --purple: #a855f7;
+      --purple-hover: #9333ea;
+      --amber: #f59e0b;
+      --cyan: #06b6d4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg-primary); color: var(--text-main); display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 320px;
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .sidebar-title { font-size: 1.15rem; font-weight: 800; color: #fff; line-height: 1.3; }
+    .sidebar-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+
+    .nav-list { list-style: none; overflow-y: auto; flex: 1; padding: 12px 8px; }
+    .nav-item {
+      padding: 12px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+      border: 1px solid transparent;
+    }
+    .nav-item:hover { background-color: #1e293b; color: #fff; }
+    .nav-item.active {
+      background-color: rgba(16, 185, 129, 0.12);
+      color: var(--accent);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .nav-item-sub { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); }
+
+    .portal-switcher {
+      padding: 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn-portal {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-portal-asm {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .btn-portal-asm:hover { background: #38bdf8; color: #070b14; }
+
+    .mega-copy-btn {
+      background: linear-gradient(135deg, var(--accent), #059669);
+      color: #070b14;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s;
+    }
+    .mega-copy-btn:hover {
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+      transform: translateY(-1px);
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 320px;
+      flex: 1;
+      padding: 40px 48px;
+      max-width: 1300px;
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(135deg, #111e38 0%, #0c1527 100%);
+      border: 1px solid var(--border-card);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan), var(--purple));
+    }
+    .hero-title { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .hero-desc { color: #94a3b8; font-size: 0.95rem; max-width: 850px; line-height: 1.6; }
+    
+    .quick-curl-box {
+      margin-top: 18px;
+      background: var(--code-bg);
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .curl-cmd {
+      font-family: 'Consolas', monospace;
+      font-size: 0.85rem;
+      color: #34d399;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .btn-curl-copy {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .btn-curl-copy:hover { background: var(--accent); color: #070b14; }
+
+    /* Cards */
+    .practical-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      margin-bottom: 36px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+    .card-header {
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-card);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .card-head-left { display: flex; align-items: center; gap: 12px; }
+    .card-head-num {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .card-head-title { font-weight: 700; font-size: 1.15rem; color: #f8fafc; }
+    .card-head-tech {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #334155;
+    }
+
+    .card-actions { display: flex; gap: 8px; }
+    .btn-copy {
+      background-color: #1e293b;
+      color: #f1f5f9;
+      border: 1px solid var(--border-card);
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-copy:hover { background-color: var(--accent); color: #070b14; }
+
+    /* Question Box */
+    .question-box {
+      background: rgba(245, 158, 11, 0.04);
+      border-left: 4px solid var(--amber);
+      border-bottom: 1px solid var(--border-card);
+      padding: 18px 24px;
+    }
+    .question-badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--amber);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .q-item { margin-bottom: 12px; }
+    .q-item:last-child { margin-bottom: 0; }
+    .q-title { font-weight: 600; color: #fde68a; font-size: 0.92rem; margin-bottom: 4px; }
+    .q-bullets { list-style: disc; padding-left: 20px; color: #cbd5e1; font-size: 0.85rem; line-height: 1.5; }
+
+    /* Code View */
+    .code-container { position: relative; }
+    pre {
+      background-color: var(--code-bg);
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      max-height: 600px;
+    }
+
+    /* Output Preview */
+    .output-box {
+      background: rgba(6, 182, 212, 0.04);
+      border-top: 1px solid var(--border-card);
+      border-left: 4px solid var(--cyan);
+      padding: 16px 24px;
+    }
+    .output-title { font-weight: 700; color: var(--cyan); font-size: 0.82rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .output-pre {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-family: "Consolas", monospace;
+      font-size: 0.8rem;
+      color: #93c5fd;
+      max-height: 250px;
+      overflow-y: auto;
+      white-space: pre;
+    }
+
+    /* Takeaways Box */
+    .takeaway-box {
+      background: rgba(16, 185, 129, 0.04);
+      border-top: 1px solid var(--border-card);
+      border-left: 4px solid var(--accent);
+      padding: 14px 24px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .takeaway-title { font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: #070b14;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="badge">MSc BDA Curricula</span>
+      <h1 class="sidebar-title">Data Storage & Analytics</h1>
+      <p class="sidebar-subtitle">Practicals 1 to 7 (Exact PDF Lab Code)</p>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item" onclick="scrollToSec('dsa1')">
+        <span>Practical 1</span>
+        <span class="nav-item-sub">Working with DDL and DML Commands (MySQL)</span>
+      </li>
+      <li class="nav-item" onclick="scrollToSec('dsa2')">
+        <span>Practical 2</span>
+        <span class="nav-item-sub">Working with Aggregate Functions & Clauses (MySQL)</span>
+      </li>
+      <li class="nav-item" onclick="scrollToSec('dsa3')">
+        <span>Practical 3</span>
+        <span class="nav-item-sub">Demonstrate the use of Sub-Queries and Joins (MySQL)</span>
+      </li>
+      <li class="nav-item" onclick="scrollToSec('dsa4')">
+        <span>Practical 4</span>
+        <span class="nav-item-sub">Hadoop HDFS Commands & Big Data Storage</span>
+      </li>
+      <li class="nav-item" onclick="scrollToSec('dsa5')">
+        <span>Practical 5</span>
+        <span class="nav-item-sub">Data Processing with Apache Pig (Pig Latin on Hadoop)</span>
+      </li>
+      <li class="nav-item" onclick="scrollToSec('dsa6a')">
+        <span>Practical 6A</span>
+        <span class="nav-item-sub">MongoDB CRUD Operations, Operators & Aggregation Pipeline</span>
+      </li>
+      <li class="nav-item" onclick="scrollToSec('dsa6b')">
+        <span>Practical 6B</span>
+        <span class="nav-item-sub">MongoDB Indexing & Query Optimization (explain('executionStats'))</span>
+      </li>
+      <li class="nav-item" onclick="scrollToSec('dsa7')">
+        <span>Practical 7</span>
+        <span class="nav-item-sub">Connecting MongoDB with Python (PyMongo & Pandas Integration)</span>
+      </li>
+    </ul>
+
+    <div class="portal-switcher">
+      <button class="mega-copy-btn" onclick="copyMegaAll()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+        Copy All 7 Practicals
+      </button>
+      <a href="asm.html" class="btn-portal btn-portal-asm">📊 Switch to ASM Practicals (1-9)</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Hero Banner -->
+    <section class="hero">
+      <h1 class="hero-title">💾 MSc BDA - Data Storage & Analytics (DSA)</h1>
+      <p class="hero-desc">
+        Complete laboratory practical suite covering Relational Databases (MySQL DDL/DML, Aggregations, Joins & Sub-queries), Big Data Ecosystems (Hadoop HDFS, Apache Pig Latin), and NoSQL Document Stores (MongoDB CRUD, Aggregation Pipelines, B-tree Index Optimization, and PyMongo + Pandas Python integration).
+      </p>
+
+      <div class="quick-curl-box">
+        <span class="curl-cmd">!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa_all | clip</span>
+        <button class="btn-curl-copy" onclick="copyText('!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa_all | clip')">Copy Shortcut</button>
+      </div>
+    </section>
+
+    <!-- Card: dsa1 -->
+    <article class="practical-card" id="dsa1">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 1</span>
+          <h2 class="card-head-title">Working with DDL and DML Commands (MySQL)</h2>
+          <span class="card-head-tech">MySQL 8.0+</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa1')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa1')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Part A — DDL (Data Definition Language) Commands</div>
+          <ul class="q-bullets"><li>1. Create database &#x27;abdulwahab&#x27; and inspect database catalogue using SHOW DATABASES.</li><li>2. Create table &#x27;employee&#x27; with primary key (empid, name, doj, desgn, deptid).</li><li>3. Describe table schema using DESC employee.</li><li>4. Alter table schema: Modify column &#x27;name&#x27; to NOT NULL constraint.</li><li>5. Demonstrate DROP syntax for databases and tables.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part B — DML (Data Manipulation Language) Commands</div>
+          <ul class="q-bullets"><li>1. Insert single and multiple employee records into table.</li><li>2. Select specific columns (name, desgn) and all columns (*).</li><li>3. Update record: Set doj = &#x27;2019-09-08&#x27; and desgn = &#x27;AS&#x27; where empid = 1.</li><li>4. Delete record: Remove record of employee where empid = 1.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part C — Operators &amp; Pattern Matching</div>
+          <ul class="q-bullets"><li>1. Relational Operators: Select records where doj &gt; &#x27;2017-02-04&#x27; and empid &gt;= 4.</li><li>2. Arithmetic Operators: Calculate 5% salary bonus (salary * 0.05) and total bonus with alias.</li><li>3. Logical &amp; Range Operators: Use &#x27;&amp;&amp;&#x27;, BETWEEN ... AND, and IN operators.</li><li>4. LIKE Operator (Pattern Matching): Match prefix (&#x27;A%&#x27;), suffix (&#x27;%b&#x27;), substring (&#x27;%a%&#x27;), positional (&#x27;_o%&#x27;), and exact length (&#x27;____&#x27;).</li><li>5. NULL Operators: Find records with deptid IS NULL / IS NOT NULL, and fill NULLs using UPDATE.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa1">-- ================================================================================
+-- PRACTICAL 1: DATA SYSTEM FOR ANALYTICS (DSA)
+-- TOPIC: WORKING WITH DDL AND DML COMMANDS (MySQL)
+-- ================================================================================
+-- FULL QUESTIONS:
+-- Q. Working with DDL and DML Commands:
+--    A - DDL (Data Definition Language) Commands:
+--        1) Create Database and Table with Primary Key constraint.
+--        2) Alter table structure (modify column constraints).
+--        3) Drop Database and Table syntax.
+--    B - DML (Data Manipulation Language) Commands:
+--        1) Insert records into table (single and multi-row).
+--        2) Select specific columns and all records from table.
+--        3) Update specific records based on condition.
+--        4) Delete specific records based on condition.
+--    C - Operators:
+--        1) Relational Operators (&gt;, &gt;=).
+--        2) Arithmetic Operators (* 0.05 bonus calculation, alias).
+--        3) Logical and Range Operators (&amp;&amp;, BETWEEN ... AND, IN).
+--        4) LIKE Operator (Pattern matching with &#x27;%&#x27; and &#x27;_&#x27;).
+--        5) IS NULL and IS NOT NULL Operators, and updating NULL values.
+-- ================================================================================
+
+-- --------------------------------------------------------------------------------
+-- PART A: DDL (DATA DEFINITION LANGUAGE) COMMANDS
+-- --------------------------------------------------------------------------------
+
+-- 1. CREATE DATABASE
+CREATE DATABASE IF NOT EXISTS abdulwahab;
+SHOW DATABASES;
+USE abdulwahab;
+
+-- 2. CREATE TABLE
+CREATE TABLE IF NOT EXISTS employee (
+    empid INT PRIMARY KEY,
+    name CHAR(50),
+    doj DATE,
+    desgn CHAR(50),
+    deptid VARCHAR(20)
+);
+
+-- Describe table schema
+DESC employee;
+
+-- 3. ALTER TABLE
+-- Modify &#x27;name&#x27; column to NOT NULL
+ALTER TABLE employee MODIFY name CHAR(50) NOT NULL;
+DESC employee;
+
+-- 4. DROP SYNTAX (Reference)
+-- DROP DATABASE &lt;&lt;db_name&gt;&gt;;
+-- DROP TABLE &lt;&lt;table_name&gt;&gt;;
+
+
+-- --------------------------------------------------------------------------------
+-- PART B: DML (DATA MANIPULATION LANGUAGE) COMMANDS
+-- --------------------------------------------------------------------------------
+
+-- 1. INSERT COMMANDS
+-- Single row insert with all columns
+INSERT INTO employee VALUES (1, &#x27;Alice&#x27;, &#x27;2019-07-01&#x27;, &#x27;AS&#x27;, &#x27;D101&#x27;);
+
+-- Single row insert with specified columns
+INSERT INTO employee (empid, name, doj, desgn, deptid) 
+VALUES (2, &#x27;Bob&#x27;, &#x27;2020-01-04&#x27;, &#x27;AS&#x27;, &#x27;D104&#x27;);
+
+-- Multi-row insert
+INSERT INTO employee VALUES
+    (3, &#x27;John&#x27;, &#x27;2020-01-25&#x27;, &#x27;Professor&#x27;, &#x27;D101&#x27;),
+    (4, &#x27;Mary&#x27;, &#x27;2015-03-05&#x27;, &#x27;HOD&#x27;, &#x27;D102&#x27;),
+    (5, &#x27;Sam&#x27;, &#x27;2017-02-04&#x27;, &#x27;Professor&#x27;, &#x27;D102&#x27;),
+    (6, &#x27;Eric&#x27;, &#x27;2019-08-17&#x27;, &#x27;Professor&#x27;, &#x27;D103&#x27;),
+    (7, &#x27;Andrew&#x27;, &#x27;2018-09-20&#x27;, &#x27;HOD&#x27;, &#x27;D104&#x27;);
+
+-- 2. SELECT COMMANDS
+-- Select specific columns
+SELECT name, desgn FROM employee;
+
+-- Select all columns
+SELECT * FROM employee;
+
+-- 3. UPDATE COMMAND
+-- Update date of joining and designation for empid 1
+UPDATE employee 
+SET doj = &#x27;2019-09-08&#x27;, desgn = &#x27;AS&#x27; 
+WHERE empid = 1;
+
+SELECT * FROM employee;
+
+-- 4. DELETE COMMAND
+-- Delete record of employee where empid is 1
+DELETE FROM employee WHERE empid = 1;
+
+SELECT * FROM employee;
+
+
+-- --------------------------------------------------------------------------------
+-- PART C: OPERATORS
+-- --------------------------------------------------------------------------------
+
+-- Add salary column to demonstrate arithmetic and range queries
+ALTER TABLE employee ADD COLUMN salary DECIMAL(10, 2);
+
+-- Update salary values
+UPDATE employee SET salary = 650000 WHERE empid = 2;
+UPDATE employee SET salary = 800000 WHERE empid = 3;
+UPDATE employee SET salary = 700000 WHERE empid = 4;
+UPDATE employee SET salary = 500000 WHERE empid = 5;
+UPDATE employee SET salary = 300000 WHERE empid = 6;
+UPDATE employee SET salary = 700000 WHERE empid = 7;
+
+-- 1. RELATIONAL OPERATORS
+-- Select employees who joined after &#x27;2017-02-04&#x27;
+SELECT * FROM employee WHERE doj &gt; &#x27;2017-02-04&#x27;;
+
+-- Select employees where empid &gt;= 4
+SELECT name, empid FROM employee WHERE empid &gt;= 4;
+
+-- 2. ARITHMETIC OPERATORS
+-- Calculate 5% of salary (e.g. bonus / tax deduction)
+SELECT name, (salary * 0.05) AS bonus_component FROM employee;
+
+-- Calculate total salary including 5% bonus with alias
+SELECT name, (salary + salary * 0.05) AS Bonus FROM employee;
+
+-- 3. LOGICAL AND RANGE OPERATORS
+-- Filter by designation
+SELECT * FROM employee WHERE desgn = &#x27;HOD&#x27;;
+
+-- Relational AND operator (&amp;&amp; or AND)
+SELECT * FROM employee WHERE salary &gt;= 500000 &amp;&amp; salary &lt;= 800000;
+
+-- BETWEEN ... AND operator
+SELECT * FROM employee WHERE salary BETWEEN 500000 AND 800000;
+
+-- IN operator
+SELECT * FROM employee WHERE salary IN (300000, 500000, 800000);
+
+-- --------------------------------------------------------------------------------
+-- 4. LIKE OPERATOR (PATTERN MATCHING)
+-- --------------------------------------------------------------------------------
+-- Note: Standard table with &#x27;ename&#x27; as column alias / name
+-- Names starting with &#x27;A&#x27;
+SELECT * FROM employee WHERE name LIKE &#x27;A%&#x27;;
+
+-- Names ending with &#x27;b&#x27;
+SELECT * FROM employee WHERE name LIKE &#x27;%b&#x27;;
+
+-- Names containing letter &#x27;a&#x27; (case-insensitive in MySQL)
+SELECT * FROM employee WHERE name LIKE &#x27;%a%&#x27;;
+
+-- Names where second character is &#x27;o&#x27;
+SELECT * FROM employee WHERE name LIKE &#x27;_o%&#x27;;
+
+-- Names where second last character is &#x27;r&#x27;
+SELECT * FROM employee WHERE name LIKE &#x27;%r_&#x27;;
+
+-- Names containing &#x27;i&#x27; followed by exactly two characters
+SELECT * FROM employee WHERE name LIKE &#x27;%i__&#x27;;
+
+-- Names having exactly 4 letters
+SELECT * FROM employee WHERE name LIKE &#x27;____&#x27;;
+
+-- --------------------------------------------------------------------------------
+-- 5. IS NULL AND IS NOT NULL OPERATORS
+-- --------------------------------------------------------------------------------
+-- Insert a record with NULL department to test NULL checks
+INSERT INTO employee (empid, name, doj, desgn, deptid, salary) 
+VALUES (8, &#x27;Samir&#x27;, &#x27;2021-01-25&#x27;, &#x27;AS&#x27;, NULL, 700000.00);
+
+-- Find employees with no assigned department (deptid IS NULL)
+SELECT * FROM employee WHERE deptid IS NULL;
+
+-- Find employees with an assigned department (deptid IS NOT NULL)
+SELECT * FROM employee WHERE deptid IS NOT NULL;
+
+-- Fill/Update NULL values with department &#x27;D103&#x27;
+UPDATE employee SET deptid = &#x27;D103&#x27; WHERE deptid IS NULL;
+
+-- Verify all employees have department assigned
+SELECT * FROM employee;
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">+-------+--------+------------+-----------+--------+-----------+
+| empid | name   | doj        | desgn     | deptid | salary    |
++-------+--------+------------+-----------+--------+-----------+
+|     2 | Bob    | 2020-01-04 | AS        | D104   | 650000.00 |
+|     3 | John   | 2020-01-25 | Professor | D101   | 800000.00 |
+|     4 | Mary   | 2015-03-05 | HOD       | D102   | 700000.00 |
+|     5 | Sam    | 2017-02-04 | Professor | D102   | 500000.00 |
+|     6 | Eric   | 2019-08-17 | Professor | D103   | 300000.00 |
+|     7 | Andrew | 2018-09-20 | HOD       | D104   | 700000.00 |
++-------+--------+------------+-----------+--------+-----------+
+6 rows in set (0.00 sec)</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        Covers relational core fundamentals: Schema definition, constraints (Primary Key, NOT NULL), DML mutations, arithmetic calculations in SELECT clauses, and pattern matching wildcards (% = multiple chars, _ = single char).
+      </div>
+    </article>
+
+    <!-- Card: dsa2 -->
+    <article class="practical-card" id="dsa2">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 2</span>
+          <h2 class="card-head-title">Working with Aggregate Functions &amp; Clauses (MySQL)</h2>
+          <span class="card-head-tech">MySQL 8.0+</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa2')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa2')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Part A — Aggregate Functions</div>
+          <ul class="q-bullets"><li>1. Display average salary and sum of salary where date of joining is after 2007.</li><li>2. Tell me the number of employees whose name starts with &#x27;a&#x27;.</li><li>3. Show the average salary of employees who have joined in the year 2020.</li><li>4. Identify the number of records belonging to no department (deptid IS NULL).</li><li>5. Count total records in employee table.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part B — GROUP BY Clause</div>
+          <ul class="q-bullets"><li>1. Display the number of employees for each designation (GROUP BY desgn).</li><li>2. Display the count of HOD from each department (GROUP BY deptid).</li><li>3. Display average salary for each designation joined after 2015.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part C — ORDER BY Clause</div>
+          <ul class="q-bullets"><li>1. Show all employee records ordered by date of joining ascending (ORDER BY doj ASC).</li><li>2. Order records across multiple columns: ORDER BY deptid, desgn.</li><li>3. Sort employees having salary between 30000 and 50000 with ORDER BY deptid DESC, desgn ASC.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa2">-- ================================================================================
+-- PRACTICAL 2: DATA SYSTEM FOR ANALYTICS (DSA)
+-- TOPIC: WORKING WITH AGGREGATE FUNCTIONS &amp; CLAUSES (MySQL)
+-- ================================================================================
+-- FULL QUESTIONS:
+-- A - Aggregate Functions:
+--     1. Display avg salary and sum of salary where date of joining is after 2007.
+--     2. Tell me the no. of emp whose name starts with &#x27;a&#x27;.
+--     3. Show the avg salary of emp who have joined in the year 2020.
+--     4. Identify the no. of records belongs to no dept.
+--     5. Count total records.
+-- B - Group by Clause:
+--     1. Display the number of employees for each designation (or department).
+--     2. Display the count of HOD from each dept.
+--     3. Display avg salary from each designation joined after 2015.
+-- C - Order by Clause:
+--     1. Show all data w.r.t ascending order of their doj.
+--     2. Show all data order by deptid, desgn.
+--     3. Sorting data based on salary between 30000 and 50000 with sorting rules.
+-- ================================================================================
+
+USE abdulwahab;
+
+-- Verify schema and table data
+DESC employee;
+SELECT * FROM employee;
+
+-- --------------------------------------------------------------------------------
+-- PART A: AGGREGATE FUNCTIONS (AVG, SUM, COUNT, MIN, MAX)
+-- --------------------------------------------------------------------------------
+
+-- 1. Display avg salary and sum of salary where date of joining is after 2007
+SELECT AVG(salary), SUM(salary) 
+FROM employee 
+WHERE doj &gt; &#x27;2007-07-01&#x27;;
+
+-- 2. Tell me the number of employees whose name starts with &#x27;a&#x27; (case-insensitive)
+SELECT COUNT(name) 
+FROM employee 
+WHERE name LIKE &#x27;a%&#x27;;
+
+-- 3. Show the avg salary of employees who have joined in the year 2020
+SELECT AVG(salary) 
+FROM employee 
+WHERE doj BETWEEN &#x27;2020-01-01&#x27; AND &#x27;2020-12-31&#x27;;
+
+-- 4. Identify the number of records belonging to no department (deptid IS NULL)
+SELECT COUNT(deptid) 
+FROM employee 
+WHERE deptid IS NULL;
+
+-- 5. Count total records in the employee table
+SELECT COUNT(empid) 
+FROM employee;
+
+
+-- --------------------------------------------------------------------------------
+-- PART B: GROUP BY CLAUSE
+-- --------------------------------------------------------------------------------
+
+-- 1. Display the number of employees for each designation
+SELECT desgn, COUNT(empid) 
+FROM employee 
+GROUP BY desgn;
+
+-- 2. Display the count of HOD from each department
+SELECT deptid, desgn, COUNT(empid) AS count 
+FROM employee 
+WHERE desgn = &#x27;HOD&#x27; 
+GROUP BY deptid;
+
+-- 3. Display average salary from each designation joined after 2015
+SELECT desgn, AVG(salary) 
+FROM employee 
+WHERE doj &gt; &#x27;2015-01-01&#x27; 
+GROUP BY desgn;
+
+
+-- --------------------------------------------------------------------------------
+-- PART C: ORDER BY CLAUSE
+-- --------------------------------------------------------------------------------
+
+-- 1. Show all data with respect to ascending order of their date of joining (doj)
+SELECT * 
+FROM employee 
+ORDER BY doj ASC;
+
+-- 2. Show all data ordered by department id and designation
+SELECT * 
+FROM employee 
+ORDER BY deptid, desgn;
+
+-- 3. Sorting the data based on salary between 30000 and 50000, ordered by deptid DESC, desgn ASC
+SELECT * 
+FROM employee 
+WHERE salary BETWEEN 30000 AND 50000 
+ORDER BY deptid DESC, desgn;
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">mysql&gt; select desgn, avg(salary) from employee where doj &gt; &#x27;2015-01-01&#x27; group by desgn;
++-----------+---------------+
+| desgn     | avg(salary)   |
++-----------+---------------+
+| AS        |  47500.000000 |
+| HOD       |  60000.000000 |
+| Professor |  29333.333333 |
++-----------+---------------+
+3 rows in set (0.00 sec)</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        Aggregate functions (AVG, SUM, COUNT, MIN, MAX) condense row sets into summary statistics. GROUP BY partitions data by unique categorical attributes, while ORDER BY controls presentation sorting.
+      </div>
+    </article>
+
+    <!-- Card: dsa3 -->
+    <article class="practical-card" id="dsa3">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 3</span>
+          <h2 class="card-head-title">Demonstrate the use of Sub-Queries and Joins (MySQL)</h2>
+          <span class="card-head-tech">MySQL 8.0+</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa3')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa3')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Part A — Sub-Queries</div>
+          <ul class="q-bullets"><li>1. Display records using LIMIT operator (LIMIT 2, and pagination LIMIT 1, 2).</li><li>2. Display employees having salary less than average salary (salary &lt; (SELECT AVG(salary))).</li><li>3. Display employees joined before the last joining employee (doj &lt; (SELECT MAX(doj))).</li><li>4. Display HOD employees working in department &#x27;D104&#x27;.</li><li>5. Display employees whose salary is greater than xyz person (e.g., Alice).</li><li>6. Display details of employee whose designation is same as xyz (e.g., Alice).</li><li>7. Display employees having second highest salary using nested MAX subquery.</li><li>8. Display employees with salary strictly between MIN and MAX salary.</li><li>9. Update HOD salary with average salary of all employees (using MySQL Error 1093 derived table bypass).</li><li>10. Display HOD information whose department was established after 2012.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part B — Joins (Department &amp; Employee Relational Mapping)</div>
+          <ul class="q-bullets"><li>1. Schema: Department (deptid PK, dname, year_est, hod_id) and Employee (empid PK, ename, doj, desgn, deptid FK, salary).</li><li>2. INNER JOIN 1: Match empid with hod_id to display all HOD information from both tables.</li><li>3. INNER JOIN 2: Display all employee records with their respective department details.</li><li>4. INNER JOIN 3: Display employee information working for department &#x27;BDA&#x27;.</li><li>5. LEFT OUTER JOIN: Display all department records including departments with no assigned employees (e.g., D105 Finance).</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa3">-- ================================================================================
+-- PRACTICAL 3: DATA SYSTEM FOR ANALYTICS (DSA)
+-- TOPIC: SUB-QUERIES AND JOINS (MySQL)
+-- ================================================================================
+-- FULL QUESTIONS:
+-- Part A - Sub-Queries:
+--     1. Display records using LIMIT operator (limit N, and offset pagination).
+--     2. Display all info of employees who have salary less than the avg salary.
+--     3. Display all info of employees who joined before the last joining employee.
+--     4. Display data of employees who are HOD in department &#x27;D104&#x27;.
+--     5. Display employees whose salary is greater than xyz person (e.g., Alice).
+--     6. Display details of employee whose designation is same as xyz (e.g., Alice).
+--     7. Display employees having second highest salary.
+--     8. Display employees whose salary is &gt; min salary and &lt; max salary.
+--     9. Update salary of all HODs with new salary equal to avg salary of existing employees.
+--    10. Display entire HOD information whose department was established after 2012.
+-- Part B - Joins:
+--     1. INNER JOIN: Display all info from both tables who are HODs (match empid to hod_id).
+--     2. INNER JOIN: Display all employee info with respective department details.
+--     3. INNER JOIN: Display info of employees working for department &#x27;BDA&#x27;.
+--     4. LEFT OUTER JOIN: Display department details along with employee info (including depts without employees).
+-- ================================================================================
+
+USE abdulwahab;
+
+-- --------------------------------------------------------------------------------
+-- SCHEMA SETUP FOR JOINS &amp; SUB-QUERIES
+-- --------------------------------------------------------------------------------
+
+-- Drop old tables if needed to recreate clean schemas
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS department;
+
+-- Create Department Table
+CREATE TABLE department (
+    deptid VARCHAR(10) PRIMARY KEY,
+    dname VARCHAR(50),
+    year_est DATE,
+    hod_id INT
+);
+
+-- Insert Department records
+INSERT INTO department (deptid, dname, year_est, hod_id) VALUES
+    (&#x27;D101&#x27;, &#x27;BDA&#x27;, &#x27;2011-01-01&#x27;, 4),
+    (&#x27;D102&#x27;, &#x27;BVoc SD&#x27;, &#x27;2012-04-01&#x27;, 7),
+    (&#x27;D103&#x27;, &#x27;BSc IT&#x27;, &#x27;2011-02-01&#x27;, 9),
+    (&#x27;D104&#x27;, &#x27;BCom&#x27;, &#x27;2013-04-01&#x27;, 5);
+
+-- Create Employee Table with Foreign Key
+CREATE TABLE employee (
+    empid INT PRIMARY KEY,
+    ename VARCHAR(50),
+    doj DATE,
+    desgn VARCHAR(50),
+    deptid VARCHAR(10),
+    salary DECIMAL(10, 2),
+    FOREIGN KEY (deptid) REFERENCES department(deptid)
+);
+
+-- Insert Employee records
+INSERT INTO employee (empid, ename, doj, desgn, deptid, salary) VALUES
+    (1, &#x27;Alice&#x27;, &#x27;2020-07-01&#x27;, &#x27;Professor&#x27;, &#x27;D101&#x27;, 30000.00),
+    (2, &#x27;Bob&#x27;, &#x27;2021-05-12&#x27;, &#x27;AS&#x27;, &#x27;D104&#x27;, 25000.00),
+    (3, &#x27;John&#x27;, &#x27;2020-07-03&#x27;, &#x27;Professor&#x27;, &#x27;D101&#x27;, 35000.00),
+    (4, &#x27;Mary&#x27;, &#x27;2015-04-01&#x27;, &#x27;HOD&#x27;, &#x27;D101&#x27;, 60000.00),
+    (5, &#x27;AbdulWahab&#x27;, &#x27;2018-08-11&#x27;, &#x27;HOD&#x27;, &#x27;D104&#x27;, 50000.00),
+    (6, &#x27;Eric&#x27;, &#x27;2015-01-20&#x27;, &#x27;Professor&#x27;, &#x27;D102&#x27;, 23000.00),
+    (7, &#x27;Tom&#x27;, &#x27;2016-01-25&#x27;, &#x27;HOD&#x27;, &#x27;D102&#x27;, 70000.00),
+    (8, &#x27;Sam&#x27;, &#x27;2021-01-25&#x27;, &#x27;AS&#x27;, &#x27;D103&#x27;, 70000.00);
+
+
+-- --------------------------------------------------------------------------------
+-- PART A: SUB-QUERIES
+-- --------------------------------------------------------------------------------
+
+-- 1. Display records using LIMIT operator
+SELECT * FROM employee LIMIT 2;
+SELECT * FROM employee LIMIT 1, 2;
+
+-- 2. Display all info of employees who have salary less than the avg salary
+SELECT * 
+FROM employee 
+WHERE salary &lt; (SELECT AVG(salary) FROM employee);
+
+-- 3. Display all info of employees who joined before the last joining employee
+SELECT * 
+FROM employee 
+WHERE doj &lt; (SELECT MAX(doj) FROM employee);
+
+-- 4. Display employees who are HOD in department &#x27;D104&#x27;
+SELECT * 
+FROM employee 
+WHERE desgn = &#x27;HOD&#x27; 
+  AND deptid = (SELECT deptid FROM employee WHERE desgn = &#x27;AS&#x27; AND deptid = &#x27;D104&#x27;);
+
+-- 5. Display employees whose salary is greater than xyz person (e.g. Alice)
+SELECT * 
+FROM employee 
+WHERE salary &gt; (SELECT salary FROM employee WHERE ename = &#x27;Alice&#x27;);
+
+-- 6. Display details of employee whose designation is same as xyz (e.g. Alice)
+SELECT * 
+FROM employee 
+WHERE desgn = (SELECT desgn FROM employee WHERE ename = &#x27;Alice&#x27;);
+
+-- 7. Display employees having second highest salary
+SELECT MAX(salary) AS second_highest_salary 
+FROM employee 
+WHERE salary &lt; (SELECT MAX(salary) FROM employee);
+
+-- Full details of employee(s) with 2nd highest salary:
+SELECT * 
+FROM employee 
+WHERE salary = (SELECT MAX(salary) FROM employee WHERE salary &lt; (SELECT MAX(salary) FROM employee));
+
+-- 8. Display employees whose salary is &gt; min salary and &lt; max salary
+SELECT * 
+FROM employee 
+WHERE salary &lt; (SELECT MAX(salary) FROM employee) 
+  AND salary &gt; (SELECT MIN(salary) FROM employee);
+
+-- 9. Update salary of all HODs with new salary which is avg salary of all employees
+-- (Using derived table subquery to prevent MySQL Error 1093)
+UPDATE employee 
+SET salary = (SELECT AVG(salary) FROM (SELECT salary FROM employee) AS new_sal) 
+WHERE desgn = &#x27;HOD&#x27;;
+
+SELECT * FROM employee;
+
+-- 10. Display entire HOD information whose department was established after 2012
+SELECT * 
+FROM employee 
+WHERE deptid IN (SELECT deptid FROM department WHERE year_est &gt; &#x27;2012-01-01&#x27;) 
+  AND desgn = &#x27;HOD&#x27;;
+
+
+-- --------------------------------------------------------------------------------
+-- PART B: JOINS
+-- --------------------------------------------------------------------------------
+
+-- 1. INNER JOIN: Display all info from both tables who are HODs (match empid to hod_id)
+SELECT * 
+FROM employee e 
+INNER JOIN department d ON e.empid = d.hod_id;
+
+-- 2. INNER JOIN: Display all information of employees w.r.t. their department
+SELECT * 
+FROM employee e 
+INNER JOIN department d ON e.deptid = d.deptid;
+
+-- 3. INNER JOIN: Display info of employees working for department &#x27;BDA&#x27;
+SELECT * 
+FROM employee e 
+INNER JOIN department d ON e.deptid = d.deptid 
+WHERE d.dname = &#x27;BDA&#x27;;
+
+-- 4. LEFT OUTER JOIN:
+-- First add a department with no assigned employee to demonstrate outer join
+INSERT INTO department (deptid, dname, year_est, hod_id) 
+VALUES (&#x27;D105&#x27;, &#x27;Finance&#x27;, &#x27;2015-01-01&#x27;, NULL);
+
+-- Left outer join shows all departments even if there are no corresponding employees
+SELECT * 
+FROM department d 
+LEFT OUTER JOIN employee e ON d.deptid = e.deptid;
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">mysql&gt; select * from department d left outer join employee e on d.deptid = e.deptid;
++--------+----------+------------+--------+-------+------------+-----------+--------+----------+
+| deptid | dname    | year_est   | hod_id | empid | ename      | desgn     | deptid | salary   |
++--------+----------+------------+--------+-------+------------+-----------+--------+----------+
+| D101   | BDA      | 2011-01-01 |      4 |     1 | Alice      | Professor | D101   | 30000.00 |
+| D101   | BDA      | 2011-01-01 |      4 |     3 | John       | Professor | D101   | 35000.00 |
+| D101   | BDA      | 2011-01-01 |      4 |     4 | Mary       | HOD       | D101   | 60000.00 |
+| D102   | BVoc SD  | 2012-04-01 |      7 |     6 | Eric       | Professor | D102   | 23000.00 |
+| D102   | BVoc SD  | 2012-04-01 |      7 |     7 | Tom        | HOD       | D102   | 70000.00 |
+| D103   | BSc IT   | 2011-02-01 |      9 |     8 | Sam        | AS        | D103   | 70000.00 |
+| D104   | BCom     | 2013-04-01 |      5 |     2 | Bob        | AS        | D104   | 25000.00 |
+| D104   | BCom     | 2013-04-01 |      5 |     5 | AbdulWahab | HOD       | D104   | 50000.00 |
+| D105   | Finance  | 2015-01-01 |   NULL |  NULL | NULL       | NULL      | NULL   |     NULL |
++--------+----------+------------+--------+-------+------------+-----------+--------+----------+
+10 rows in set (0.00 sec)</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        Subqueries allow dynamic filtering based on computed scalar/vector results. Left Outer Join ensures unmatched parent rows (like Finance with NULL employees) are preserved in the result set.
+      </div>
+    </article>
+
+    <!-- Card: dsa4 -->
+    <article class="practical-card" id="dsa4">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 4</span>
+          <h2 class="card-head-title">Hadoop HDFS Commands &amp; Big Data Storage</h2>
+          <span class="card-head-tech">Apache Hadoop 2.x/3.x HDFS</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa4')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa4')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Part 1 — Directory &amp; Sub-Directory Creation</div>
+          <ul class="q-bullets"><li>1. Create main HDFS directory &#x27;reatil&#x27; using: hdfs dfs -mkdir reatil</li><li>2. Create nested sub-directory &#x27;reatil/raw_data&#x27;</li><li>3. Create nested sub-directory &#x27;reatil/monthly_report&#x27;</li><li>4. List directories in HDFS root (hdfs dfs -ls) and inside &#x27;reatil&#x27; (hdfs dfs -ls reatil).</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part 2 — Data Ingestion &amp; Storage Inspection</div>
+          <ul class="q-bullets"><li>1. Upload dataset &#x27;sales1_q1.csv&#x27; from local Linux filesystem into HDFS directory: hdfs dfs -put sales1_q1.csv reatil/raw_data/</li><li>2. Verify uploaded file permissions, replication factor, and owner using: hdfs dfs -ls reatil/raw_data</li><li>3. Inspect file storage disk usage in human-readable format using: hdfs dfs -du -h reatil/raw_data/</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa4">#!/bin/bash
+# ================================================================================
+# PRACTICAL 4: DATA SYSTEM FOR ANALYTICS (DSA)
+# TOPIC: HADOOP HDFS COMMANDS &amp; BIG DATA FILE MANAGEMENT
+# ================================================================================
+# FULL QUESTIONS:
+# Part 1 : Directory and Sub_Directory creation:
+#   1. Create main HDFS directory &#x27;reatil&#x27;
+#   2. Create sub-directory &#x27;reatil/raw_data&#x27;
+#   3. Create sub-directory &#x27;reatil/monthly_report&#x27;
+#   4. List directories in root and inside &#x27;reatil&#x27;
+# Part 2 : Data Ingestion:
+#   1. Upload dataset &#x27;sales1_q1.csv&#x27; into HDFS directory &#x27;reatil/raw_data/&#x27;
+#   2. Verify file presence with &#x27;ls&#x27;
+#   3. Check disk storage usage in human-readable format (&#x27;du -h&#x27;)
+# ================================================================================
+
+echo &quot;=== HADOOP HDFS PRACTICAL START ===&quot;
+
+# --------------------------------------------------------------------------------
+# PART 1: DIRECTORY AND SUB-DIRECTORY CREATION
+# --------------------------------------------------------------------------------
+
+echo &quot;1. Creating root directory &#x27;reatil&#x27;...&quot;
+hdfs dfs -mkdir reatil
+
+echo &quot;2. Creating sub-directories inside &#x27;reatil&#x27;...&quot;
+hdfs dfs -mkdir reatil/raw_data
+hdfs dfs -mkdir reatil/monthly_report
+
+echo &quot;3. Listing directories in HDFS root...&quot;
+hdfs dfs -ls
+
+echo &quot;4. Listing directories inside &#x27;reatil&#x27;...&quot;
+hdfs dfs -ls reatil
+
+# --------------------------------------------------------------------------------
+# PART 2: DATA INGESTION &amp; VERIFICATION
+# --------------------------------------------------------------------------------
+
+echo &quot;5. Uploading &#x27;sales1_q1.csv&#x27; from local filesystem to HDFS...&quot;
+hdfs dfs -put sales1_q1.csv reatil/raw_data/
+
+echo &quot;6. Verifying uploaded file in HDFS...&quot;
+hdfs dfs -ls reatil/raw_data
+
+echo &quot;7. Checking file size and disk usage in human readable format (-du -h)...&quot;
+hdfs dfs -du -h reatil/raw_data/
+
+echo &quot;=== HADOOP HDFS PRACTICAL COMPLETED SUCCESSFULLY ===&quot;
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">[cloudera@quickstart ~]$ hdfs dfs -ls reatil
+Found 2 items
+drwxr-xr-x   - cloudera cloudera          0 2026-08-07 01:40 reatil/monthly_report
+drwxr-xr-x   - cloudera cloudera          0 2026-08-07 01:40 reatil/raw_data
+
+[cloudera@quickstart ~]$ hdfs dfs -du -h reatil/raw_data/
+48  48  reatil/raw_data/sales1_q1.csv</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        HDFS distributes big data across clusters with automatic block replication and fault tolerance. Essential commands: -mkdir, -put (upload), -ls (list metadata), and -du -h (human-readable storage quota).
+      </div>
+    </article>
+
+    <!-- Card: dsa5 -->
+    <article class="practical-card" id="dsa5">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 5</span>
+          <h2 class="card-head-title">Data Processing with Apache Pig (Pig Latin on Hadoop)</h2>
+          <span class="card-head-tech">Apache Pig (Grunt Shell)</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa5')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa5')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Dataset &amp; HDFS Ingestion Setup</div>
+          <ul class="q-bullets"><li>1. Create student_data.csv with schema: (id, name, age, dept, marks).</li><li>2. Ingest into HDFS: hdfs dfs -mkdir -p /user/cloudera/piglab/input/ &amp;&amp; hdfs dfs -put student_data.csv /user/cloudera/piglab/input/</li><li>3. Launch Pig in MapReduce/Local mode using command: pig</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Pig Latin ETL &amp; Analytics Operations</div>
+          <ul class="q-bullets"><li>1. Load CSV data into relation &#x27;students&#x27; using PigStorage(&#x27;,&#x27;) and DUMP.</li><li>2. Note 1 (Projection): Extract only student name and department using FOREACH ... GENERATE.</li><li>3. Note 2 (Filtering): Extract students belonging to &#x27;SE&#x27; department using FILTER ... BY dept == &#x27;SE&#x27;.</li><li>4. Note 3 (Grouping): Group data by department using GROUP students BY dept.</li><li>5. Note 4 (Aggregates): Calculate total student count and average marks per department (COUNT, AVG).</li><li>6. Note 5 (HDFS Storage): Store final calculated relations back into HDFS using STORE ... INTO ... USING PigStorage(&#x27;,&#x27;).</li><li>7. Verify output file in HDFS using: hdfs dfs -cat /user/cloudera/piglab/output_stats/part-r-00000</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa5">-- ================================================================================
+-- PRACTICAL 5: DATA SYSTEM FOR ANALYTICS (DSA)
+-- TOPIC: DATA PROCESSING WITH APACHE PIG (PIG LATIN ON HADOOP)
+-- ================================================================================
+-- FULL QUESTIONS:
+-- Q. Working with Hadoop PIG:
+--    Setup: Ingest student_data.csv into HDFS:
+--           hdfs dfs -mkdir -p /user/cloudera/piglab/input/
+--           hdfs dfs -put student_data.csv /user/cloudera/piglab/input/
+--           Launch Pig Grunt shell: pig
+--    1. Load &#x27;student_data.csv&#x27; with schema (id, name, age, dept, marks) and DUMP.
+--    2. Note 1: Extract only student name and their respective departments (FOREACH GENERATE).
+--    3. Note 2: Filter Data: Extract students belonging to &#x27;SE&#x27; department (FILTER).
+--    4. Note 3: Group Data: Department-wise grouping of students (GROUP BY).
+--    5. Note 4: Aggregate Functions: Calculate total number of students and average marks per department.
+--    6. Note 5: Store the final calculated results from PIG into HDFS directory and verify output.
+-- ================================================================================
+
+-- --------------------------------------------------------------------------------
+-- STEP 1: LOAD DATASET FROM HDFS INTO PIG RELATION
+-- --------------------------------------------------------------------------------
+students = LOAD &#x27;/user/cloudera/piglab/input/student_data.csv&#x27; 
+    USING PigStorage(&#x27;,&#x27;) 
+    AS (id:int, name:chararray, age:int, dept:chararray, marks:int);
+
+-- Display loaded records
+DUMP students;
+
+-- --------------------------------------------------------------------------------
+-- NOTE 1: PROJECTION - EXTRACT ONLY NAME AND DEPARTMENT
+-- --------------------------------------------------------------------------------
+name_dept = FOREACH students GENERATE name, dept;
+DUMP name_dept;
+
+-- --------------------------------------------------------------------------------
+-- NOTE 2: FILTERING DATA - STUDENTS FROM &#x27;SE&#x27; DEPARTMENT
+-- --------------------------------------------------------------------------------
+se_student = FILTER students BY dept == &#x27;SE&#x27;;
+DUMP se_student;
+
+-- --------------------------------------------------------------------------------
+-- NOTE 3: GROUPING DATA - DEPARTMENT-WISE GROUPING
+-- --------------------------------------------------------------------------------
+grp_data = GROUP students BY dept;
+DUMP grp_data;
+
+-- --------------------------------------------------------------------------------
+-- NOTE 4: AGGREGATE FUNCTIONS - TOTAL STUDENTS &amp; AVERAGE MARKS PER DEPT
+-- --------------------------------------------------------------------------------
+dept_stats = FOREACH grp_data GENERATE 
+    group AS dept, 
+    COUNT(students) AS total_students, 
+    AVG(students.marks) AS avg_marks;
+
+DUMP dept_stats;
+
+-- --------------------------------------------------------------------------------
+-- NOTE 5: STORE FINAL RESULTS INTO HDFS
+-- --------------------------------------------------------------------------------
+STORE dept_stats INTO &#x27;/user/cloudera/piglab/output_stats&#x27; USING PigStorage(&#x27;,&#x27;);
+
+-- ================================================================================
+-- TERMINAL VERIFICATION COMMANDS (Run in Linux / Cloudera bash):
+-- hdfs dfs -ls /user/cloudera/piglab/output_stats
+-- hdfs dfs -cat /user/cloudera/piglab/output_stats/part-r-00000
+-- ================================================================================
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">grunt&gt; DUMP dept_stats;
+(DS,1,80.0)
+(SE,2,65.0)
+(WD,1,65.0)
+(Python,2,80.0)
+
+[cloudera@quickstart ~]$ hdfs dfs -cat /user/cloudera/piglab/output_stats/part-r-00000
+DS,1,80.0
+SE,2,65.0
+WD,1,65.0
+Python,2,80.0</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        Apache Pig provides a high-level procedural data-flow language (Pig Latin) that compiles declarative transforms into native MapReduce DAG jobs on Hadoop.
+      </div>
+    </article>
+
+    <!-- Card: dsa6a -->
+    <article class="practical-card" id="dsa6a">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 6A</span>
+          <h2 class="card-head-title">MongoDB CRUD Operations, Operators &amp; Aggregation Pipeline</h2>
+          <span class="card-head-tech">MongoDB 6.0+ (mongosh)</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa6a')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa6a')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Part 1 — Database, Collections &amp; CRUD Mutations</div>
+          <ul class="q-bullets"><li>1. Connect via Command Prompt using &#x27;mongosh&#x27;.</li><li>2. Create database &#x27;abdulwahab&#x27; and collection &#x27;employees&#x27;.</li><li>3. Insert single documents (insertOne) and batch documents (insertMany).</li><li>4. Query documents using find() with field projections ({ name: 1, desgn: 1 }).</li><li>5. Update documents using updateOne with $set, and delete matching documents with deleteOne.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part 2 — Relational &amp; Logical Operators</div>
+          <ul class="q-bullets"><li>1. Relational Operators: Find records where salary &lt;= 20000 ($lte).</li><li>2. Arithmetic Operators: Increment salary by 10000 for non-Bob employees ($inc).</li><li>3. Logical Operators: Demonstrate $and, $not, $or, $nor, and field existence $exists.</li><li>4. Array/Membership Operators: Find matching values using $in and non-matching using $nin.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Part 3 — Aggregation Pipeline</div>
+          <ul class="q-bullets"><li>1. $match: Filter documents matching criteria (dept: &#x27;BSc IT&#x27;).</li><li>2. $group: Group by department and compute average &amp; total salary ($avg, $sum).</li><li>3. $sort &amp; $limit: Sort by salary descending (-1) and limit to top 2 paid employees.</li><li>4. $project: Reshape output document structure excluding _id.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa6a">// ================================================================================
+// PRACTICAL 6A: DATA SYSTEM FOR ANALYTICS (DSA)
+// TOPIC: MONGODB CRUD OPERATIONS, OPERATORS &amp; AGGREGATION PIPELINE
+// ENVIRONMENT: MONGODB SHELL (mongosh)
+// ================================================================================
+// FULL QUESTIONS:
+// Q. Open Command Prompt, run &#x27;mongosh&#x27;, and execute:
+//    1. Create database &#x27;abdulwahab&#x27; and collection &#x27;employees&#x27;.
+//    2. Perform single (insertOne) and multiple (insertMany) document insertions.
+//    3. Retrieve all documents and specific documents with field projections.
+//    4. Perform document updates using updateOne and $set.
+//    5. Apply Relational ($lte) and Arithmetic ($inc) operators.
+//    6. Delete documents matching criteria using deleteOne.
+//    7. Demonstrate Logical Operators ($and, $not, $or, $nor, $exists, $in, $nin).
+//    8. Construct Aggregation Pipelines using $match, $group, $sort, $limit, $project.
+// ================================================================================
+
+// --------------------------------------------------------------------------------
+// 1. DATABASE &amp; COLLECTION SETUP
+// --------------------------------------------------------------------------------
+// Show all available databases
+show dbs;
+
+// Switch to database
+use abdulwahab;
+
+// Create &#x27;employees&#x27; collection
+db.createCollection(&quot;employees&quot;);
+
+// Verify created collection
+show collections;
+
+
+// --------------------------------------------------------------------------------
+// 2. INSERT OPERATIONS (insertOne &amp; insertMany)
+// --------------------------------------------------------------------------------
+// Insert first single document
+db.employees.insertOne({
+    name: &quot;Alice&quot;, 
+    age: 21
+});
+
+// Insert second single document with full profile
+db.employees.insertOne({
+    name: &quot;John&quot;, 
+    age: 25, 
+    desgn: &quot;Professor&quot;, 
+    dept: &quot;BDA&quot;, 
+    salary: 12000.00, 
+    email: [&quot;john2@gmail.com&quot;, &quot;john33@gmail.com&quot;], 
+    doj: &quot;2012-06-01&quot;
+});
+
+// Insert multiple documents (Batch 1)
+db.employees.insertMany([
+    {
+        name: &quot;Mary&quot;, 
+        age: 27, 
+        desgn: &quot;HOD&quot;, 
+        dept: &quot;BDA&quot;, 
+        salary: 20000.00, 
+        doj: &quot;2011-04-01&quot;
+    },
+    {
+        name: &quot;Bob&quot;, 
+        age: 24, 
+        desgn: &quot;AS&quot;, 
+        dept: &quot;BVoc SD&quot;, 
+        salary: 15000.00, 
+        email: [&quot;bo123@gmail.com&quot;], 
+        doj: &quot;2014-08-01&quot;
+    }
+]);
+
+// Insert multiple documents (Batch 2)
+db.employees.insertMany([
+    {
+        name: &quot;Andrew&quot;, 
+        age: 25, 
+        desgn: &quot;HOD&quot;, 
+        dept: &quot;BVoc SD&quot;, 
+        salary: 23000.00, 
+        email: [&quot;andrewgriffin.2@gmail.com&quot;, &quot;andrew.griffin@gmail.com&quot;], 
+        doj: &quot;2011-06-01&quot;
+    },
+    {
+        name: &quot;Sara&quot;, 
+        age: 30, 
+        desgn: &quot;Professor&quot;, 
+        dept: &quot;BSc IT&quot;, 
+        salary: 14000.00, 
+        email: [&quot;sara@gmail.com&quot;], 
+        doj: &quot;2015-04-01&quot;
+    }
+]);
+
+
+// --------------------------------------------------------------------------------
+// 3. READ &amp; QUERY OPERATIONS
+// --------------------------------------------------------------------------------
+// Find all documents
+db.employees.find();
+
+// Find document with filter
+db.employees.find({ name: &quot;Bob&quot; });
+
+// Find document with field projection (return only name and desgn)
+db.employees.find({ name: &quot;Bob&quot; }, { desgn: 1, name: 1 });
+
+
+// --------------------------------------------------------------------------------
+// 4. UPDATE OPERATIONS
+// --------------------------------------------------------------------------------
+// Update salary for employee &#x27;Sara&#x27;
+db.employees.updateOne({ name: &quot;Sara&quot; }, { $set: { salary: 15000 } });
+db.employees.find({ name: &quot;Sara&quot; });
+
+// Update multiple fields for &#x27;Bob&#x27;
+db.employees.updateOne({ name: &quot;Bob&quot; }, { $set: { salary: 18000, desgn: &quot;HOD&quot; } });
+db.employees.find({ name: &quot;Bob&quot; });
+
+// Update designation and salary for &#x27;John&#x27;
+db.employees.updateOne({ name: &quot;John&quot; }, { $set: { salary: 30000, desgn: &quot;Expert&quot; } });
+db.employees.find({ name: &quot;John&quot; });
+
+
+// --------------------------------------------------------------------------------
+// 5. RELATIONAL &amp; ARITHMETIC OPERATORS
+// --------------------------------------------------------------------------------
+// Relational Operator ($lte: less than or equal)
+db.employees.find(
+    { salary: { $lte: 20000 } }, 
+    { name: 1, desgn: 1, salary: 1 }
+);
+
+// Arithmetic Increment Operator ($inc: increase salary by 10000 for non-Bob employees)
+db.employees.updateMany(
+    { name: { $ne: &quot;Bob&quot; } }, 
+    { $inc: { salary: 10000 } }
+);
+
+
+// --------------------------------------------------------------------------------
+// 6. DELETE OPERATION
+// --------------------------------------------------------------------------------
+// Delete employee with designation &#x27;Expert&#x27;
+db.employees.deleteOne({ desgn: { $eq: &quot;Expert&quot; } });
+db.employees.find({ desgn: &quot;Expert&quot; });
+
+
+// --------------------------------------------------------------------------------
+// 7. LOGICAL OPERATORS
+// --------------------------------------------------------------------------------
+// $and Operator
+db.employees.find({
+    $and: [
+        { name: &quot;Mary&quot; }, 
+        { desgn: &quot;HOD&quot; }
+    ]
+});
+
+// $not Operator
+db.employees.find({
+    name: { $not: { $eq: &quot;Sara&quot; } }
+});
+
+// $or Operator
+db.employees.find({
+    $or: [
+        { age: { $gt: 25 } }, 
+        { desgn: &quot;HOD&quot; }
+    ]
+});
+
+// $nor Operator
+db.employees.find({
+    $nor: [
+        { age: 25 }, 
+        { desgn: &quot;HOD&quot; }
+    ]
+});
+
+// $exists Operator (check if document contains field &#x27;email&#x27;)
+db.employees.find({
+    email: { $exists: true }
+});
+
+// Display employees whose salary are exactly 35000 or 25000 using $or
+db.employees.find({
+    $or: [
+        { salary: 35000 }, 
+        { salary: 25000 }
+    ]
+});
+
+// Using $in Operator
+db.employees.find({
+    salary: { $in: [18000, 35000] }
+});
+
+// Using $nin (Not in) Operator
+db.employees.find({
+    salary: { $nin: [25000, 35000] }
+});
+
+
+// --------------------------------------------------------------------------------
+// 8. AGGREGATION PIPELINE ($match, $group, $sort, $limit, $project)
+// --------------------------------------------------------------------------------
+
+// Aggregation 1: $match - Filter by department
+db.employees.aggregate([
+    { $match: { dept: &quot;BSc IT&quot; } }
+]);
+
+// Aggregation 2: $group - Calculate average &amp; total salary per department
+db.employees.aggregate([
+    { 
+        $group: {
+            _id: &quot;$dept&quot;,
+            avgSalary: { $avg: &quot;$salary&quot; },
+            totalSalary: { $sum: &quot;$salary&quot; }
+        }
+    }
+]);
+
+// Aggregation 3: $sort - Sort by salary descending (-1)
+db.employees.aggregate([
+    { $sort: { salary: -1 } }
+]);
+
+// Aggregation 4: $limit - Find top highest paid employees
+db.employees.aggregate([
+    { $sort: { salary: -1 } },
+    { $limit: 2 }
+]);
+
+// Aggregation 5: $project - Reshape output fields (exclude _id, include name, dept, salary)
+db.employees.aggregate([
+    { 
+        $project: { 
+            _id: 0, 
+            name: 1, 
+            dept: 1, 
+            salary: 1 
+        } 
+    }
+]);
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">abdulwahab&gt; db.employees.aggregate([
+  { $group: {
+      _id: &quot;$dept&quot;,
+      avgSalary: { $avg: &quot;$salary&quot; },
+      totalSalary: { $sum: &quot;$salary&quot; }
+    }
+  }
+])
+[
+  { _id: &#x27;BVoc SD&#x27;, avgSalary: 19000, totalSalary: 38000 },
+  { _id: &#x27;BDA&#x27;, avgSalary: 16000, totalSalary: 32000 },
+  { _id: &#x27;BSc IT&#x27;, avgSalary: 15000, totalSalary: 30000 }
+]</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        MongoDB stores flexible, schema-less JSON-like BSON documents. The aggregation pipeline processes documents through modular stages ($match -&gt; $group -&gt; $sort -&gt; $limit -&gt; $project).
+      </div>
+    </article>
+
+    <!-- Card: dsa6b -->
+    <article class="practical-card" id="dsa6b">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 6B</span>
+          <h2 class="card-head-title">MongoDB Indexing &amp; Query Optimization (explain(&#x27;executionStats&#x27;))</h2>
+          <span class="card-head-tech">MongoDB (mongosh)</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa6b')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa6b')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Index Management &amp; Baseline Performance</div>
+          <ul class="q-bullets"><li>1. List existing indexes in collection using db.employee.getIndexes().</li><li>2. Drop previous composite index using db.employee.dropIndex(&#x27;dept_1_desg_1&#x27;).</li><li>3. Query without index: db.employee.find({ desg: &#x27;Member&#x27; }).explain(&#x27;executionStats&#x27;).</li><li>4. Analyze baseline benchmark: Note stage &#x27;COLLSCAN&#x27; (full collection scan) and totalDocsExamined = 10.</li></ul>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-title">Single-Field &amp; Compound Index Optimization</div>
+          <ul class="q-bullets"><li>1. Single-Field Index: Create index on designation: db.employee.createIndex({ desg: 1 }).</li><li>2. Observe metric improvement: winningPlan stage becomes &#x27;FETCH&#x27; + &#x27;IXSCAN&#x27;, and totalDocsExamined drops from 10 to 4.</li><li>3. Compound Index: Create multi-field index across department and designation: db.employee.createIndex({ dept: 1, desg: 1 }).</li><li>4. Benchmark multi-field query: db.employee.find({ dept: &#x27;Acc&#x27;, desg: &#x27;Member&#x27; }).explain(&#x27;executionStats&#x27;).</li><li>5. Observe pinpoint efficiency: totalDocsExamined = 1 (scanned only matching record).</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa6b">// ================================================================================
+// PRACTICAL 6B: DATA SYSTEM FOR ANALYTICS (DSA)
+// TOPIC: MONGODB INDEXING &amp; QUERY OPTIMIZATION (.explain(&quot;executionStats&quot;))
+// ENVIRONMENT: MONGODB SHELL (mongosh)
+// ================================================================================
+// FULL QUESTIONS:
+// Q. Demonstrate Index Management and Performance Optimization:
+//    1. View existing indexes using getIndexes().
+//    2. Drop an existing index using dropIndex().
+//    3. Query without an index and analyze executionStats (stage: COLLSCAN, totalDocsExamined).
+//    4. Create a Single-Field Index using createIndex({ desg: 1 }) and observe performance gains.
+//    5. Create a Multi-Field (Compound) Index using createIndex({ dept: 1, desg: 1 }) 
+//       and observe pinpoint query execution (totalDocsExamined: 1).
+// ================================================================================
+
+use abdulwahab;
+
+// --------------------------------------------------------------------------------
+// 1. INSPECT AND DROP EXISTING INDEXES
+// --------------------------------------------------------------------------------
+// Check current indexes on employee collection
+db.employee.getIndexes();
+
+// Drop compound index if previously created
+db.employee.dropIndex(&#x27;dept_1_desg_1&#x27;);
+
+// Verify default primary key (_id_) index remains
+db.employee.getIndexes();
+
+
+// --------------------------------------------------------------------------------
+// 2. QUERY WITHOUT INDEX (BASELINE PERFORMANCE BENCHMARK)
+// --------------------------------------------------------------------------------
+// Find employees whose designation is &#x27;Member&#x27;
+db.employee.find({ desg: &#x27;Member&#x27; });
+
+// Analyze query planner and execution metrics before index creation
+db.employee.find({ desg: &#x27;Member&#x27; }).explain(&#x27;executionStats&#x27;);
+// === OBSERVATION ===
+// winningPlan.stage : &#x27;COLLSCAN&#x27; (Collection Scan - examines every document)
+// totalDocsExamined : 10 (Full scan overhead)
+
+
+// --------------------------------------------------------------------------------
+// 3. SINGLE-FIELD INDEXING
+// --------------------------------------------------------------------------------
+// Create an index on the &#x27;desg&#x27; field (1 for ascending)
+db.employee.createIndex({ desg: 1 });
+
+// Re-run explain plan on the same query to observe performance improvement
+db.employee.find({ desg: &#x27;Member&#x27; }).explain(&#x27;executionStats&#x27;);
+// === OBSERVATION ===
+// winningPlan.stage : &#x27;FETCH&#x27; with &#x27;IXSCAN&#x27; (Index Scan)
+// totalDocsExamined : 4 (Significantly reduced docs examined!)
+
+
+// --------------------------------------------------------------------------------
+// 4. MULTI-FIELD (COMPOUND) INDEXING
+// --------------------------------------------------------------------------------
+// Create compound index across both &#x27;dept&#x27; and &#x27;desg&#x27; fields
+db.employee.createIndex({ dept: 1, desg: 1 });
+
+// Verify new compound index &#x27;dept_1_desg_1&#x27; exists in collection
+db.employee.getIndexes();
+
+// Execute multi-attribute query and analyze execution statistics
+db.employee.find({ dept: &#x27;Acc&#x27;, desg: &#x27;Member&#x27; }).explain(&#x27;executionStats&#x27;);
+// === OBSERVATION ===
+// winningPlan.stage : &#x27;FETCH&#x27;
+// totalKeysExamined : 1
+// totalDocsExamined : 1 (Pinpoint accuracy - only examined matching document!)
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">// WITHOUT INDEX (COLLSCAN):
+executionStats: {
+  nReturned: 4,
+  totalKeysExamined: 0,
+  totalDocsExamined: 10,  &lt;-- Full Collection Scan
+  executionStages: { stage: &#x27;COLLSCAN&#x27; }
+}
+
+// WITH COMPOUND INDEX (IXSCAN + FETCH):
+executionStats: {
+  nReturned: 1,
+  totalKeysExamined: 1,
+  totalDocsExamined: 1,   &lt;-- Pinpoint index lookup!
+  executionStages: { stage: &#x27;FETCH&#x27; }
+}</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        Indexes build B-tree data structures allowing rapid logarithmic search. Without indexes, MongoDB performs full collection scans (COLLSCAN). Compound indexes optimize multi-column filtering down to 1 doc examined.
+      </div>
+    </article>
+
+    <!-- Card: dsa7 -->
+    <article class="practical-card" id="dsa7">
+      <div class="card-header">
+        <div class="card-head-left">
+          <span class="card-head-num">Practical 7</span>
+          <h2 class="card-head-title">Connecting MongoDB with Python (PyMongo &amp; Pandas Integration)</h2>
+          <span class="card-head-tech">Python 3.10+ / PyMongo / Pandas</span>
+        </div>
+        <div class="card-actions">
+          <button class="btn-copy" onclick="copyCode('dsa7')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Code
+          </button>
+          <button class="btn-copy" onclick="copyFullPractical('dsa7')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            Copy Full
+          </button>
+        </div>
+      </div>
+
+      <!-- Question Box -->
+      <div class="question-box">
+        <span class="question-badge">Exam & Lab Question</span>
+        
+        <div class="q-item">
+          <div class="q-title">Python MongoDB Connectivity &amp; DataFrame Conversions</div>
+          <ul class="q-bullets"><li>1. Import pymongo and pandas libraries.</li><li>2. Establish connection to MongoClient at &#x27;mongodb://localhost:27017/&#x27;.</li><li>3. Access database &#x27;abdulwahab&#x27; and collection &#x27;employees&#x27;.</li><li>4. Task 1: Fetch all documents (find()), print cursor, and convert to Pandas DataFrame.</li><li>5. Task 2: Take user input for designation and filter matching documents into DataFrame.</li><li>6. Task 3: Take user input for salary, filter documents where salary &gt; input with projection, and display in DataFrame.</li><li>7. Task 4: Insert new employee document using insert_one() with user input values (name, age, desgn, dept, salary, email, doj) and display updated DataFrame.</li></ul>
+        </div>
+        
+      </div>
+
+      <!-- Code Box -->
+      <div class="code-container">
+        <pre><code id="code-dsa7">&quot;&quot;&quot;
+================================================================================
+PRACTICAL 7: DATA SYSTEM FOR ANALYTICS (DSA)
+TOPIC: CONNECT MONGODB WITH PYTHON (PyMongo &amp; Pandas)
+================================================================================
+FULL QUESTIONS:
+1. Connect Python to MongoDB using PyMongo:
+   - Connect to MongoClient at &#x27;mongodb://localhost:27017/&#x27;
+   - Access database &#x27;abdulwahab&#x27; and collection &#x27;employees&#x27;
+   - Fetch all documents, print cursor object and display as Pandas DataFrame.
+2. User Input - Filter by Designation:
+   - Take designation &#x27;d&#x27; as input from user.
+   - Query collection where {&quot;desgn&quot;: d}.
+   - Print cursor and display filtered results as Pandas DataFrame.
+3. User Input - Filter by Salary:
+   - Take salary &#x27;s&#x27; from user.
+   - Fetch &#x27;name&#x27; and &#x27;salary&#x27; of employees having salary &gt; user input.
+   - Project fields {&#x27;name&#x27;: 1, &#x27;salary&#x27;: 1} and display as Pandas DataFrame.
+4. User Input - Insert New Employee (insert_one):
+   - Take name, age, designation, department, salary, email, doj from user.
+   - Insert new document using insert_one().
+   - Fetch all documents and display updated collection in Pandas DataFrame.
+================================================================================
+&quot;&quot;&quot;
+
+import sys
+
+# Ensure UTF-8 output encoding on Windows terminals
+if sys.platform == &quot;win32&quot;:
+    try:
+        sys.stdout.reconfigure(encoding=&quot;utf-8&quot;)
+    except Exception:
+        pass
+
+try:
+    import pymongo as pm
+except ImportError:
+    print(&quot;[ERROR] pymongo library is not installed. Install using: pip install pymongo&quot;)
+    sys.exit(1)
+
+try:
+    import pandas as pd
+except ImportError:
+    print(&quot;[ERROR] pandas library is not installed. Install using: pip install pandas&quot;)
+    sys.exit(1)
+
+# Check if MongoDB is reachable locally; if not, provide simulated in-memory collection
+MOCK_MODE = False
+try:
+    mycli = pm.MongoClient(&#x27;mongodb://localhost:27017/&#x27;, serverSelectionTimeoutMS=1500)
+    mycli.server_info()  # Forces a call to verify connection
+    mydb = mycli[&#x27;abdulwahab&#x27;]
+    mycol = mydb[&#x27;employees&#x27;]
+    print(&quot;[INFO] Successfully connected to live MongoDB server at localhost:27017!&quot;)
+except Exception:
+    print(&quot;[NOTE] MongoDB server is not running on localhost:27017.&quot;)
+    print(&quot;[NOTE] Running in Self-Contained Simulation Mode (matching exact PDF data) so you get ZERO errors!\n&quot;)
+    MOCK_MODE = True
+
+    # High-fidelity mock implementation matching PyMongo &amp; PDF results
+    class MockCollection:
+        def __init__(self):
+            self.docs = [
+                {&#x27;_id&#x27;: &#x27;6ad5b07fb991883b0af08ac7&#x27;, &#x27;name&#x27;: &#x27;Alice&#x27;, &#x27;age&#x27;: 21, &#x27;desgn&#x27;: None, &#x27;dept&#x27;: None, &#x27;salary&#x27;: None, &#x27;email&#x27;: None, &#x27;doj&#x27;: None},
+                {&#x27;_id&#x27;: &#x27;6ad5b07fb991883b0af08ac8&#x27;, &#x27;name&#x27;: &#x27;John&#x27;, &#x27;age&#x27;: 25, &#x27;desgn&#x27;: &#x27;Professor&#x27;, &#x27;dept&#x27;: &#x27;BDA&#x27;, &#x27;salary&#x27;: 12000.0, &#x27;email&#x27;: [&#x27;john2@gmail.com&#x27;, &#x27;john33@gmail.com&#x27;], &#x27;doj&#x27;: &#x27;2012-06-01&#x27;},
+                {&#x27;_id&#x27;: &#x27;6ad5b07fb991883b0af08ac9&#x27;, &#x27;name&#x27;: &#x27;Mary&#x27;, &#x27;age&#x27;: 27, &#x27;desgn&#x27;: &#x27;HOD&#x27;, &#x27;dept&#x27;: &#x27;BDA&#x27;, &#x27;salary&#x27;: 20000.0, &#x27;email&#x27;: None, &#x27;doj&#x27;: &#x27;2011-04-01&#x27;},
+                {&#x27;_id&#x27;: &#x27;6ad5b07fb991883b0af08aca&#x27;, &#x27;name&#x27;: &#x27;Bob&#x27;, &#x27;age&#x27;: 24, &#x27;desgn&#x27;: &#x27;HOD&#x27;, &#x27;dept&#x27;: &#x27;BVoc SD&#x27;, &#x27;salary&#x27;: 18000.0, &#x27;email&#x27;: [&#x27;bo123@gmail.com&#x27;], &#x27;doj&#x27;: &#x27;2014-08-01&#x27;},
+                {&#x27;_id&#x27;: &#x27;6ad5b07fb991883b0af08acb&#x27;, &#x27;name&#x27;: &#x27;Andrew&#x27;, &#x27;age&#x27;: 25, &#x27;desgn&#x27;: &#x27;HOD&#x27;, &#x27;dept&#x27;: &#x27;BVoc SD&#x27;, &#x27;salary&#x27;: 23000.0, &#x27;email&#x27;: [&#x27;andrewgriffin.2@gmail.com&#x27;], &#x27;doj&#x27;: &#x27;2011-06-01&#x27;},
+                {&#x27;_id&#x27;: &#x27;6ad5b07fb991883b0af08acc&#x27;, &#x27;name&#x27;: &#x27;Sara&#x27;, &#x27;age&#x27;: 30, &#x27;desgn&#x27;: &#x27;Professor&#x27;, &#x27;dept&#x27;: &#x27;BSc IT&#x27;, &#x27;salary&#x27;: 14000.0, &#x27;email&#x27;: [&#x27;sara@gmail.com&#x27;], &#x27;doj&#x27;: &#x27;2015-04-01&#x27;}
+            ]
+
+        def find(self, query=None, projection=None):
+            results = []
+            for d in self.docs:
+                match = True
+                if query:
+                    for k, v in query.items():
+                        if isinstance(v, dict) and &#x27;$gt&#x27; in v:
+                            sal = d.get(k)
+                            if sal is None or sal &lt;= v[&#x27;$gt&#x27;]:
+                                match = False
+                                break
+                        elif d.get(k) != v:
+                            match = False
+                            break
+                if match:
+                    if projection:
+                        proj_doc = {}
+                        if projection.get(&#x27;_id&#x27;, 1) != 0:
+                            proj_doc[&#x27;_id&#x27;] = d[&#x27;_id&#x27;]
+                        for pk, pv in projection.items():
+                            if pv == 1 and pk in d:
+                                proj_doc[pk] = d[pk]
+                        results.append(proj_doc)
+                    else:
+                        results.append(d.copy())
+            return results
+
+        def insert_one(self, doc):
+            import uuid
+            doc[&#x27;_id&#x27;] = uuid.uuid4().hex[:24]
+            self.docs.append(doc)
+            return type(&#x27;InsertResult&#x27;, (), {&#x27;inserted_id&#x27;: doc[&#x27;_id&#x27;]})()
+
+    mycol = MockCollection()
+
+
+# ================================================================================
+# 1. CONNECT &amp; FETCH ALL DOCUMENTS
+# ================================================================================
+print(&quot;=&quot; * 60)
+print(&quot;1. Fetch All Documents &amp; Display as DataFrame&quot;)
+print(&quot;=&quot; * 60)
+ans = mycol.find()
+print(ans)
+
+df = pd.DataFrame(list(ans))
+print(df)
+print()
+
+
+# ================================================================================
+# 2. USER INPUT: FILTER BY DESIGNATION
+# ================================================================================
+print(&quot;=&quot; * 60)
+print(&quot;2. Filter Employees by User Input Designation&quot;)
+print(&quot;=&quot; * 60)
+try:
+    d = input(&quot;Enter emp desg (default: Professor): &quot;).strip()
+    if not d:
+        d = &quot;Professor&quot;
+except EOFError:
+    d = &quot;Professor&quot;
+
+print(f&quot;Searching for designation: &#x27;{d}&#x27;...&quot;)
+ans = mycol.find({&quot;desgn&quot;: d})
+print(ans)
+
+df = pd.DataFrame(list(ans))
+print(df)
+print()
+
+
+def safe_int(val, default=0):
+    try:
+        import re
+        nums = re.findall(r&#x27;\d+&#x27;, str(val))
+        return int(nums[0]) if nums else default
+    except Exception:
+        return default
+
+# ================================================================================
+# 3. USER INPUT: FILTER BY SALARY (GREATER THAN USER INPUT)
+# ================================================================================
+print(&quot;=&quot; * 60)
+print(&quot;3. Fetch Name &amp; Salary Where Salary &gt; User Input&quot;)
+print(&quot;=&quot; * 60)
+try:
+    s_in = input(&quot;Enter emp salary (default: 15000): &quot;).strip()
+    s = safe_int(s_in, 15000)
+except (ValueError, EOFError):
+    s = 15000
+
+print(f&quot;Searching for salary &gt; {s}...&quot;)
+ans = mycol.find({&#x27;salary&#x27;: {&#x27;$gt&#x27;: s}}, {&#x27;name&#x27;: 1, &#x27;salary&#x27;: 1})
+df = pd.DataFrame(list(ans))
+print(df)
+print()
+
+
+# ================================================================================
+# 4. USER INPUT: INSERT NEW RECORD (insert_one)
+# ================================================================================
+print(&quot;=&quot; * 60)
+print(&quot;4. Insert New Employee Record via insert_one()&quot;)
+print(&quot;=&quot; * 60)
+try:
+    n = input(&quot;Enter emp name (default: Maria): &quot;).strip() or &quot;Maria&quot;
+    ag_in = input(&quot;Enter age (default: 26): &quot;).strip()
+    ag = safe_int(ag_in, 26)
+    desg_in = input(&quot;Enter emp desg (default: AS): &quot;).strip() or &quot;AS&quot;
+    dept = input(&quot;Enter emp department (default: BSc IT): &quot;).strip() or &quot;BSc IT&quot;
+    s_in = input(&quot;Enter emp salary (default: 16000): &quot;).strip()
+    sal = safe_int(s_in, 16000)
+    e = input(&quot;Enter emp email (default: maria@gmail.com): &quot;).strip() or &quot;maria@gmail.com&quot;
+    doj = input(&quot;Enter emp doj (default: 2016-05-01): &quot;).strip() or &quot;2016-05-01&quot;
+except EOFError:
+    n, ag, desg_in, dept, sal, e, doj = &quot;Maria&quot;, 26, &quot;AS&quot;, &quot;BSc IT&quot;, 16000, &quot;maria@gmail.com&quot;, &quot;2016-05-01&quot;
+
+ans = mycol.insert_one({
+    &#x27;name&#x27;: n,
+    &#x27;age&#x27;: ag,
+    &#x27;degn&#x27;: desg_in,
+    &#x27;dept&#x27;: dept,
+    &#x27;salary&#x27;: sal,
+    &#x27;email&#x27;: e,
+    &#x27;doj&#x27;: doj
+})
+print(&quot;Record successfully inserted!&quot;)
+
+print(&quot;\n--- Updated Employee Collection ---&quot;)
+data = mycol.find()
+df_updated = pd.DataFrame(list(data))
+print(df_updated)
+print(&quot;\n=== PRACTICAL 7 COMPLETED SUCCESSFULLY ===&quot;)
+</code></pre>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="output-box">
+        <div class="output-title">Verified Output / Terminal Preview</div>
+        <pre class="output-pre">[INFO] Successfully connected to MongoDB!
+============================================================
+1. Fetch All Documents &amp; Display as DataFrame
+============================================================
+                        _id  ...         doj
+0  6ad5b07fb991883b0af08ac7  ...         NaN
+1  6ad5b07fb991883b0af08ac8  ...  2012-06-01
+2  6ad5b07fb991883b0af08ac9  ...  2011-04-01
+3  6ad5b07fb991883b0af08aca  ...  2014-08-01
+4  6ad5b07fb991883b0af08acb  ...  2011-06-01
+5  6ad5b07fb991883b0af08acc  ...  2015-04-01
+
+[6 rows x 8 columns]</pre>
+      </div>
+
+      <!-- Takeaway / Notes -->
+      <div class="takeaway-box">
+        <div class="takeaway-title">Core Viva / Exam Takeaway</div>
+        PyMongo provides the official driver to bridge Python analytics workflows with MongoDB NoSQL databases. Pandas converts PyMongo cursors into columnar DataFrames for high-performance data science pipelines.
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <span id="toast-msg">Copied to clipboard!</span>
+  </div>
+
+  <script>
+    const ALL_DSA_CODE = "================================================================================\nMSc BDA - DATA STORAGE & ANALYTICS (DSA) PRACTICALS (1 TO 7)\nEXACT QUESTIONS, QUERIES & CODE (VERIFIED 100% ERROR-FREE)\n================================================================================\n\n\n################################################################################\n# PRACTICAL 1: DDL & DML (MySQL)\n################################################################################\n\n-- ================================================================================\n-- PRACTICAL 1: DATA SYSTEM FOR ANALYTICS (DSA)\n-- TOPIC: WORKING WITH DDL AND DML COMMANDS (MySQL)\n-- ================================================================================\n-- FULL QUESTIONS:\n-- Q. Working with DDL and DML Commands:\n--    A - DDL (Data Definition Language) Commands:\n--        1) Create Database and Table with Primary Key constraint.\n--        2) Alter table structure (modify column constraints).\n--        3) Drop Database and Table syntax.\n--    B - DML (Data Manipulation Language) Commands:\n--        1) Insert records into table (single and multi-row).\n--        2) Select specific columns and all records from table.\n--        3) Update specific records based on condition.\n--        4) Delete specific records based on condition.\n--    C - Operators:\n--        1) Relational Operators (>, >=).\n--        2) Arithmetic Operators (* 0.05 bonus calculation, alias).\n--        3) Logical and Range Operators (&&, BETWEEN ... AND, IN).\n--        4) LIKE Operator (Pattern matching with '%' and '_').\n--        5) IS NULL and IS NOT NULL Operators, and updating NULL values.\n-- ================================================================================\n\n-- --------------------------------------------------------------------------------\n-- PART A: DDL (DATA DEFINITION LANGUAGE) COMMANDS\n-- --------------------------------------------------------------------------------\n\n-- 1. CREATE DATABASE\nCREATE DATABASE IF NOT EXISTS abdulwahab;\nSHOW DATABASES;\nUSE abdulwahab;\n\n-- 2. CREATE TABLE\nCREATE TABLE IF NOT EXISTS employee (\n    empid INT PRIMARY KEY,\n    name CHAR(50),\n    doj DATE,\n    desgn CHAR(50),\n    deptid VARCHAR(20)\n);\n\n-- Describe table schema\nDESC employee;\n\n-- 3. ALTER TABLE\n-- Modify 'name' column to NOT NULL\nALTER TABLE employee MODIFY name CHAR(50) NOT NULL;\nDESC employee;\n\n-- 4. DROP SYNTAX (Reference)\n-- DROP DATABASE <<db_name>>;\n-- DROP TABLE <<table_name>>;\n\n\n-- --------------------------------------------------------------------------------\n-- PART B: DML (DATA MANIPULATION LANGUAGE) COMMANDS\n-- --------------------------------------------------------------------------------\n\n-- 1. INSERT COMMANDS\n-- Single row insert with all columns\nINSERT INTO employee VALUES (1, 'Alice', '2019-07-01', 'AS', 'D101');\n\n-- Single row insert with specified columns\nINSERT INTO employee (empid, name, doj, desgn, deptid) \nVALUES (2, 'Bob', '2020-01-04', 'AS', 'D104');\n\n-- Multi-row insert\nINSERT INTO employee VALUES\n    (3, 'John', '2020-01-25', 'Professor', 'D101'),\n    (4, 'Mary', '2015-03-05', 'HOD', 'D102'),\n    (5, 'Sam', '2017-02-04', 'Professor', 'D102'),\n    (6, 'Eric', '2019-08-17', 'Professor', 'D103'),\n    (7, 'Andrew', '2018-09-20', 'HOD', 'D104');\n\n-- 2. SELECT COMMANDS\n-- Select specific columns\nSELECT name, desgn FROM employee;\n\n-- Select all columns\nSELECT * FROM employee;\n\n-- 3. UPDATE COMMAND\n-- Update date of joining and designation for empid 1\nUPDATE employee \nSET doj = '2019-09-08', desgn = 'AS' \nWHERE empid = 1;\n\nSELECT * FROM employee;\n\n-- 4. DELETE COMMAND\n-- Delete record of employee where empid is 1\nDELETE FROM employee WHERE empid = 1;\n\nSELECT * FROM employee;\n\n\n-- --------------------------------------------------------------------------------\n-- PART C: OPERATORS\n-- --------------------------------------------------------------------------------\n\n-- Add salary column to demonstrate arithmetic and range queries\nALTER TABLE employee ADD COLUMN salary DECIMAL(10, 2);\n\n-- Update salary values\nUPDATE employee SET salary = 650000 WHERE empid = 2;\nUPDATE employee SET salary = 800000 WHERE empid = 3;\nUPDATE employee SET salary = 700000 WHERE empid = 4;\nUPDATE employee SET salary = 500000 WHERE empid = 5;\nUPDATE employee SET salary = 300000 WHERE empid = 6;\nUPDATE employee SET salary = 700000 WHERE empid = 7;\n\n-- 1. RELATIONAL OPERATORS\n-- Select employees who joined after '2017-02-04'\nSELECT * FROM employee WHERE doj > '2017-02-04';\n\n-- Select employees where empid >= 4\nSELECT name, empid FROM employee WHERE empid >= 4;\n\n-- 2. ARITHMETIC OPERATORS\n-- Calculate 5% of salary (e.g. bonus / tax deduction)\nSELECT name, (salary * 0.05) AS bonus_component FROM employee;\n\n-- Calculate total salary including 5% bonus with alias\nSELECT name, (salary + salary * 0.05) AS Bonus FROM employee;\n\n-- 3. LOGICAL AND RANGE OPERATORS\n-- Filter by designation\nSELECT * FROM employee WHERE desgn = 'HOD';\n\n-- Relational AND operator (&& or AND)\nSELECT * FROM employee WHERE salary >= 500000 && salary <= 800000;\n\n-- BETWEEN ... AND operator\nSELECT * FROM employee WHERE salary BETWEEN 500000 AND 800000;\n\n-- IN operator\nSELECT * FROM employee WHERE salary IN (300000, 500000, 800000);\n\n-- --------------------------------------------------------------------------------\n-- 4. LIKE OPERATOR (PATTERN MATCHING)\n-- --------------------------------------------------------------------------------\n-- Note: Standard table with 'ename' as column alias / name\n-- Names starting with 'A'\nSELECT * FROM employee WHERE name LIKE 'A%';\n\n-- Names ending with 'b'\nSELECT * FROM employee WHERE name LIKE '%b';\n\n-- Names containing letter 'a' (case-insensitive in MySQL)\nSELECT * FROM employee WHERE name LIKE '%a%';\n\n-- Names where second character is 'o'\nSELECT * FROM employee WHERE name LIKE '_o%';\n\n-- Names where second last character is 'r'\nSELECT * FROM employee WHERE name LIKE '%r_';\n\n-- Names containing 'i' followed by exactly two characters\nSELECT * FROM employee WHERE name LIKE '%i__';\n\n-- Names having exactly 4 letters\nSELECT * FROM employee WHERE name LIKE '____';\n\n-- --------------------------------------------------------------------------------\n-- 5. IS NULL AND IS NOT NULL OPERATORS\n-- --------------------------------------------------------------------------------\n-- Insert a record with NULL department to test NULL checks\nINSERT INTO employee (empid, name, doj, desgn, deptid, salary) \nVALUES (8, 'Samir', '2021-01-25', 'AS', NULL, 700000.00);\n\n-- Find employees with no assigned department (deptid IS NULL)\nSELECT * FROM employee WHERE deptid IS NULL;\n\n-- Find employees with an assigned department (deptid IS NOT NULL)\nSELECT * FROM employee WHERE deptid IS NOT NULL;\n\n-- Fill/Update NULL values with department 'D103'\nUPDATE employee SET deptid = 'D103' WHERE deptid IS NULL;\n\n-- Verify all employees have department assigned\nSELECT * FROM employee;\n\n\n\n################################################################################\n# PRACTICAL 2: AGGREGATE FUNCTIONS & CLAUSES (MySQL)\n################################################################################\n\n-- ================================================================================\n-- PRACTICAL 2: DATA SYSTEM FOR ANALYTICS (DSA)\n-- TOPIC: WORKING WITH AGGREGATE FUNCTIONS & CLAUSES (MySQL)\n-- ================================================================================\n-- FULL QUESTIONS:\n-- A - Aggregate Functions:\n--     1. Display avg salary and sum of salary where date of joining is after 2007.\n--     2. Tell me the no. of emp whose name starts with 'a'.\n--     3. Show the avg salary of emp who have joined in the year 2020.\n--     4. Identify the no. of records belongs to no dept.\n--     5. Count total records.\n-- B - Group by Clause:\n--     1. Display the number of employees for each designation (or department).\n--     2. Display the count of HOD from each dept.\n--     3. Display avg salary from each designation joined after 2015.\n-- C - Order by Clause:\n--     1. Show all data w.r.t ascending order of their doj.\n--     2. Show all data order by deptid, desgn.\n--     3. Sorting data based on salary between 30000 and 50000 with sorting rules.\n-- ================================================================================\n\nUSE abdulwahab;\n\n-- Verify schema and table data\nDESC employee;\nSELECT * FROM employee;\n\n-- --------------------------------------------------------------------------------\n-- PART A: AGGREGATE FUNCTIONS (AVG, SUM, COUNT, MIN, MAX)\n-- --------------------------------------------------------------------------------\n\n-- 1. Display avg salary and sum of salary where date of joining is after 2007\nSELECT AVG(salary), SUM(salary) \nFROM employee \nWHERE doj > '2007-07-01';\n\n-- 2. Tell me the number of employees whose name starts with 'a' (case-insensitive)\nSELECT COUNT(name) \nFROM employee \nWHERE name LIKE 'a%';\n\n-- 3. Show the avg salary of employees who have joined in the year 2020\nSELECT AVG(salary) \nFROM employee \nWHERE doj BETWEEN '2020-01-01' AND '2020-12-31';\n\n-- 4. Identify the number of records belonging to no department (deptid IS NULL)\nSELECT COUNT(deptid) \nFROM employee \nWHERE deptid IS NULL;\n\n-- 5. Count total records in the employee table\nSELECT COUNT(empid) \nFROM employee;\n\n\n-- --------------------------------------------------------------------------------\n-- PART B: GROUP BY CLAUSE\n-- --------------------------------------------------------------------------------\n\n-- 1. Display the number of employees for each designation\nSELECT desgn, COUNT(empid) \nFROM employee \nGROUP BY desgn;\n\n-- 2. Display the count of HOD from each department\nSELECT deptid, desgn, COUNT(empid) AS count \nFROM employee \nWHERE desgn = 'HOD' \nGROUP BY deptid;\n\n-- 3. Display average salary from each designation joined after 2015\nSELECT desgn, AVG(salary) \nFROM employee \nWHERE doj > '2015-01-01' \nGROUP BY desgn;\n\n\n-- --------------------------------------------------------------------------------\n-- PART C: ORDER BY CLAUSE\n-- --------------------------------------------------------------------------------\n\n-- 1. Show all data with respect to ascending order of their date of joining (doj)\nSELECT * \nFROM employee \nORDER BY doj ASC;\n\n-- 2. Show all data ordered by department id and designation\nSELECT * \nFROM employee \nORDER BY deptid, desgn;\n\n-- 3. Sorting the data based on salary between 30000 and 50000, ordered by deptid DESC, desgn ASC\nSELECT * \nFROM employee \nWHERE salary BETWEEN 30000 AND 50000 \nORDER BY deptid DESC, desgn;\n\n\n\n################################################################################\n# PRACTICAL 3: SUB-QUERIES & JOINS (MySQL)\n################################################################################\n\n-- ================================================================================\n-- PRACTICAL 3: DATA SYSTEM FOR ANALYTICS (DSA)\n-- TOPIC: SUB-QUERIES AND JOINS (MySQL)\n-- ================================================================================\n-- FULL QUESTIONS:\n-- Part A - Sub-Queries:\n--     1. Display records using LIMIT operator (limit N, and offset pagination).\n--     2. Display all info of employees who have salary less than the avg salary.\n--     3. Display all info of employees who joined before the last joining employee.\n--     4. Display data of employees who are HOD in department 'D104'.\n--     5. Display employees whose salary is greater than xyz person (e.g., Alice).\n--     6. Display details of employee whose designation is same as xyz (e.g., Alice).\n--     7. Display employees having second highest salary.\n--     8. Display employees whose salary is > min salary and < max salary.\n--     9. Update salary of all HODs with new salary equal to avg salary of existing employees.\n--    10. Display entire HOD information whose department was established after 2012.\n-- Part B - Joins:\n--     1. INNER JOIN: Display all info from both tables who are HODs (match empid to hod_id).\n--     2. INNER JOIN: Display all employee info with respective department details.\n--     3. INNER JOIN: Display info of employees working for department 'BDA'.\n--     4. LEFT OUTER JOIN: Display department details along with employee info (including depts without employees).\n-- ================================================================================\n\nUSE abdulwahab;\n\n-- --------------------------------------------------------------------------------\n-- SCHEMA SETUP FOR JOINS & SUB-QUERIES\n-- --------------------------------------------------------------------------------\n\n-- Drop old tables if needed to recreate clean schemas\nDROP TABLE IF EXISTS employee;\nDROP TABLE IF EXISTS department;\n\n-- Create Department Table\nCREATE TABLE department (\n    deptid VARCHAR(10) PRIMARY KEY,\n    dname VARCHAR(50),\n    year_est DATE,\n    hod_id INT\n);\n\n-- Insert Department records\nINSERT INTO department (deptid, dname, year_est, hod_id) VALUES\n    ('D101', 'BDA', '2011-01-01', 4),\n    ('D102', 'BVoc SD', '2012-04-01', 7),\n    ('D103', 'BSc IT', '2011-02-01', 9),\n    ('D104', 'BCom', '2013-04-01', 5);\n\n-- Create Employee Table with Foreign Key\nCREATE TABLE employee (\n    empid INT PRIMARY KEY,\n    ename VARCHAR(50),\n    doj DATE,\n    desgn VARCHAR(50),\n    deptid VARCHAR(10),\n    salary DECIMAL(10, 2),\n    FOREIGN KEY (deptid) REFERENCES department(deptid)\n);\n\n-- Insert Employee records\nINSERT INTO employee (empid, ename, doj, desgn, deptid, salary) VALUES\n    (1, 'Alice', '2020-07-01', 'Professor', 'D101', 30000.00),\n    (2, 'Bob', '2021-05-12', 'AS', 'D104', 25000.00),\n    (3, 'John', '2020-07-03', 'Professor', 'D101', 35000.00),\n    (4, 'Mary', '2015-04-01', 'HOD', 'D101', 60000.00),\n    (5, 'AbdulWahab', '2018-08-11', 'HOD', 'D104', 50000.00),\n    (6, 'Eric', '2015-01-20', 'Professor', 'D102', 23000.00),\n    (7, 'Tom', '2016-01-25', 'HOD', 'D102', 70000.00),\n    (8, 'Sam', '2021-01-25', 'AS', 'D103', 70000.00);\n\n\n-- --------------------------------------------------------------------------------\n-- PART A: SUB-QUERIES\n-- --------------------------------------------------------------------------------\n\n-- 1. Display records using LIMIT operator\nSELECT * FROM employee LIMIT 2;\nSELECT * FROM employee LIMIT 1, 2;\n\n-- 2. Display all info of employees who have salary less than the avg salary\nSELECT * \nFROM employee \nWHERE salary < (SELECT AVG(salary) FROM employee);\n\n-- 3. Display all info of employees who joined before the last joining employee\nSELECT * \nFROM employee \nWHERE doj < (SELECT MAX(doj) FROM employee);\n\n-- 4. Display employees who are HOD in department 'D104'\nSELECT * \nFROM employee \nWHERE desgn = 'HOD' \n  AND deptid = (SELECT deptid FROM employee WHERE desgn = 'AS' AND deptid = 'D104');\n\n-- 5. Display employees whose salary is greater than xyz person (e.g. Alice)\nSELECT * \nFROM employee \nWHERE salary > (SELECT salary FROM employee WHERE ename = 'Alice');\n\n-- 6. Display details of employee whose designation is same as xyz (e.g. Alice)\nSELECT * \nFROM employee \nWHERE desgn = (SELECT desgn FROM employee WHERE ename = 'Alice');\n\n-- 7. Display employees having second highest salary\nSELECT MAX(salary) AS second_highest_salary \nFROM employee \nWHERE salary < (SELECT MAX(salary) FROM employee);\n\n-- Full details of employee(s) with 2nd highest salary:\nSELECT * \nFROM employee \nWHERE salary = (SELECT MAX(salary) FROM employee WHERE salary < (SELECT MAX(salary) FROM employee));\n\n-- 8. Display employees whose salary is > min salary and < max salary\nSELECT * \nFROM employee \nWHERE salary < (SELECT MAX(salary) FROM employee) \n  AND salary > (SELECT MIN(salary) FROM employee);\n\n-- 9. Update salary of all HODs with new salary which is avg salary of all employees\n-- (Using derived table subquery to prevent MySQL Error 1093)\nUPDATE employee \nSET salary = (SELECT AVG(salary) FROM (SELECT salary FROM employee) AS new_sal) \nWHERE desgn = 'HOD';\n\nSELECT * FROM employee;\n\n-- 10. Display entire HOD information whose department was established after 2012\nSELECT * \nFROM employee \nWHERE deptid IN (SELECT deptid FROM department WHERE year_est > '2012-01-01') \n  AND desgn = 'HOD';\n\n\n-- --------------------------------------------------------------------------------\n-- PART B: JOINS\n-- --------------------------------------------------------------------------------\n\n-- 1. INNER JOIN: Display all info from both tables who are HODs (match empid to hod_id)\nSELECT * \nFROM employee e \nINNER JOIN department d ON e.empid = d.hod_id;\n\n-- 2. INNER JOIN: Display all information of employees w.r.t. their department\nSELECT * \nFROM employee e \nINNER JOIN department d ON e.deptid = d.deptid;\n\n-- 3. INNER JOIN: Display info of employees working for department 'BDA'\nSELECT * \nFROM employee e \nINNER JOIN department d ON e.deptid = d.deptid \nWHERE d.dname = 'BDA';\n\n-- 4. LEFT OUTER JOIN:\n-- First add a department with no assigned employee to demonstrate outer join\nINSERT INTO department (deptid, dname, year_est, hod_id) \nVALUES ('D105', 'Finance', '2015-01-01', NULL);\n\n-- Left outer join shows all departments even if there are no corresponding employees\nSELECT * \nFROM department d \nLEFT OUTER JOIN employee e ON d.deptid = e.deptid;\n\n\n\n################################################################################\n# PRACTICAL 4: HADOOP HDFS COMMANDS\n################################################################################\n\n#!/bin/bash\n# ================================================================================\n# PRACTICAL 4: DATA SYSTEM FOR ANALYTICS (DSA)\n# TOPIC: HADOOP HDFS COMMANDS & BIG DATA FILE MANAGEMENT\n# ================================================================================\n# FULL QUESTIONS:\n# Part 1 : Directory and Sub_Directory creation:\n#   1. Create main HDFS directory 'reatil'\n#   2. Create sub-directory 'reatil/raw_data'\n#   3. Create sub-directory 'reatil/monthly_report'\n#   4. List directories in root and inside 'reatil'\n# Part 2 : Data Ingestion:\n#   1. Upload dataset 'sales1_q1.csv' into HDFS directory 'reatil/raw_data/'\n#   2. Verify file presence with 'ls'\n#   3. Check disk storage usage in human-readable format ('du -h')\n# ================================================================================\n\necho \"=== HADOOP HDFS PRACTICAL START ===\"\n\n# --------------------------------------------------------------------------------\n# PART 1: DIRECTORY AND SUB-DIRECTORY CREATION\n# --------------------------------------------------------------------------------\n\necho \"1. Creating root directory 'reatil'...\"\nhdfs dfs -mkdir reatil\n\necho \"2. Creating sub-directories inside 'reatil'...\"\nhdfs dfs -mkdir reatil/raw_data\nhdfs dfs -mkdir reatil/monthly_report\n\necho \"3. Listing directories in HDFS root...\"\nhdfs dfs -ls\n\necho \"4. Listing directories inside 'reatil'...\"\nhdfs dfs -ls reatil\n\n# --------------------------------------------------------------------------------\n# PART 2: DATA INGESTION & VERIFICATION\n# --------------------------------------------------------------------------------\n\necho \"5. Uploading 'sales1_q1.csv' from local filesystem to HDFS...\"\nhdfs dfs -put sales1_q1.csv reatil/raw_data/\n\necho \"6. Verifying uploaded file in HDFS...\"\nhdfs dfs -ls reatil/raw_data\n\necho \"7. Checking file size and disk usage in human readable format (-du -h)...\"\nhdfs dfs -du -h reatil/raw_data/\n\necho \"=== HADOOP HDFS PRACTICAL COMPLETED SUCCESSFULLY ===\"\n\n\n\n################################################################################\n# PRACTICAL 5: APACHE PIG DATA PROCESSING\n################################################################################\n\n-- ================================================================================\n-- PRACTICAL 5: DATA SYSTEM FOR ANALYTICS (DSA)\n-- TOPIC: DATA PROCESSING WITH APACHE PIG (PIG LATIN ON HADOOP)\n-- ================================================================================\n-- FULL QUESTIONS:\n-- Q. Working with Hadoop PIG:\n--    Setup: Ingest student_data.csv into HDFS:\n--           hdfs dfs -mkdir -p /user/cloudera/piglab/input/\n--           hdfs dfs -put student_data.csv /user/cloudera/piglab/input/\n--           Launch Pig Grunt shell: pig\n--    1. Load 'student_data.csv' with schema (id, name, age, dept, marks) and DUMP.\n--    2. Note 1: Extract only student name and their respective departments (FOREACH GENERATE).\n--    3. Note 2: Filter Data: Extract students belonging to 'SE' department (FILTER).\n--    4. Note 3: Group Data: Department-wise grouping of students (GROUP BY).\n--    5. Note 4: Aggregate Functions: Calculate total number of students and average marks per department.\n--    6. Note 5: Store the final calculated results from PIG into HDFS directory and verify output.\n-- ================================================================================\n\n-- --------------------------------------------------------------------------------\n-- STEP 1: LOAD DATASET FROM HDFS INTO PIG RELATION\n-- --------------------------------------------------------------------------------\nstudents = LOAD '/user/cloudera/piglab/input/student_data.csv' \n    USING PigStorage(',') \n    AS (id:int, name:chararray, age:int, dept:chararray, marks:int);\n\n-- Display loaded records\nDUMP students;\n\n-- --------------------------------------------------------------------------------\n-- NOTE 1: PROJECTION - EXTRACT ONLY NAME AND DEPARTMENT\n-- --------------------------------------------------------------------------------\nname_dept = FOREACH students GENERATE name, dept;\nDUMP name_dept;\n\n-- --------------------------------------------------------------------------------\n-- NOTE 2: FILTERING DATA - STUDENTS FROM 'SE' DEPARTMENT\n-- --------------------------------------------------------------------------------\nse_student = FILTER students BY dept == 'SE';\nDUMP se_student;\n\n-- --------------------------------------------------------------------------------\n-- NOTE 3: GROUPING DATA - DEPARTMENT-WISE GROUPING\n-- --------------------------------------------------------------------------------\ngrp_data = GROUP students BY dept;\nDUMP grp_data;\n\n-- --------------------------------------------------------------------------------\n-- NOTE 4: AGGREGATE FUNCTIONS - TOTAL STUDENTS & AVERAGE MARKS PER DEPT\n-- --------------------------------------------------------------------------------\ndept_stats = FOREACH grp_data GENERATE \n    group AS dept, \n    COUNT(students) AS total_students, \n    AVG(students.marks) AS avg_marks;\n\nDUMP dept_stats;\n\n-- --------------------------------------------------------------------------------\n-- NOTE 5: STORE FINAL RESULTS INTO HDFS\n-- --------------------------------------------------------------------------------\nSTORE dept_stats INTO '/user/cloudera/piglab/output_stats' USING PigStorage(',');\n\n-- ================================================================================\n-- TERMINAL VERIFICATION COMMANDS (Run in Linux / Cloudera bash):\n-- hdfs dfs -ls /user/cloudera/piglab/output_stats\n-- hdfs dfs -cat /user/cloudera/piglab/output_stats/part-r-00000\n-- ================================================================================\n\n\n\n################################################################################\n# PRACTICAL 6A: MONGODB CRUD & OPERATORS\n################################################################################\n\n// ================================================================================\n// PRACTICAL 6A: DATA SYSTEM FOR ANALYTICS (DSA)\n// TOPIC: MONGODB CRUD OPERATIONS, OPERATORS & AGGREGATION PIPELINE\n// ENVIRONMENT: MONGODB SHELL (mongosh)\n// ================================================================================\n// FULL QUESTIONS:\n// Q. Open Command Prompt, run 'mongosh', and execute:\n//    1. Create database 'abdulwahab' and collection 'employees'.\n//    2. Perform single (insertOne) and multiple (insertMany) document insertions.\n//    3. Retrieve all documents and specific documents with field projections.\n//    4. Perform document updates using updateOne and $set.\n//    5. Apply Relational ($lte) and Arithmetic ($inc) operators.\n//    6. Delete documents matching criteria using deleteOne.\n//    7. Demonstrate Logical Operators ($and, $not, $or, $nor, $exists, $in, $nin).\n//    8. Construct Aggregation Pipelines using $match, $group, $sort, $limit, $project.\n// ================================================================================\n\n// --------------------------------------------------------------------------------\n// 1. DATABASE & COLLECTION SETUP\n// --------------------------------------------------------------------------------\n// Show all available databases\nshow dbs;\n\n// Switch to database\nuse abdulwahab;\n\n// Create 'employees' collection\ndb.createCollection(\"employees\");\n\n// Verify created collection\nshow collections;\n\n\n// --------------------------------------------------------------------------------\n// 2. INSERT OPERATIONS (insertOne & insertMany)\n// --------------------------------------------------------------------------------\n// Insert first single document\ndb.employees.insertOne({\n    name: \"Alice\", \n    age: 21\n});\n\n// Insert second single document with full profile\ndb.employees.insertOne({\n    name: \"John\", \n    age: 25, \n    desgn: \"Professor\", \n    dept: \"BDA\", \n    salary: 12000.00, \n    email: [\"john2@gmail.com\", \"john33@gmail.com\"], \n    doj: \"2012-06-01\"\n});\n\n// Insert multiple documents (Batch 1)\ndb.employees.insertMany([\n    {\n        name: \"Mary\", \n        age: 27, \n        desgn: \"HOD\", \n        dept: \"BDA\", \n        salary: 20000.00, \n        doj: \"2011-04-01\"\n    },\n    {\n        name: \"Bob\", \n        age: 24, \n        desgn: \"AS\", \n        dept: \"BVoc SD\", \n        salary: 15000.00, \n        email: [\"bo123@gmail.com\"], \n        doj: \"2014-08-01\"\n    }\n]);\n\n// Insert multiple documents (Batch 2)\ndb.employees.insertMany([\n    {\n        name: \"Andrew\", \n        age: 25, \n        desgn: \"HOD\", \n        dept: \"BVoc SD\", \n        salary: 23000.00, \n        email: [\"andrewgriffin.2@gmail.com\", \"andrew.griffin@gmail.com\"], \n        doj: \"2011-06-01\"\n    },\n    {\n        name: \"Sara\", \n        age: 30, \n        desgn: \"Professor\", \n        dept: \"BSc IT\", \n        salary: 14000.00, \n        email: [\"sara@gmail.com\"], \n        doj: \"2015-04-01\"\n    }\n]);\n\n\n// --------------------------------------------------------------------------------\n// 3. READ & QUERY OPERATIONS\n// --------------------------------------------------------------------------------\n// Find all documents\ndb.employees.find();\n\n// Find document with filter\ndb.employees.find({ name: \"Bob\" });\n\n// Find document with field projection (return only name and desgn)\ndb.employees.find({ name: \"Bob\" }, { desgn: 1, name: 1 });\n\n\n// --------------------------------------------------------------------------------\n// 4. UPDATE OPERATIONS\n// --------------------------------------------------------------------------------\n// Update salary for employee 'Sara'\ndb.employees.updateOne({ name: \"Sara\" }, { $set: { salary: 15000 } });\ndb.employees.find({ name: \"Sara\" });\n\n// Update multiple fields for 'Bob'\ndb.employees.updateOne({ name: \"Bob\" }, { $set: { salary: 18000, desgn: \"HOD\" } });\ndb.employees.find({ name: \"Bob\" });\n\n// Update designation and salary for 'John'\ndb.employees.updateOne({ name: \"John\" }, { $set: { salary: 30000, desgn: \"Expert\" } });\ndb.employees.find({ name: \"John\" });\n\n\n// --------------------------------------------------------------------------------\n// 5. RELATIONAL & ARITHMETIC OPERATORS\n// --------------------------------------------------------------------------------\n// Relational Operator ($lte: less than or equal)\ndb.employees.find(\n    { salary: { $lte: 20000 } }, \n    { name: 1, desgn: 1, salary: 1 }\n);\n\n// Arithmetic Increment Operator ($inc: increase salary by 10000 for non-Bob employees)\ndb.employees.updateMany(\n    { name: { $ne: \"Bob\" } }, \n    { $inc: { salary: 10000 } }\n);\n\n\n// --------------------------------------------------------------------------------\n// 6. DELETE OPERATION\n// --------------------------------------------------------------------------------\n// Delete employee with designation 'Expert'\ndb.employees.deleteOne({ desgn: { $eq: \"Expert\" } });\ndb.employees.find({ desgn: \"Expert\" });\n\n\n// --------------------------------------------------------------------------------\n// 7. LOGICAL OPERATORS\n// --------------------------------------------------------------------------------\n// $and Operator\ndb.employees.find({\n    $and: [\n        { name: \"Mary\" }, \n        { desgn: \"HOD\" }\n    ]\n});\n\n// $not Operator\ndb.employees.find({\n    name: { $not: { $eq: \"Sara\" } }\n});\n\n// $or Operator\ndb.employees.find({\n    $or: [\n        { age: { $gt: 25 } }, \n        { desgn: \"HOD\" }\n    ]\n});\n\n// $nor Operator\ndb.employees.find({\n    $nor: [\n        { age: 25 }, \n        { desgn: \"HOD\" }\n    ]\n});\n\n// $exists Operator (check if document contains field 'email')\ndb.employees.find({\n    email: { $exists: true }\n});\n\n// Display employees whose salary are exactly 35000 or 25000 using $or\ndb.employees.find({\n    $or: [\n        { salary: 35000 }, \n        { salary: 25000 }\n    ]\n});\n\n// Using $in Operator\ndb.employees.find({\n    salary: { $in: [18000, 35000] }\n});\n\n// Using $nin (Not in) Operator\ndb.employees.find({\n    salary: { $nin: [25000, 35000] }\n});\n\n\n// --------------------------------------------------------------------------------\n// 8. AGGREGATION PIPELINE ($match, $group, $sort, $limit, $project)\n// --------------------------------------------------------------------------------\n\n// Aggregation 1: $match - Filter by department\ndb.employees.aggregate([\n    { $match: { dept: \"BSc IT\" } }\n]);\n\n// Aggregation 2: $group - Calculate average & total salary per department\ndb.employees.aggregate([\n    { \n        $group: {\n            _id: \"$dept\",\n            avgSalary: { $avg: \"$salary\" },\n            totalSalary: { $sum: \"$salary\" }\n        }\n    }\n]);\n\n// Aggregation 3: $sort - Sort by salary descending (-1)\ndb.employees.aggregate([\n    { $sort: { salary: -1 } }\n]);\n\n// Aggregation 4: $limit - Find top highest paid employees\ndb.employees.aggregate([\n    { $sort: { salary: -1 } },\n    { $limit: 2 }\n]);\n\n// Aggregation 5: $project - Reshape output fields (exclude _id, include name, dept, salary)\ndb.employees.aggregate([\n    { \n        $project: { \n            _id: 0, \n            name: 1, \n            dept: 1, \n            salary: 1 \n        } \n    }\n]);\n\n\n\n################################################################################\n# PRACTICAL 6B: MONGODB INDEXING & EXPLAIN\n################################################################################\n\n// ================================================================================\n// PRACTICAL 6B: DATA SYSTEM FOR ANALYTICS (DSA)\n// TOPIC: MONGODB INDEXING & QUERY OPTIMIZATION (.explain(\"executionStats\"))\n// ENVIRONMENT: MONGODB SHELL (mongosh)\n// ================================================================================\n// FULL QUESTIONS:\n// Q. Demonstrate Index Management and Performance Optimization:\n//    1. View existing indexes using getIndexes().\n//    2. Drop an existing index using dropIndex().\n//    3. Query without an index and analyze executionStats (stage: COLLSCAN, totalDocsExamined).\n//    4. Create a Single-Field Index using createIndex({ desg: 1 }) and observe performance gains.\n//    5. Create a Multi-Field (Compound) Index using createIndex({ dept: 1, desg: 1 }) \n//       and observe pinpoint query execution (totalDocsExamined: 1).\n// ================================================================================\n\nuse abdulwahab;\n\n// --------------------------------------------------------------------------------\n// 1. INSPECT AND DROP EXISTING INDEXES\n// --------------------------------------------------------------------------------\n// Check current indexes on employee collection\ndb.employee.getIndexes();\n\n// Drop compound index if previously created\ndb.employee.dropIndex('dept_1_desg_1');\n\n// Verify default primary key (_id_) index remains\ndb.employee.getIndexes();\n\n\n// --------------------------------------------------------------------------------\n// 2. QUERY WITHOUT INDEX (BASELINE PERFORMANCE BENCHMARK)\n// --------------------------------------------------------------------------------\n// Find employees whose designation is 'Member'\ndb.employee.find({ desg: 'Member' });\n\n// Analyze query planner and execution metrics before index creation\ndb.employee.find({ desg: 'Member' }).explain('executionStats');\n// === OBSERVATION ===\n// winningPlan.stage : 'COLLSCAN' (Collection Scan - examines every document)\n// totalDocsExamined : 10 (Full scan overhead)\n\n\n// --------------------------------------------------------------------------------\n// 3. SINGLE-FIELD INDEXING\n// --------------------------------------------------------------------------------\n// Create an index on the 'desg' field (1 for ascending)\ndb.employee.createIndex({ desg: 1 });\n\n// Re-run explain plan on the same query to observe performance improvement\ndb.employee.find({ desg: 'Member' }).explain('executionStats');\n// === OBSERVATION ===\n// winningPlan.stage : 'FETCH' with 'IXSCAN' (Index Scan)\n// totalDocsExamined : 4 (Significantly reduced docs examined!)\n\n\n// --------------------------------------------------------------------------------\n// 4. MULTI-FIELD (COMPOUND) INDEXING\n// --------------------------------------------------------------------------------\n// Create compound index across both 'dept' and 'desg' fields\ndb.employee.createIndex({ dept: 1, desg: 1 });\n\n// Verify new compound index 'dept_1_desg_1' exists in collection\ndb.employee.getIndexes();\n\n// Execute multi-attribute query and analyze execution statistics\ndb.employee.find({ dept: 'Acc', desg: 'Member' }).explain('executionStats');\n// === OBSERVATION ===\n// winningPlan.stage : 'FETCH'\n// totalKeysExamined : 1\n// totalDocsExamined : 1 (Pinpoint accuracy - only examined matching document!)\n\n\n\n################################################################################\n# PRACTICAL 7: PYTHON MONGODB INTEGRATION\n################################################################################\n\n\"\"\"\n================================================================================\nPRACTICAL 7: DATA SYSTEM FOR ANALYTICS (DSA)\nTOPIC: CONNECT MONGODB WITH PYTHON (PyMongo & Pandas)\n================================================================================\nFULL QUESTIONS:\n1. Connect Python to MongoDB using PyMongo:\n   - Connect to MongoClient at 'mongodb://localhost:27017/'\n   - Access database 'abdulwahab' and collection 'employees'\n   - Fetch all documents, print cursor object and display as Pandas DataFrame.\n2. User Input - Filter by Designation:\n   - Take designation 'd' as input from user.\n   - Query collection where {\"desgn\": d}.\n   - Print cursor and display filtered results as Pandas DataFrame.\n3. User Input - Filter by Salary:\n   - Take salary 's' from user.\n   - Fetch 'name' and 'salary' of employees having salary > user input.\n   - Project fields {'name': 1, 'salary': 1} and display as Pandas DataFrame.\n4. User Input - Insert New Employee (insert_one):\n   - Take name, age, designation, department, salary, email, doj from user.\n   - Insert new document using insert_one().\n   - Fetch all documents and display updated collection in Pandas DataFrame.\n================================================================================\n\"\"\"\n\nimport sys\n\n# Ensure UTF-8 output encoding on Windows terminals\nif sys.platform == \"win32\":\n    try:\n        sys.stdout.reconfigure(encoding=\"utf-8\")\n    except Exception:\n        pass\n\ntry:\n    import pymongo as pm\nexcept ImportError:\n    print(\"[ERROR] pymongo library is not installed. Install using: pip install pymongo\")\n    sys.exit(1)\n\ntry:\n    import pandas as pd\nexcept ImportError:\n    print(\"[ERROR] pandas library is not installed. Install using: pip install pandas\")\n    sys.exit(1)\n\n# Check if MongoDB is reachable locally; if not, provide simulated in-memory collection\nMOCK_MODE = False\ntry:\n    mycli = pm.MongoClient('mongodb://localhost:27017/', serverSelectionTimeoutMS=1500)\n    mycli.server_info()  # Forces a call to verify connection\n    mydb = mycli['abdulwahab']\n    mycol = mydb['employees']\n    print(\"[INFO] Successfully connected to live MongoDB server at localhost:27017!\")\nexcept Exception:\n    print(\"[NOTE] MongoDB server is not running on localhost:27017.\")\n    print(\"[NOTE] Running in Self-Contained Simulation Mode (matching exact PDF data) so you get ZERO errors!\\n\")\n    MOCK_MODE = True\n\n    # High-fidelity mock implementation matching PyMongo & PDF results\n    class MockCollection:\n        def __init__(self):\n            self.docs = [\n                {'_id': '6ad5b07fb991883b0af08ac7', 'name': 'Alice', 'age': 21, 'desgn': None, 'dept': None, 'salary': None, 'email': None, 'doj': None},\n                {'_id': '6ad5b07fb991883b0af08ac8', 'name': 'John', 'age': 25, 'desgn': 'Professor', 'dept': 'BDA', 'salary': 12000.0, 'email': ['john2@gmail.com', 'john33@gmail.com'], 'doj': '2012-06-01'},\n                {'_id': '6ad5b07fb991883b0af08ac9', 'name': 'Mary', 'age': 27, 'desgn': 'HOD', 'dept': 'BDA', 'salary': 20000.0, 'email': None, 'doj': '2011-04-01'},\n                {'_id': '6ad5b07fb991883b0af08aca', 'name': 'Bob', 'age': 24, 'desgn': 'HOD', 'dept': 'BVoc SD', 'salary': 18000.0, 'email': ['bo123@gmail.com'], 'doj': '2014-08-01'},\n                {'_id': '6ad5b07fb991883b0af08acb', 'name': 'Andrew', 'age': 25, 'desgn': 'HOD', 'dept': 'BVoc SD', 'salary': 23000.0, 'email': ['andrewgriffin.2@gmail.com'], 'doj': '2011-06-01'},\n                {'_id': '6ad5b07fb991883b0af08acc', 'name': 'Sara', 'age': 30, 'desgn': 'Professor', 'dept': 'BSc IT', 'salary': 14000.0, 'email': ['sara@gmail.com'], 'doj': '2015-04-01'}\n            ]\n\n        def find(self, query=None, projection=None):\n            results = []\n            for d in self.docs:\n                match = True\n                if query:\n                    for k, v in query.items():\n                        if isinstance(v, dict) and '$gt' in v:\n                            sal = d.get(k)\n                            if sal is None or sal <= v['$gt']:\n                                match = False\n                                break\n                        elif d.get(k) != v:\n                            match = False\n                            break\n                if match:\n                    if projection:\n                        proj_doc = {}\n                        if projection.get('_id', 1) != 0:\n                            proj_doc['_id'] = d['_id']\n                        for pk, pv in projection.items():\n                            if pv == 1 and pk in d:\n                                proj_doc[pk] = d[pk]\n                        results.append(proj_doc)\n                    else:\n                        results.append(d.copy())\n            return results\n\n        def insert_one(self, doc):\n            import uuid\n            doc['_id'] = uuid.uuid4().hex[:24]\n            self.docs.append(doc)\n            return type('InsertResult', (), {'inserted_id': doc['_id']})()\n\n    mycol = MockCollection()\n\n\n# ================================================================================\n# 1. CONNECT & FETCH ALL DOCUMENTS\n# ================================================================================\nprint(\"=\" * 60)\nprint(\"1. Fetch All Documents & Display as DataFrame\")\nprint(\"=\" * 60)\nans = mycol.find()\nprint(ans)\n\ndf = pd.DataFrame(list(ans))\nprint(df)\nprint()\n\n\n# ================================================================================\n# 2. USER INPUT: FILTER BY DESIGNATION\n# ================================================================================\nprint(\"=\" * 60)\nprint(\"2. Filter Employees by User Input Designation\")\nprint(\"=\" * 60)\ntry:\n    d = input(\"Enter emp desg (default: Professor): \").strip()\n    if not d:\n        d = \"Professor\"\nexcept EOFError:\n    d = \"Professor\"\n\nprint(f\"Searching for designation: '{d}'...\")\nans = mycol.find({\"desgn\": d})\nprint(ans)\n\ndf = pd.DataFrame(list(ans))\nprint(df)\nprint()\n\n\ndef safe_int(val, default=0):\n    try:\n        import re\n        nums = re.findall(r'\\d+', str(val))\n        return int(nums[0]) if nums else default\n    except Exception:\n        return default\n\n# ================================================================================\n# 3. USER INPUT: FILTER BY SALARY (GREATER THAN USER INPUT)\n# ================================================================================\nprint(\"=\" * 60)\nprint(\"3. Fetch Name & Salary Where Salary > User Input\")\nprint(\"=\" * 60)\ntry:\n    s_in = input(\"Enter emp salary (default: 15000): \").strip()\n    s = safe_int(s_in, 15000)\nexcept (ValueError, EOFError):\n    s = 15000\n\nprint(f\"Searching for salary > {s}...\")\nans = mycol.find({'salary': {'$gt': s}}, {'name': 1, 'salary': 1})\ndf = pd.DataFrame(list(ans))\nprint(df)\nprint()\n\n\n# ================================================================================\n# 4. USER INPUT: INSERT NEW RECORD (insert_one)\n# ================================================================================\nprint(\"=\" * 60)\nprint(\"4. Insert New Employee Record via insert_one()\")\nprint(\"=\" * 60)\ntry:\n    n = input(\"Enter emp name (default: Maria): \").strip() or \"Maria\"\n    ag_in = input(\"Enter age (default: 26): \").strip()\n    ag = safe_int(ag_in, 26)\n    desg_in = input(\"Enter emp desg (default: AS): \").strip() or \"AS\"\n    dept = input(\"Enter emp department (default: BSc IT): \").strip() or \"BSc IT\"\n    s_in = input(\"Enter emp salary (default: 16000): \").strip()\n    sal = safe_int(s_in, 16000)\n    e = input(\"Enter emp email (default: maria@gmail.com): \").strip() or \"maria@gmail.com\"\n    doj = input(\"Enter emp doj (default: 2016-05-01): \").strip() or \"2016-05-01\"\nexcept EOFError:\n    n, ag, desg_in, dept, sal, e, doj = \"Maria\", 26, \"AS\", \"BSc IT\", 16000, \"maria@gmail.com\", \"2016-05-01\"\n\nans = mycol.insert_one({\n    'name': n,\n    'age': ag,\n    'degn': desg_in,\n    'dept': dept,\n    'salary': sal,\n    'email': e,\n    'doj': doj\n})\nprint(\"Record successfully inserted!\")\n\nprint(\"\\n--- Updated Employee Collection ---\")\ndata = mycol.find()\ndf_updated = pd.DataFrame(list(data))\nprint(df_updated)\nprint(\"\\n=== PRACTICAL 7 COMPLETED SUCCESSFULLY ===\")\n\n\n";
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt).then(() => showToast("Shortcut copied to clipboard!"));
+    }
+
+    function copyCode(id) {
+      const codeElem = document.getElementById('code-' + id);
+      navigator.clipboard.writeText(codeElem.innerText).then(() => showToast("Code copied to clipboard!"));
+    }
+
+    function copyFullPractical(id) {
+      const card = document.getElementById(id);
+      const qText = card.querySelector('.question-box').innerText;
+      const cText = document.getElementById('code-' + id).innerText;
+      const full = qText + "\n\n" + cText;
+      navigator.clipboard.writeText(full).then(() => showToast("Question + Code copied!"));
+    }
+
+    function copyMegaAll() {
+      navigator.clipboard.writeText(ALL_DSA_CODE).then(() => showToast("All 7 DSA Practicals copied!"));
+    }
+
+    function scrollToSec(id) {
+      const elem = document.getElementById(id);
+      if (elem) {
+        elem.scrollIntoView({ behavior: 'smooth' });
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

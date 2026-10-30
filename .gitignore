@@ -3,3 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.log
+dsa_renders/
+dsa_text/
+asm_text/
+asm_dar/
+build_dsa_web.py
+extract_asm.py

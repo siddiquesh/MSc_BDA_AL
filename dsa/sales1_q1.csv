@@ -1,0 +1,6 @@
+transaction_id,product_name,category,quantity,price,sale_date
+101,Laptop,Electronics,1,55000.00,2026-01-15
+102,Mouse,Electronics,2,650.00,2026-01-18
+103,Desk Chair,Furniture,1,4500.00,2026-02-01
+104,Notebook,Stationery,5,80.00,2026-02-10
+105,Headphones,Electronics,1,2200.00,2026-03-05
