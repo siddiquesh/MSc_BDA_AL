@@ -1,29 +1,26 @@
 """
 ================================================================================
-PRACTICAL 6: LINEAR REGRESSION & SPEARMAN CORRELATION
+PRACTICAL 6: REGRESSION ANALYSIS (SIMPLE, MULTIPLE & SPEARMAN RANK)
 ================================================================================
 FULL QUESTIONS:
 
 Q1) Simple Linear Regression:
-    Load the scikit-learn Diabetes dataset into a pandas DataFrame.
-    1. Evaluate the Pearson linear correlation between Body Mass Index ('bmi') and disease progression ('target').
-    2. Fit an Ordinary Least Squares (OLS) Simple Linear Regression model (target ~ bmi + intercept) using statsmodels.
-    3. Formulate the regression equation and calculate R-squared.
+    1. Load the Diabetes Dataset from sklearn.datasets.
+    2. Compute Pearson correlation between BMI and disease progression (target).
+    3. Fit a Simple Linear Regression model: target = beta0 + beta1 * BMI.
+    4. Display OLS regression summary and provide slope interpretation.
 
 Q2) Multiple Linear Regression:
-    Fit an OLS Multiple Linear Regression model predicting disease progression ('target')
-    using three predictors: 'bmi', blood pressure ('bp'), and 'age'.
-    Evaluate:
-    - R-squared and Adjusted R-squared.
-    - Which individual predictors are statistically significant.
-    - Write down the Multiple Linear Regression equation.
+    1. Fit Multiple Linear Regression with predictors: BMI, BP (blood pressure), Age.
+    2. Display OLS regression summary.
+    3. Provide interpretation of significant predictors (p < 0.05) and insignificant predictors.
 
 Q3) Spearman Rank Correlation:
-    Given:
-    study_time = [2, 4, 1, 5, 3]
-    exam_score = [50, 65, 45, 80, 60]
-    Calculate the Spearman rank correlation coefficient and p-value.
-    Interpret the relationship.
+    Given two variables:
+    Study Time: [2, 4, 1, 5, 3]
+    Exam Score: [50, 65, 45, 80, 60]
+    1. Compute Spearman's rank correlation coefficient and p-value.
+    2. State the monotonic relationship.
 ================================================================================
 """
 
@@ -33,7 +30,7 @@ import statsmodels.api as sm
 from scipy.stats import spearmanr
 
 # ------------------------------------------------------------------------------
-# Q1: Simple Linear Regression
+# Q1: Simple Linear Regression (BMI vs Target)
 # ------------------------------------------------------------------------------
 diabetes = load_diabetes(as_frame=True)
 df = diabetes.frame
@@ -41,63 +38,55 @@ print("--- Diabetes Dataset Head ---")
 print(df.head())
 
 # Correlation
-print("
---- Pearson Correlation: BMI vs Target ---")
-print(df[["bmi", "target"]].corr())
+print("\n--- Correlation ---")
+print(df[['bmi', 'target']].corr())
 
 # Simple linear regression
-X = sm.add_constant(df["bmi"])
-y = df["target"]
-model = sm.OLS(y, X).fit()
-print("
---- Simple OLS Model Summary ---")
+x = sm.add_constant(df['bmi'])
+y = df['target']
+model = sm.OLS(y, x).fit()
+print("\n--- Regression Summary ---")
 print(model.summary())
 
 """
-Q1 Ans:
-Pearson Correlation: r = 0.5865
-There is a moderate positive relationship between BMI and disease progression.
-Regression Equation: Y = 152.1335 + 949.4353 * (BMI)
-R^2 = 0.3439
-Therefore, BMI explains 34.39% of the variation in disease progression.
+Slope interpretation:
+For every one-unit increase in BMI, predicted Y increases by 949.4353 units on average.
 """
 
 # ------------------------------------------------------------------------------
-# Q2: Multiple Linear Regression
+# Q2: Multiple Linear Regression (BMI, BP, Age vs Target)
 # ------------------------------------------------------------------------------
-X_multi = df[["bmi", "bp", "age"]]
-X_multi = sm.add_constant(X_multi)
-model_multi = sm.OLS(df["target"], X_multi).fit()
-print("
---- Multiple OLS Model Summary ---")
+print("\n--- Q2: Multiple Linear Regression ---")
+x_multi = df[["bmi", "bp", "age"]]
+x_multi = sm.add_constant(x_multi)
+y = df["target"]
+model_multi = sm.OLS(y, x_multi).fit()
 print(model_multi.summary())
 
 """
-Q2 Ans:
-R^2 = 0.396, Adjusted R^2 = 0.392
-Significant Predictors:
-- BMI -> Significant (p < 0.001)
-- BP  -> Significant (p < 0.001)
-- Age -> Not Significant (p = 0.685)
-Regression Equation:
-Y = 152.1335 + 788.7827(BMI) + 394.1271(BP) + 25.9904(Age)
-Conclusion:
-BMI and BP are significant predictors of disease progression, while Age is not significant.
+Regression Coefficients Summary:
+* Significant Predictors (p < 0.05):
+  - BMI (coef = 788.78): Strongest positive effect. A 1-unit increase yields a ~788.8 unit increase in target.
+  - BP (coef = 394.13): Positive effect. A 1-unit increase yields a ~394.1 unit increase in target.
+  - Intercept (const) (coef = 152.13): Expected value of target when all predictors are zero.
+
+* Insignificant Predictors (p >= 0.05):
+  - Age (coef = 25.99, p = 0.685): No statistically significant relationship with the target in this model.
 """
 
 # ------------------------------------------------------------------------------
-# Q3: Spearman Rank Correlation
+# Q3: Spearman Rank Correlation (Study Time vs Exam Score)
 # ------------------------------------------------------------------------------
+print("\n--- Q3: Spearman Rank Correlation ---")
 study_time = [2, 4, 1, 5, 3]
 exam_score = [50, 65, 45, 80, 60]
+
 correlation, p_value = spearmanr(study_time, exam_score)
 
-print("
---- Spearman Rank Correlation ---")
 print("Spearman's correlation coefficient:", correlation)
 print("p-value:", p_value)
 
 """
-Q3 Ans:
-Study Time & Exam score are perfectly positively correlated (rho = 1.0, p = 1.40e-24).
+Interpretation:
+Spearman correlation coefficient is 1.0 -> Perfectly Positively Correlated.
 """

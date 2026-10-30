@@ -1,37 +1,39 @@
 """
 ================================================================================
-PRACTICAL 5: A/B TESTING ANALYSIS
+PRACTICAL 5: A/B TESTING (TWO-SAMPLE INDEPENDENT t-TEST)
 ================================================================================
 FULL QUESTIONS:
 
-Question: (A/B Testing Analysis with Two-Sample Welch's t-Test)
-    Given conversion / performance metrics from an A/B test with 20 users per group:
-    - Control Group A:
-      [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]
-    - Treatment Variant Group B:
-      [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]
+A/B Testing Analysis:
+An online platform conducts an A/B test with two versions of a landing page:
+- Group A: 20 user engagement scores [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]
+- Group B: 20 user engagement scores [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]
 
-    H0: Means for both groups are the same.
-    H1: Means for both groups are not the same.
+Hypotheses:
+- H0: mu_A = mu_B (Means for both groups are same)
+- H1: mu_A != mu_B (Means for both groups are not same)
 
-    1. Calculate the sample mean for Group A and Group B.
-    2. Conduct an independent two-sample t-test (Welch's t-test, equal_var=False).
-    3. Automate decision rule: Reject H0 if p-value < 0.05.
+Tasks:
+1. Compute Mean Engagement for Group A and Group B.
+2. Perform Welch's two-sample independent t-test (ttest_ind, equal_var=False).
+3. Evaluate p-value at significance level alpha = 0.05.
+4. Output decision: Reject H0 or Fail to Reject H0.
 ================================================================================
 """
 
 import numpy as np
 from scipy.stats import ttest_ind
 
-print("H0: Means for both groups are same.")
-print("H1: Means for both groups are not same.
-")
+print("H0: mu_A = mu_B")
+print("H1: mu_A != mu_B\n")
 
 group_A = np.array([
-    42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43
+    42, 38, 45, 51, 47, 39, 44, 50, 46, 41,
+    43, 48, 37, 49, 45, 40, 52, 44, 46, 43
 ])
 group_B = np.array([
-    48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55
+    48, 52, 55, 49, 58, 51, 54, 56, 50, 53,
+    57, 49, 55, 52, 59, 54, 51, 56, 53, 55
 ])
 
 mean_A = np.mean(group_A)
@@ -39,14 +41,12 @@ mean_B = np.mean(group_B)
 
 t_stat, p_value = ttest_ind(group_A, group_B, equal_var=False)
 
-print("Mean - Group A:", mean_A)
-print("Mean - Group B:", mean_B)
+print("Mean Engagement - Group A:", mean_A)
+print("Mean Engagement - Group B:", mean_B)
 print("t-statistic:", t_stat)
 print("p-value:", p_value)
 
 if p_value < 0.05:
-    print("
-Decision: Reject H0 -> The means of both groups differ significantly.")
+    print("\nReject H0: The means of both group differs significantly")
 else:
-    print("
-Decision: Fail to reject H0 -> The means of both groups do not differ significantly.")
+    print("\nFail to Reject H0: The means of both group do not differs significantly")

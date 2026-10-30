@@ -1,21 +1,27 @@
 """
 ================================================================================
-PRACTICAL 3: CONFIDENCE INTERVALS & BOOTSTRAPPING
+PRACTICAL 3: ESTIMATION & CONFIDENCE INTERVALS (t-BASED & BOOTSTRAP)
 ================================================================================
 FULL QUESTIONS:
 
-Question 1: (Parametric Student's t-based 95% Confidence Interval)
-    Given delivery times (in minutes) for 20 orders:
+Q1) t-based Confidence Interval:
+    A sample of 20 food delivery times (in minutes) was recorded:
     [31, 28, 35, 42, 30, 27, 39, 33, 29, 45, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37]
-    1. Calculate the sample mean and sample standard deviation (ddof=1).
-    2. Determine degrees of freedom (df = n - 1) and standard error (SE = s / sqrt(n)).
-    3. Compute the 95% Confidence Interval for the mean delivery time using Student's t-distribution.
+    1. Calculate sample mean and sample standard deviation (ddof=1).
+    2. Determine degrees of freedom (df = n - 1).
+    3. Calculate Standard Error (SE = s / sqrt(n)).
+    4. Find the critical t-value for 95% confidence interval.
+    5. Compute Margin of Error and 95% Confidence Interval.
 
-Question 2: (Non-Parametric Bootstrap Confidence Interval)
-    1. Estimate the 95% Confidence Interval for the mean delivery time using Bootstrapping
-       with 5,000 resamples (sampling with replacement, random seed 42).
-    2. Calculate the 2.5th and 97.5th percentiles of the bootstrap distribution.
-    3. Compare the t-based CI and Bootstrap CI in terms of range and interval width.
+Q2) Bootstrap Confidence Interval:
+    Using the same delivery time data:
+    1. Resample with replacement 5000 times to create bootstrap sample means.
+    2. Compute the 95% percentile bootstrap confidence interval (2.5th and 97.5th percentiles).
+
+Q3) Comparison:
+    Compare the t-based CI and Bootstrap CI:
+    1. Display intervals side-by-side.
+    2. Compare the widths of both confidence intervals.
 ================================================================================
 """
 
@@ -23,7 +29,7 @@ import numpy as np
 from scipy import stats
 
 # ------------------------------------------------------------------------------
-# Q1: Parametric Student's t-based CI
+# Q1: t-based Confidence Interval
 # ------------------------------------------------------------------------------
 delivery_time = np.array([
     31, 28, 35, 42, 30,
@@ -33,59 +39,57 @@ delivery_time = np.array([
 ])
 n = len(delivery_time)
 
-# Sample Mean & Standard Deviation
-sample_mean = np.mean(delivery_time)
-sample_sd = np.std(delivery_time, ddof=1)
+# Sample mean and standard deviation
+s_mean = np.mean(delivery_time)
+s_std = np.std(delivery_time, ddof=1)
 
 # Degrees of freedom
 df = n - 1
 
-# Standard Error
-SE = sample_sd / np.sqrt(n)
+# Standard error
+SE = s_std / np.sqrt(n)
 
 # 95% confidence interval
 t_critical = stats.t.ppf(0.975, df)
 margin_error = t_critical * SE
 
-lower = sample_mean - margin_error
-upper = sample_mean + margin_error
+lower = s_mean - margin_error
+upper = s_mean + margin_error
 
-print("sample mean =", sample_mean)
-print("Sample Sd =", sample_sd)
-print("Degrees of freedom =", df)
-print("Standard Error =", SE)
-print("margin of error =", margin_error)
-print("95% confidence interval =", (lower, upper))
+print("--- Q1: t-based Confidence Interval ---")
+print("Sample Mean = ", s_mean)
+print("Sample SD = ", s_std)
+print("Degrees of freedom = ", df)
+print("Standard Error = ", SE)
+print("Margin of error = ", margin_error)
+print("95% Confidence Interval = ", (lower, upper))
 
 # ------------------------------------------------------------------------------
-# Q2: Non-Parametric Bootstrap CI (5,000 Resamples)
+# Q2: Bootstrap Confidence Interval (5000 Resamples)
 # ------------------------------------------------------------------------------
 np.random.seed(42)
 bootstrap_mean = []
 
 for i in range(5000):
-    bootstrap_sample = np.random.choice(
-        delivery_time,
-        size=len(delivery_time),
-        replace=True
-    )
+    bootstrap_sample = np.random.choice(delivery_time, size=n, replace=True)
     bootstrap_mean.append(np.mean(bootstrap_sample))
 
-bootstrap_mean = np.array(bootstrap_mean)
+bootstrap_means = np.array(bootstrap_mean)
 
 # 95% percentile bootstrap CI
-lower_bootstrap = np.percentile(bootstrap_mean, 2.5)
-upper_bootstrap = np.percentile(bootstrap_mean, 97.5)
+lower_bootstrap = np.percentile(bootstrap_means, 2.5)
+upper_bootstrap = np.percentile(bootstrap_means, 97.5)
 
-print("
-Bootstrap Mean =", np.mean(bootstrap_mean))
-print("95% Bootstrap CI =", (lower_bootstrap, upper_bootstrap))
+print("\n--- Q2: Bootstrap Confidence Interval ---")
+print("Bootstrap Mean = ", np.mean(bootstrap_means))
+print("95% Confidence Interval = ", (lower_bootstrap, upper_bootstrap))
 
 # ------------------------------------------------------------------------------
-# Comparison
+# Q3: Comparison
 # ------------------------------------------------------------------------------
-print("
-t-based CI =", (lower, upper))
+print("\n--- Q3: CI Comparison ---")
+print("t-based CI =", (lower, upper))
 print("bootstrap CI =", (lower_bootstrap, upper_bootstrap))
+
 print("t-based CI width =", upper - lower)
 print("bootstrap CI width =", upper_bootstrap - lower_bootstrap)
