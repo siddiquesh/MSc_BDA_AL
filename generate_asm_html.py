@@ -15,34 +15,31 @@ practicals_meta = [
             {
                 "num": "Q1) Analyze the Iris Dataset",
                 "bullets": [
-                    "1. Load the Iris Dataset (150 rows, 4 numerical features).",
-                    "2. Calculate Mean, Median, Mode(s) for each numerical feature.",
-                    "3. Calculate Standard Deviation and Variance for each numerical feature.",
-                    "4. Calculate Skewness and Kurtosis for each numerical feature.",
-                    "5. Plot the distribution (histogram with KDE, 15 bins) for each feature.",
-                    "6. Interpret the results (symmetry, spreads, outliers)."
+                    "Load the Iris Dataset (150 rows, 4 numerical features).",
+                    "Calculate Mean, Median, Mode(s), Standard Deviation, Variance, Skewness, Kurtosis for each numerical feature.",
+                    "Plot distribution histograms with KDE (15 bins) in a 2x2 grid.",
+                    "Provide detailed statistical analysis: Sepal Length, Sepal Width, Petal Length (Bimodal platykurtic clustering), and Petal Width."
                 ]
             },
             {
                 "num": "Q2) Analyze the Tips Dataset",
                 "bullets": [
-                    "1. Load the Tips Dataset (244 rows, 7 columns).",
-                    "2. Calculate summary statistics (Mean, Median, Mode, Std Dev, Variance, Skewness, Kurtosis) for total_bill, tip, size.",
-                    "3. Plot histograms with KDE for all numerical features.",
-                    "4. Interpret the results (right-skewed bills & tips)."
+                    "Load the Tips Dataset (244 rows, 7 columns).",
+                    "Calculate summary statistics for total_bill, tip, size.",
+                    "Plot distribution histograms with KDE.",
+                    "Analyze customer billing & tipping behaviors (right-skewed bills, round-number tip clustering)."
                 ]
             },
             {
                 "num": "Q3) Analyze the Indian Stock Market Dataset",
                 "bullets": [
-                    "1. Load 'indian_stock_market.csv' (2306 rows).",
-                    "2. Calculate statistical moments for MSFT, IBM, SBUX, AAPL, GSPC.",
-                    "3. Plot 3x2 grid of distribution histograms with KDE.",
-                    "4. Interpret the volatility (variance) and skewness across stocks."
+                    "Load 'indian_stock_market.csv' (2306 rows).",
+                    "Calculate summary statistics for MSFT, IBM, SBUX, AAPL, GSPC using nan_policy='omit'.",
+                    "Plot 3x2 grid of distribution histograms with KDE."
                 ]
             }
         ],
-        "interpretation": "Mean vs Median reveals skewness: right-skewed data (like tips and stock prices) has Mean > Median with long positive tails. Petal measurements exhibit bimodal/platykurtic shapes due to distinct flower sub-species."
+        "interpretation": "Mean vs Median reveals skewness: right-skewed data (tips and bills) has Mean > Median with long positive tails. Petal measurements exhibit bimodal/platykurtic shapes due to distinct flower sub-species."
     },
     {
         "id": "asm2",
@@ -52,42 +49,42 @@ practicals_meta = [
         "curl_is": "is.gd/sid_2",
         "questions": [
             {
-                "num": "Q1) Normal Distribution",
+                "num": "Q1) Normal Distribution X ~ N(70, 10^2)",
                 "bullets": [
-                    "Plot a Normal Distribution with mean (mu) = 70 and standard deviation (sigma) = 10 over x in [20, 120].",
-                    "Observe: Bell curve is symmetric and centered exactly around 70."
+                    "Generate values of X from 20 to 120 and calculate PDF of X ~ N(70, 10^2).",
+                    "Observe: Distribution is symmetric, centered at 70; increasing standard deviation increases spread."
                 ]
             },
             {
-                "num": "Q2) Effect of Standard Deviation on Normal Distribution",
+                "num": "Q2) Effect of Standard Deviation (sigma = 5, 10, 15)",
                 "bullets": [
-                    "Fix mean mu = 70. Plot three normal curves with sigma = 5, 10, 15.",
-                    "Observe: sigma = 5 is most concentrated/tallest; sigma = 15 has greatest spread/flattest."
+                    "Fix mean = 70. Plot three normal curves for sigma = 5, 10, 15.",
+                    "Observe: sigma = 5 is most concentrated; sigma = 15 has greatest spread; height decreases as sigma increases."
                 ]
             },
             {
-                "num": "Q3) Effect of Mean on Normal Distribution",
+                "num": "Q3) Effect of Mean (mu = 50, 70, 90)",
                 "bullets": [
-                    "Fix sigma = 10. Plot three normal curves with means mu = 50, 70, 90.",
-                    "Observe: Normal curve shifts horizontally along x-axis without changing shape or height."
+                    "Fix sigma = 10. Plot normal curves for mu = 50, 70, 90.",
+                    "Observe: Shift of origin horizontally to the right with no change in scale, spread, or height."
                 ]
             },
             {
-                "num": "Q4) Binomial Distribution",
+                "num": "Q4) Binomial Distribution (n = 20, p = 0.3)",
                 "bullets": [
-                    "Plot the PMF of a Binomial Distribution for n = 20 customers with purchase probability p = 0.3.",
-                    "Observe: Discrete probabilities peaking around expected value E[X] = n * p = 6."
+                    "Model 20 customers with purchase probability p = 0.3.",
+                    "Calculate and plot the Probability Mass Function (PMF) using a stem plot."
                 ]
             },
             {
-                "num": "Q5) Poisson Distribution",
+                "num": "Q5) Poisson Distribution (lambda = 4)",
                 "bullets": [
-                    "Plot the PMF of a Poisson Distribution with average arrival rate lambda = 4 calls per minute over x = 0 to 14.",
-                    "Observe: Discrete counts with highest probability around lambda = 4 calls."
+                    "Model customer support center receiving average 4 calls per minute.",
+                    "Calculate and plot PMF over x = 0 to 14. Confirm lambda = 4, distribution is discrete, expected calls = 4."
                 ]
             }
         ],
-        "interpretation": "Continuous distributions (Normal) use PDF where area = probability. Discrete distributions (Binomial, Poisson) use PMF where stems show exact event probabilities."
+        "interpretation": "Continuous distributions (Normal) use PDF where area under curve = probability. Discrete distributions (Binomial, Poisson) use PMF where stems show exact integer probabilities."
     },
     {
         "id": "asm3",
@@ -99,22 +96,21 @@ practicals_meta = [
             {
                 "num": "Question 1: Parametric Student's t-based 95% Confidence Interval",
                 "bullets": [
-                    "Given 20 delivery times: [31, 28, 35, 42, 30, 27, 39, 33, 26, 32, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37].",
-                    "Calculate sample mean, sample standard deviation (ddof=1), and degrees of freedom (df = 19).",
-                    "Calculate Standard Error: SE = s / sqrt(n).",
-                    "Compute 95% CI using Student's t critical value: CI = sample_mean +/- (t_crit * SE)."
+                    "Given 20 delivery times: [31, 28, 35, 42, 30, 27, 39, 33, 29, 45, 34, 31, 38, 26, 32, 41, 30, 36, 29, 37].",
+                    "Compute Sample Mean, Sample SD (ddof=1), Degrees of Freedom (df = 19), Standard Error (SE = s / sqrt(n)).",
+                    "Compute 95% Confidence Interval: margin_error = t_critical * SE; lower = mean - margin_error, upper = mean + margin_error."
                 ]
             },
             {
                 "num": "Question 2: Non-Parametric Bootstrap 95% Confidence Interval",
                 "bullets": [
-                    "Resample 20 delivery times with replacement 5,000 times (random seed 42) and compute mean of each bootstrap sample.",
-                    "Extract 2.5th and 97.5th percentiles to obtain empirical 95% Bootstrap CI.",
-                    "Compare interval estimates and interval widths between t-based and Bootstrap methods."
+                    "Resample 20 delivery times with replacement 5,000 times (random seed 42) and record sample means.",
+                    "Calculate 95% percentile bootstrap CI using 2.5th and 97.5th percentiles.",
+                    "Compare t-based CI width vs bootstrap CI width."
                 ]
             }
         ],
-        "interpretation": "Both t-distribution (30.60 to 35.10) and 5,000-resample Bootstrap (30.85 to 35.00) produce tightly matching 95% confidence intervals, proving robust estimation of average delivery time."
+        "interpretation": "Both t-distribution and 5,000-resample Bootstrap methods produce closely aligned 95% confidence intervals, proving reliable estimation of the true population delivery time."
     },
     {
         "id": "asm4",
@@ -124,29 +120,31 @@ practicals_meta = [
         "curl_is": "is.gd/sid_4",
         "questions": [
             {
-                "num": "Question 1: Two-Sample Independent t-Test",
+                "num": "Question 1: Independent Two-Sample t-Test (Fare by Sex)",
                 "bullets": [
-                    "Using the Titanic dataset, run Welch's independent t-test (equal_var=False) comparing ticket fares paid by male vs female passengers.",
-                    "Hypothesis: H0 (Mean fare male == Mean fare female) vs H1 (Fares differ significantly)."
+                    "H0: Mean fare paid by male and female passengers differs insignificantly.",
+                    "H1: Mean fare paid by male and female passengers differs significantly.",
+                    "Run Welch's t-test (equal_var=False) on Titanic fares: p-value < 0.05 -> Reject H0."
                 ]
             },
             {
-                "num": "Question 2: Chi-Square Test of Independence",
+                "num": "Question 2: Chi-Square Test of Independence (Class vs Survival)",
                 "bullets": [
-                    "Build a cross-tabulation matrix of passenger class (First, Second, Third) vs survived (0, 1).",
-                    "Perform Chi-Square test of independence (chi2_contingency) to test if survival is independent of class."
+                    "H0: Passenger class and survival status are not associated.",
+                    "H1: Passenger class and survival status are associated.",
+                    "Run chi2_contingency on crosstab: p-value = 4.55e-23 -> Reject H0."
                 ]
             },
             {
                 "num": "Question 3: One-Way ANOVA & Post-Hoc Tukey HSD",
                 "bullets": [
-                    "Test H0: Mean fares do not differ significantly across the three passenger classes (First, Second, Third).",
-                    "Conduct One-Way ANOVA (f_oneway).",
-                    "Perform Tukey's Honestly Significant Difference (HSD) post-hoc test to see which specific pairs differ."
+                    "H0: Mean fares do not differ significantly across the three passenger classes.",
+                    "Perform One-Way ANOVA (f_oneway).",
+                    "Perform Tukey HSD: First and Second & First and Third fares differ significantly; Second and Third do not."
                 ]
             }
         ],
-        "interpretation": "1) Females paid significantly higher fares (p = 5.39e-07). 2) Class and survival are strongly dependent (chi2 = 102.89, p = 4.55e-23). 3) ANOVA confirms fare differences (F = 242.34); Tukey HSD proves First class differs significantly from 2nd and 3rd, while Second and Third classes do not differ significantly (reject=False, p-adj = 0.108)."
+        "interpretation": "1) Females paid significantly higher fares (p < 0.001). 2) Passenger class and survival are strongly dependent. 3) ANOVA confirms fare differences; Tukey HSD shows 1st class differed significantly from 2nd and 3rd, while 2nd and 3rd did not."
     },
     {
         "id": "asm5",
@@ -158,15 +156,15 @@ practicals_meta = [
             {
                 "num": "Question: A/B Testing with Two-Sample Welch's t-Test",
                 "bullets": [
+                    "H0: Means for both groups are the same. H1: Means for both groups are not the same.",
                     "Control Group A (20 obs): [42, 38, 45, 51, 47, 39, 44, 50, 46, 41, 43, 48, 37, 49, 45, 40, 52, 44, 46, 43]",
                     "Treatment Group B (20 obs): [48, 52, 55, 49, 58, 51, 54, 56, 50, 53, 57, 49, 55, 52, 59, 54, 51, 56, 53, 55]",
-                    "1. Compute sample mean for Group A and Group B.",
-                    "2. Run Welch's t-test (equal_var=False) to test whether Treatment B yields a statistically significant increase.",
-                    "3. Interpret t-statistic and p-value at alpha = 0.05."
+                    "Calculate sample means, conduct Welch's t-test (equal_var=False).",
+                    "Automate decision rule: Reject H0 if p-value < 0.05."
                 ]
             }
         ],
-        "interpretation": "Mean A = 44.35, Mean B = 53.45. t-statistic = -7.95, p-value = 1.69e-09. Since p < 0.05, we reject the null hypothesis; Treatment Variant B demonstrates a statistically significant improvement."
+        "interpretation": "Mean A = 44.35, Mean B = 53.45. t-statistic = -7.95, p-value = 1.69e-09. Since p < 0.05, we reject H0; Treatment Variant B demonstrates a statistically significant improvement."
     },
     {
         "id": "asm6",
@@ -178,29 +176,29 @@ practicals_meta = [
             {
                 "num": "Question 1: Simple Linear Regression",
                 "bullets": [
-                    "Load scikit-learn Diabetes dataset into DataFrame.",
-                    "Compute Pearson correlation between 'bmi' and 'target' disease progression.",
-                    "Fit OLS Simple Linear Regression: target = beta0 + beta1 * bmi using statsmodels (with sm.add_constant).",
-                    "Interpret R-squared and p-value."
+                    "Load Diabetes dataset. Compute Pearson correlation: r = 0.5865 (moderate positive relationship).",
+                    "Fit OLS Simple Linear Regression: target ~ bmi + intercept (sm.add_constant).",
+                    "Regression Equation: Y = 152.1335 + 949.4353(BMI), R^2 = 0.3439 (BMI explains 34.39% of variance)."
                 ]
             },
             {
                 "num": "Question 2: Multiple Linear Regression",
                 "bullets": [
-                    "Fit Multiple OLS model predicting 'target' using 'bmi', 'bp', and 'age'.",
-                    "Evaluate model summary: R-squared, F-statistic, and individual feature p-values."
+                    "Fit Multiple OLS: target ~ bmi + bp + age.",
+                    "R^2 = 0.396, Adjusted R^2 = 0.392.",
+                    "Significant predictors: BMI (p < 0.001) and BP (p < 0.001) are significant; Age (p = 0.685) is not significant.",
+                    "Equation: Y = 152.1335 + 788.7827(BMI) + 394.1271(BP) + 25.9904(Age)."
                 ]
             },
             {
                 "num": "Question 3: Spearman Rank Correlation",
                 "bullets": [
                     "Given study_time = [2, 4, 1, 5, 3] and exam_score = [50, 65, 45, 80, 60].",
-                    "Compute Spearman rank correlation coefficient and p-value using scipy.stats.",
-                    "Interpret monotonic relationship."
+                    "Spearman's rho = 1.0, p-value = 1.40e-24 -> Study Time and Exam score are perfectly positively correlated."
                 ]
             }
         ],
-        "interpretation": "BMI alone explains 34.4% of variance (R2 = 0.344, p < 0.001). Adding BP and Age increases R2 to 39.6%, where BMI (p < 0.001) and BP (p < 0.001) are significant predictors, while Age (p = 0.685) is not. Study time and exam scores exhibit perfect rank correlation (rho = 1.0, p = 1.40e-24)."
+        "interpretation": "BMI and BP are statistically significant predictors of disease progression, while Age contributes no significant marginal explanatory power once BMI and BP are in the model."
     },
     {
         "id": "asm7",
@@ -210,26 +208,25 @@ practicals_meta = [
         "curl_is": "is.gd/sid_7",
         "questions": [
             {
-                "num": "Question 1: Customer Churn Logistic Regression",
+                "num": "Question 1: Customer Churn Prediction using Logistic Regression",
                 "bullets": [
                     "Load 'scikit-learn/churn-prediction' dataset.",
-                    "Predict binary 'Churn' (0=No, 1=Yes) using 'tenure' and 'MonthlyCharges'.",
-                    "Train/test stratified split (80-20).",
-                    "Evaluate with Confusion Matrix, Accuracy, Precision, Recall, F1-Score, and Classification Report.",
-                    "Plot ROC Curve and compute AUC score."
+                    "Predict 'Churn' (0=No, 1=Yes) using 'tenure' and 'MonthlyCharges'.",
+                    "80-20 stratified train/test split. Output Confusion Matrix, Accuracy, Precision, Recall, F1-Score, Classification Report.",
+                    "Plot ROC curve and compute AUC score (AUC = 0.810)."
                 ]
             },
             {
                 "num": "Question 2: Palmer Penguins Binary Classification Pipeline",
                 "bullets": [
-                    "Filter Palmer Penguins dataset for species 'Adelie' (0) and 'Gentoo' (1).",
+                    "Filter for species Adelie and Gentoo.",
                     "Features: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.",
-                    "Build ML Pipeline with StandardScaler + LogisticRegression(max_iter=1000).",
-                    "Evaluate model metrics and plot ROC curve with AUC."
+                    "Pipeline with StandardScaler + LogisticRegression(max_iter=1000).",
+                    "Evaluate with Confusion Matrix, Performance Metrics, and ROC curve (AUC = 1.000)."
                 ]
             }
         ],
-        "interpretation": "Churn prediction yields Accuracy = 77.4% with AUC = 0.810 (strong discriminatory ability). Palmer Penguins pipeline achieves perfect 100% accuracy (AUC = 1.00) because Adelie and Gentoo species are linearly separable across body mass and flipper length dimensions."
+        "interpretation": "Churn prediction achieves 77.4% accuracy with AUC = 0.810 (strong predictive capability). Penguin pipeline achieves 100% accuracy (AUC = 1.00) because Adelie and Gentoo are linearly separable across body mass and flipper length dimensions."
     },
     {
         "id": "asm8",
@@ -241,24 +238,22 @@ practicals_meta = [
             {
                 "num": "Question 1 & 2: PCA on Wine Dataset",
                 "bullets": [
-                    "Load Wine dataset (178 samples, 13 features).",
-                    "Standardize features with StandardScaler.",
+                    "Load Wine dataset (178 rows, 13 features). Standardize with StandardScaler.",
                     "Compute Explained Variance Ratio and Cumulative Explained Variance.",
-                    "Identify minimum components required to retain >= 90% variance.",
-                    "Transform data into 2 components and generate 2D scatter plot colored by wine class."
+                    "Find components explaining >= 90% variance (8 components retain 92.0% variance).",
+                    "Plot 2D scatter plot of first two principal components colored by wine class."
                 ]
             },
             {
                 "num": "Question 3: PCA on Breast Cancer Dataset",
                 "bullets": [
-                    "Load Breast Cancer dataset (569 observations, 30 features).",
-                    "Standardize with StandardScaler and apply PCA.",
-                    "Determine components explaining >= 90% variance.",
-                    "Plot Cumulative Explained Variance curve (scree plot) with 90% variance threshold line."
+                    "Load Breast Cancer dataset (569 observations, 30 features). Standardize with StandardScaler.",
+                    "Apply PCA and determine components explaining >= 90% variance (7 components retain 91.0% variance).",
+                    "Reduced dataset shape: (569, 7)."
                 ]
             }
         ],
-        "interpretation": "Wine dataset dimensionality is reduced from 13 features to 8 components while preserving 92.0% variance; 2D projection clearly separates the 3 wine classes. Breast Cancer dataset is reduced from 30 features down to 7 components retaining 91.0% variance."
+        "interpretation": "PCA successfully compresses Wine features from 13 down to 8 (and reveals 3 clear clusters in 2D), and Breast Cancer features from 30 down to 7 components while retaining over 90% of total variance."
     },
     {
         "id": "asm9",
@@ -268,18 +263,18 @@ practicals_meta = [
         "curl_is": "is.gd/sid_9",
         "questions": [
             {
-                "num": "Question: Medical Diagnostic Testing with Bayes' Theorem",
+                "num": "Question: Sequential Medical Diagnostic Testing with Bayes' Theorem",
                 "bullets": [
                     "Prior disease prevalence: P(Disease) = 0.01 (1%).",
                     "Test Sensitivity: P(+ | Disease) = 0.95 (95%).",
                     "Test Specificity: P(- | No Disease) = 0.90 (90%) -> False Positive Rate = 0.10 (10%).",
-                    "1. Compute total probability of a positive test: P(+).",
-                    "2. Compute posterior probability of disease given a positive test: P(Disease | +).",
-                    "3. Interpret in terms of the Base-Rate Fallacy."
+                    "1. Compute total probability of positive test: P(+) = 10.85%.",
+                    "2. Compute Posterior probability after FIRST positive test: P(D | +) = 8.76%.",
+                    "3. Sequential Update: Use first posterior as NEW PRIOR and compute Posterior probability after a SECOND positive test: P(D | +2) = 48.33%!"
                 ]
             }
         ],
-        "interpretation": "Total positive test probability P(+) = 10.85%. Despite 95% sensitivity, the posterior probability of actually having the disease given a positive test is only 8.76%! This illustrates the Base-Rate Fallacy: because the disease is rare (1%), false positives from the 99% healthy cohort outnumber true positives from the 1% sick cohort."
+        "interpretation": "A single positive test only yields an 8.76% probability of actually having the disease due to the Base-Rate Fallacy (1% prevalence). However, undergoing a SECOND independent positive test jumps the posterior probability from 8.76% to 48.33%!"
     }
 ]
 
@@ -556,7 +551,7 @@ html_content += f"""    </ul>
     <section id="cheat-sheet" class="cheat-box">
       <h3>⚡ Jupyter Notebook Quick Copy (Type in Cell)</h3>
       <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
-        Run any of these in a Jupyter cell to instantly copy that practical's full question and code into your clipboard (then press Ctrl + V to paste):
+        Run any of these in a Jupyter cell to instantly copy that practical's ditto question and code into your clipboard (then press Ctrl + V to paste):
       </p>
       <table class="cheat-table">
         <thead>
@@ -678,4 +673,4 @@ html_content += f"""  </main>
 with open(os.path.join(root, 'asm.html'), 'w', encoding='utf-8') as f:
     f.write(html_content)
 
-print("Regenerated asm.html with full questions and interpretation boxes! Size:", len(html_content))
+print("Regenerated asm.html with asm new ditto questions! Size:", len(html_content))

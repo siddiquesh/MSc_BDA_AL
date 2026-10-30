@@ -1,44 +1,39 @@
 """
 ================================================================================
-PRACTICAL 7: LOGISTIC REGRESSION & CLASSIFICATION
+PRACTICAL 7: LOGISTIC REGRESSION & CLASSIFICATION METRICS
 ================================================================================
 FULL QUESTIONS:
 
-Question 1: (Customer Churn Prediction with Logistic Regression)
-    Load the customer churn prediction dataset ('scikit-learn/churn-prediction').
-    1. Use 'tenure' and 'MonthlyCharges' as predictors to predict binary 'Churn' (No=0, Yes=1).
-    2. Split data into training (80%) and testing (20%) sets using stratified sampling.
-    3. Fit a Logistic Regression model on the training set.
-    4. Predict on the test set and evaluate using:
-       - Confusion Matrix
-       - Accuracy, Precision, Recall, F1-Score
-       - Classification Report
-    5. Compute predicted probabilities, generate the ROC curve, and calculate the AUC score.
+Q1) Customer Churn Prediction using Logistic Regression:
+    1. Load dataset 'scikit-learn/churn-prediction'.
+    2. Select predictors 'tenure' and 'MonthlyCharges', target 'Churn' (No=0, Yes=1).
+    3. Split into train and test sets (80-20 stratified split).
+    4. Fit Logistic Regression model and predict on test set.
+    5. Evaluate model with Confusion Matrix, Accuracy, Precision, Recall, F1-Score,
+       and complete Classification Report.
+    6. Plot ROC Curve and compute AUC score.
 
-Question 2: (Binary Classification Pipeline on Palmer Penguins)
-    Load the Palmer Penguins dataset and filter for species 'Adelie' and 'Gentoo'.
-    1. Use four features: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.
-    2. Encode target species: Adelie=0, Gentoo=1.
-    3. Build a Machine Learning Pipeline consisting of:
-       - StandardScaler()
-       - LogisticRegression(max_iter=1000)
-    4. Train on 80% train split and evaluate on 20% test split.
-    5. Output Confusion Matrix, Accuracy, Precision, Recall, F1-Score,
-       Classification Report, and ROC Curve with AUC score.
+Q2) Penguin Species Classification using Logistic Regression:
+    1. Load Palmer Penguins dataset and filter for species 'Adelie' and 'Gentoo'.
+    2. Use predictors: bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g.
+    3. Standardize and fit Logistic Regression within an ML Pipeline.
+    4. Evaluate model with Confusion Matrix, Performance Metrics, Classification Report,
+       and ROC Curve with AUC score.
 ================================================================================
 """
 
+# ------------------------------------------------------------------------------
+# Q1: Customer Churn Prediction
+# ------------------------------------------------------------------------------
 from datasets import load_dataset
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
-    accuracy_score,
-    precision_score,
-    recall_score,
-    f1_score,
-    confusion_matrix,
-    classification_report
+    accuracy_score, precision_score, recall_score,
+    f1_score, confusion_matrix, classification_report,
+    roc_curve, roc_auc_score
 )
+import matplotlib.pyplot as plt
 
 # Load dataset
 dataset = load_dataset("scikit-learn/churn-prediction")
@@ -48,121 +43,115 @@ df = dataset["train"].to_pandas()
 X = df[["tenure", "MonthlyCharges"]]
 y = df["Churn"].map({"No": 0, "Yes": 1})
 
-# Train-test split
+# Split dataset
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y,
-    test_size=0.2,
-    random_state = 42,
-    stratify = y
+    X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# Fit logistic regression
+# Fit Logistic Regression model
 model = LogisticRegression()
 model.fit(X_train, y_train)
 
-# Predict
+# Make predictions
 y_pred = model.predict(X_test)
 
 # Confusion Matrix
-print("Confusion Matix:")
-print(confusion_matrix(y_test,y_pred))
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
 
-# Performance metrics
-print("\nPerfomance Metrics")
-print("---------------------")
-print("Accuracy:", accuracy_score(y_test,y_pred))
-print("Precision:", precision_score(y_test,y_pred))
-print("Recall:", recall_score(y_test,y_pred))
-print("F1-score:", f1_score(y_test,y_pred))
+# Performance Metrics
+print("
+Performance Metrics:")
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("F1 Score:", f1_score(y_test, y_pred))
 
-# Complete classification report
-print("\nClassification Report:")
-print(classification_report(y_test,y_pred))
+# Classification Report
+print("
+Classification Report:")
+print(classification_report(y_test, y_pred))
 
-from sklearn.metrics import roc_curve, roc_auc_score
-import matplotlib.pyplot as plt
-
-# Predicted probabilities for churn
-y_prob = model.predict_proba(X_test)[:,1]
-
-# ROC curve
+# ROC Curve and AUC
+y_prob = model.predict_proba(X_test)[:, 1]
 fpr, tpr, thresholds = roc_curve(y_test, y_prob)
-
-# AUC
 auc = roc_auc_score(y_test, y_prob)
 print("AUC:", auc)
 
-# Plot ROC curve
-plt.plot(fpr, tpr, label=f"ROC curve (AUC = {auc:.3f})")
-plt.plot([0, 1], [0,1], linestyle="--")
+plt.plot(fpr, tpr, label=f"ROC Curve (AUC={auc:.3f})")
+plt.plot([0, 1], [0, 1], linestyle="--")
 plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
 plt.title("ROC Curve - Customer Churn")
 plt.legend()
 plt.show()
 
-# Question 2: Palmer Penguins Dataset (Adelie vs Gentoo)
+# ------------------------------------------------------------------------------
+# Q2: Penguin Species Classification Pipeline
+# ------------------------------------------------------------------------------
 import seaborn as sns
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 # Load dataset
-dataset = sns.load_dataset("penguins")
-df = dataset.copy()
-df = dataset[dataset["species"].isin(["Adelie", "Gentoo"])].copy()
+df_peng = sns.load_dataset("penguins")
 
+# Select Adelie and Gentoo species
+df_peng = df_peng[df_peng["species"].isin(["Adelie", "Gentoo"])].copy()
+
+# Select predictors
 features = [
-    "bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"
+    "bill_length_mm", "bill_depth_mm",
+    "flipper_length_mm", "body_mass_g"
 ]
+df_peng = df_peng[features + ["species"]].dropna()
+X = df_peng[features]
+y = (df_peng["species"] == "Gentoo").astype(int)
+print("
+Dataset Shape:", df_peng.shape)
 
-df = df[features + ["species"]].dropna()
-
-X = df[features]
-y = (df["species"] == "Gentoo").astype(int)
-
+# Split dataset
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y,
-    test_size = 0.2,
-    random_state=42,
-    stratify=y
+    X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# Standardize and fit logistic regression
-model = Pipeline([
+# Standardize and fit Logistic Regression
+modelb = Pipeline([
     ("scaler", StandardScaler()),
     ("logistic", LogisticRegression(max_iter=1000))
 ])
+modelb.fit(X_train, y_train)
 
-model.fit(X_train, y_train)
+# Make predictions
+y_pred = modelb.predict(X_test)
 
-y_pred = model.predict(X_test)
-y_prob = model.predict_proba(X_test)[:, 1]
+# Confusion Matrix & Performance Metrics
+print("
+Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
 
-# Confusion matrix
-print(f"Confusion Matrix: \n{confusion_matrix(y_test, y_pred)}")
+print("
+Performance Metrics:")
+print("--------------------")
+print("Accuracy:", round(accuracy_score(y_test, y_pred), 4))
+print("Precision:", precision_score(y_test, y_pred))
+print("Recall:", recall_score(y_test, y_pred))
+print("F1 Score:", f1_score(y_test, y_pred))
 
-# Performance metrics
-print(f"\nPerformance Metrics: \nAccuracy: {accuracy_score(y_test, y_pred)}")
-print(f"Precision: {precision_score(y_test, y_pred)}")
-print(f"Recall: {recall_score(y_test, y_pred)}")
-print(f"F1 Score: {f1_score(y_test, y_pred)}")
+print("
+Classification Report:")
+print(classification_report(y_test, y_pred))
 
-# Classification report
-print(f"\nClassification Report: \n{classification_report(y_test, y_pred)}\n")
-print(f"\nInterpretation: \nThus, the model is correct 100% of times.")
-
-# ROC curve
+# ROC Curve and AUC
+y_prob = modelb.predict_proba(X_test)[:, 1]
 fpr, tpr, thresholds = roc_curve(y_test, y_prob)
-
-# AUC
 auc = roc_auc_score(y_test, y_prob)
-print("AUC: ", auc)
+print("AUC:", auc)
 
-# Plot ROC curve
-plt.plot(fpr, tpr, label=f"ROC Curve (AUC = {auc: .3f})")
+plt.plot(fpr, tpr, label=f"ROC Curve (AUC={auc:.3f})")
 plt.plot([0, 1], [0, 1], linestyle="--")
 plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
-plt.title("ROC Curve - Adelie/Gentoo")
+plt.title("ROC Curve - Penguin Species Classification")
 plt.legend()
 plt.show()
