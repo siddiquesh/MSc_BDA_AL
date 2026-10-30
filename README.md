@@ -10,12 +10,12 @@ All code has been verified for 100% execution accuracy against official lab work
 
 Run any of the following commands in a **Jupyter Notebook cell** or **Command Prompt / Terminal** to immediately copy the exact code to your clipboard (then press `Ctrl + V` to paste):
 
-### 💾 Master DSA Shortcuts (All Practicals at Once)
+### 💾 Master DSA Shortcuts (All Practicals 1 to 7 at Once)
 
 ```bash
-!curl -sL is.gd/dsa_all | clip
+!curl -sL is.gd/sid_all | clip
 ```
-*(Alternative alias: `!curl -sL is.gd/sid_all | clip` or `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/all | clip`)*
+*(Alternative aliases: `!curl -sL is.gd/dsa_all | clip` or `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/all | clip`)*
 
 ---
 
@@ -60,6 +60,7 @@ MSc_BDA_AL/
 │   └── dsa_all.txt                     # Consolidated DSA master file
 ├── index.html                          # Root Web Portal (Pure DSA)
 ├── dsa.html                            # Dedicated DSA Web App
+├── all_practicals_1_to_6.py            # Legacy URL destination for is.gd/sid_all (DSA)
 ├── 1 ... 7, 6a, 6b                     # Fast numeric curl alias endpoints
 ├── dsa1 ... dsa7                       # Fast named curl alias endpoints
 ├── all / dsa_all                       # Consolidated master endpoints
