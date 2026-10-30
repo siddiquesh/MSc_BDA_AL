@@ -33,15 +33,15 @@ Run any of the following commands in a **Jupyter Notebook cell** or **Command Pr
 
 | Practical | Subject / Technology | Terminal / CLI Copy Command |
 | :--- | :--- | :--- |
-| **All DSA (1-7)** | Complete Suite (Practicals 1 to 7) | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa_all \| clip` |
-| **Practical 1** | MySQL DDL & DML Commands, Constraints, LIKE & NULLs | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa1 \| clip` |
-| **Practical 2** | MySQL Aggregate Functions, GROUP BY & ORDER BY | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa2 \| clip` |
-| **Practical 3** | MySQL Sub-Queries, Derived Tables, INNER & LEFT JOINs | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa3 \| clip` |
-| **Practical 4** | Apache Hadoop HDFS Commands & Ingestion | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa4 \| clip` |
-| **Practical 5** | Apache Pig Latin Data Processing & HDFS Storage | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa5 \| clip` |
-| **Practical 6A** | MongoDB CRUD, Relational/Logical Operators & Pipeline | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa6a \| clip` |
-| **Practical 6B** | MongoDB Indexing & Query Optimization (`explain`) | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa6b \| clip` |
-| **Practical 7** | Connecting MongoDB with Python (PyMongo & Pandas) | `!curl -sL https://raw.githubusercontent.com/siddiquesh/MSc_BDA_AL/main/dsa7 \| clip` |
+| **All DSA (1-7)** | Complete Suite (Practicals 1 to 7) | `!curl -sL is.gd/dsa_all \| clip` |
+| **Practical 1** | MySQL DDL & DML Commands, Constraints, LIKE & NULLs | `!curl -sL is.gd/dsa1_sid \| clip` |
+| **Practical 2** | MySQL Aggregate Functions, GROUP BY & ORDER BY | `!curl -sL is.gd/dsa2_sid \| clip` |
+| **Practical 3** | MySQL Sub-Queries, Derived Tables, INNER & LEFT JOINs | `!curl -sL is.gd/dsa3_sid \| clip` |
+| **Practical 4** | Apache Hadoop HDFS Commands & Ingestion | `!curl -sL is.gd/dsa4_sid \| clip` |
+| **Practical 5** | Apache Pig Latin Data Processing & HDFS Storage | `!curl -sL is.gd/dsa5_sid \| clip` |
+| **Practical 6A** | MongoDB CRUD, Relational/Logical Operators & Pipeline | `!curl -sL is.gd/dsa6a_sid \| clip` |
+| **Practical 6B** | MongoDB Indexing & Query Optimization (`explain`) | `!curl -sL is.gd/dsa6b_sid \| clip` |
+| **Practical 7** | Connecting MongoDB with Python (PyMongo & Pandas) | `!curl -sL is.gd/dsa7_sid \| clip` |
 
 ---
 
