@@ -1161,20 +1161,19 @@ practicals = {
 }
 
 print("=== 1. Writing asm/asm_1.py to asm/asm_9.py from ASM Dar ===")
-all_combined = [
-    '"""\\n' + '='*80 + '\\nAPPLIED STATISTICAL METHODS (ASM) - ALL PRACTICALS (1 TO 9)\\nFULL QUESTIONS, IMPLEMENTATION & INTERPRETATIONS (DARPAN)\\n' + '='*80 + '\\n"""\\n'
-]
+header_banner = '"""\n' + '='*80 + '\nAPPLIED STATISTICAL METHODS (ASM) - ALL PRACTICALS (1 TO 9)\nFULL QUESTIONS, IMPLEMENTATION & INTERPRETATIONS (DARPAN)\n' + '='*80 + '\n"""\n'
+all_combined = [header_banner]
 
 for i in range(1, 10):
     content = practicals[i]
     dest = os.path.join(asm_dir, f"asm_{i}.py")
     with open(dest, "w", encoding="utf-8") as f:
         f.write(content)
-    all_combined.append(f"\\n# {'='*78}\\n# PRACTICAL {i}\\n# {'='*78}\\n" + content)
+    all_combined.append(f"\n# {'='*78}\n# PRACTICAL {i}\n# {'='*78}\n" + content)
     print(f"asm/asm_{i}.py written successfully")
 
 # 2. Write all_asm_practicals.py
-all_code = "\\n".join(all_combined)
+all_code = "\n".join(all_combined)
 with open(os.path.join(asm_dir, "all_asm_practicals.py"), "w", encoding="utf-8") as f:
     f.write(all_code)
 print("asm/all_asm_practicals.py written successfully")
